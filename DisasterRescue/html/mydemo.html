@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div id = "app">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">标题</h1>
+			</header>
+			<div class="mui-content">
+				{{myPage}}
+				
+				<button v-on:click="ajaxDemo" class="btn mui-btn-blue">click</button>
+			</div>
+		</div>
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					myPage:''
+				},
+				mounted: function(){
+					var self = this;
+					self.do();
+				},
+				methods:{
+					do:function(){
+						var self = this;
+						self.myPage = "这是一个demo页面"
+					},
+					ajaxDemo: function(){
+						mui.rAjax({
+							url:'/httpif/app/houser/login',
+							data:{
+								mobile:'13151605326',
+								password:'lzq123456'
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

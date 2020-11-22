@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+@import url(user_center.css);
+
+.tab{margin-top:20px;}
+.list-table a{text-decoration:none !important;color:#FF0000 !important;}
+
+.truecontent{display:none;position:absolute;left:50px;top:50px;width:600px;border:1px solid #C10001;background:#fff;z-index:999;}
+.tccontent{clear:both;width:500px;margin:5px auto;font-size:18px;word-wrap:break-word;word-break:break-all;overflow:hidden;position:relative;}
+.tc-btn{margin:10px auto;text-align:center;}
+
+
+
+
+

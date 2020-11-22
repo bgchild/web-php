@@ -1,0 +1,13 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+html,body,.mui-content{
+	background-color: #FFFFFF;
+	font-size: 14px;
+}
+
+.head{
+	border:1px solid red;
+}

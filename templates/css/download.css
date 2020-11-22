@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*如果需要加载分页*/
+@import url(page.css);
+
+.con{ padding-top:0px; padding-bottom:20px;}
+
+
+.con_left{width:285px;float:left;margin:0px 6px 8px 0px;border:1px solid #CCCCCC;}
+.con_right{width:880px;float:right;border:1px solid #DBDBDB;margin-bottom:8px;}
+.con_right_con{width:880px;}
+.con_right_title{height:25px;line-height:25px;background:#E9423C;color:white;font-weight:bold;padding-left:20px;}
+
+.li_first{height:30px;line-height:30px;padding-left:50px;font-size:14px;font-weight:bold;}
+.li_first a{color:black;}
+.li_item{width:150px;margin:0px auto 5px;height:28px;line-height:28px;padding-left:30px;border:1px solid #FAB0AF;background:url(../images/nav_left_1.png) repeat-x;}
+.li_item a{font-weight:bold;font-size:14px;color:#AC0820;}
+
+.con_right_ul{width:94%;margin : 0 auto;list-style-type:square !important;}
+.con_right_ul li {height:25px;line-height:25px;list-style-type:square !important;}
+.con_right_ul li a{float:right;display:block;width:30px;}

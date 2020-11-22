@@ -1,0 +1,26 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+@import url(userBasIcinfo.css);
+.notnull{ color:red; font-weight:bolder; padding:0 10px 0 5px; font-size:14px;}
+.fwidth{ width:180px; text-align:right;}
+table{ margin-top:10px;}
+table tr{ height:40px;}
+h4{ background:#E9423C; color:#fff; font-size:12px; font-weight:lighter; line-height:22px; padding-left:20px;}
+.vtitle{ background:#A40000; height:20px; text-align:center; color:#fff; font-size:15px; font-weight:bolder; letter-spacing:2px; padding-top:10px; margin:10px 0 15px 0;}
+.require{ width:530px; float:left;}
+.require p{ margin-left:20px; line-height:200%; color:#000; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.explanation{ width:420px; float:right;}
+.explanation p{ margin-left:20px; line-height:200%; color:#000; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.p_btn{ height:65px; float:left; padding:45px 54px 0 0 ;}
+.account_info{ clear:both;}
+.skill_info table{ margin-left:40px;}
+.items_info table{ margin-left:40px;}
+.w_time{ padding-left:90px;}
+.times_info{ padding-bottom:10px;}
+.oath_info p{ width:550px; margin:0 auto; line-height:200%; color:#000; margin-top:10px;}
+.a_submit{ width:100px; height:20px;  border:1px solid #ccc; background:#99CC00; color:#fff; line-height:20px; margin:10px 0 20px 440px; cursor:pointer;}
+/*agree.php样式*/
+.agree_area{ width:1000px;  height:800px; margin-left:100px;overflow-x:hidden; line-height:180%}
+.apply_add{ float:left; padding:30px 100px 30px 350px;}
+.apply_add .addbtn{ width:50px; margin-left:80px; float:left; display:inline;}

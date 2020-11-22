@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/newHome.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/swiper.min.css"/>
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a"></script>
+		<title>红十字会首页</title>
+	</head>
+	<body>
+		<div id="app">
+			
+			<div class="mui-content">
+				<div class="mui-row head">					
+					<div class="mui-col-xs-10 mui-col-sm-10 title">
+						<div class="picture">
+							<img src="../../img/logo_icon.png"/>
+						</div>		
+					</div>
+					<div class="mui-col-xs-2 mui-col-sm-1 address">
+						<div class="mui-btn" id="adres">
+							
+						</div>
+					</div>
+				</div>
+				
+				<!--轮播-->
+				<div id="slider" class="mui-row sportPic">
+					<div class="mui-slider">
+					  	<div class="mui-slider-group">
+							
+					  	</div>
+					</div>
+				</div>
+							
+				<!--志愿组织-->
+				<div class="mui-row active">
+					<div class="help">— 志愿组织 —</div>
+			    	<div class="mui-scroll-wrapper" style="height:2.65rem;margin-top:20px;">
+						<div class="mui-scroll" style="height:100%;">																		               			                	
+		                	<div id='slider1' style="width: 100%;height:100%;">
+		                		<div id="organize" class="list-container swiper-wrapper" >
+		                		</div>
+		                	</div>
+						</div>
+					</div>   
+				</div>
+				
+				<!--志愿项目-->
+				<div class="mui-row info">
+					<div class="help">— 志愿项目 —</div>
+					<div class="list">
+						<ul style="list-style: none;margin:0 0 0 -20px">
+						</ul>
+					</div>
+				</div>
+				
+				<!--小图片展示-->
+				<div class="mui-row special1 small">
+	                <div class="mui-scroll-wrapper" style="height:0.8rem;">
+						<div class="mui-scroll" style="height:100%;">																		               			                	
+		                	<div id='slider3' style="width: 100%;height:100%;">
+		                		<div class="list-container swiper-wrapper" >
+			                		<div class="swiper-slide slider" style="height:100%;width:100%;" >
+			                			<a href="http://www.cmdp.com.cn/" style="display:inline-block;height:100%;border:;1px solid red;">
+			                				<img src="../../img/get.png"style="width:100%;height:90%;">
+			                			</a>
+			                		</div>
+			                		<div class="swiper-slide slider" style="height:100%;width:100%;" >
+			                			<a href="http://apply.chinapay.com/scsoc/pages/scsocpay/scsocCreateOrder.jsp" style="display:inline-block;height:100%;border:;1px solid red;">
+			                				<img src="../../img/web.png"style="width:100%;height:90%;">
+			                			</a>
+			                		</div>
+			                		<div class="swiper-slide slider" style="height:100%;width:100%;" >
+			                			<a href="http://www.chrctc.org.cn/" style="display:inline-block;height:100%;border:;1px solid red;">
+			                				<img src="../../img/join.png"style="width:100%;height:90%;">
+			                			</a>
+			                		</div>
+		                		</div>
+		                	</div>
+						</div>
+					</div>  
+				</div>
+				
+				<div class="mui-row end">
+					<div class="end_text">
+						<span class="red">中国红十字会</span><br />
+						<span id="addr"></span><br />
+						<span id="tel"></span><br />
+						<span id="code"></span><br />
+						<span id="email"></span><br />
+						<span id="fax"></span>
+					</div>
+				</div>	
+				
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/swiper.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../../js/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var map, geolocation;
+		    //加载地图，调用浏览器定位服务
+		    map = new AMap.Map('', {
+		        resizeEnable: true
+		    });
+		    map.plugin('AMap.Geolocation', function() {
+		        geolocation = new AMap.Geolocation({
+		            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+		            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+		            buttonPosition:'RB'
+		        });
+		        geolocation.getCurrentPosition();
+		        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+		        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+		    });
+		    
+		    //解析定位结果
+		    function onComplete(data) {
+		    	districtName = data.addressComponent.district;
+		    	document.getElementById("adres").innerHTML = districtName;
+       			getSign(districtName);//获取区域标签
+		    }
+		    
+		    //解析定位错误信息
+		    function onError(data) {
+		    	mui.toast("获取当前位置失败！");
+		    }
+			    
+			//获取区域标签
+		    function getSign(districtName){
+		    	// 成功获取地址
+		    	mui.rAjax({
+					url:'/ajax.php',
+					data:{
+						act: "sign",
+						name: districtName
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'GET',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						var sign = data.datas.sign
+						getCarousel(sign);
+						getVolOrg(sign);
+						getVolProject(sign);
+						contactUs(sign);
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		    };
+		    
+		    // 首页轮播
+		    function getCarousel(sign){
+		    	$.ajax({
+					url: mui.apiUrl + '/ajax.php',
+					data:{
+						act:'home_flash',
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'GET', //HTTP请求类型
+					crossDomain:true,
+					xhrFields:{
+						withCredentials:true
+					},
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						if(data.responseCode == 0){
+							for (var i = 0; i < data.datas.length; i++) {
+				                $(".sportPic .mui-slider-group").append(
+				                    '<div class="mui-slider-item" ><img src="'+ data.datas[i].img + '"> </div>'
+				                );
+				          	};
+							
+							mui("#slider").slider({
+				               	interval: 3000
+				          	});
+						}else if(data.responseCode == 1){
+							mui.toast(data.responseMsg);
+						}
+						
+					},
+					error: function(xhr, type) {
+						mui.toast('Ajax error!');
+					}
+				});
+		    }
+			
+			// 志愿组织
+			function getVolOrg(sign){
+				$.ajax({
+					url: mui.apiUrl + '/ajax.php',
+					data:{
+						act:'home_team',
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'GET', //HTTP请求类型
+					crossDomain:true,
+					xhrFields:{
+						withCredentials:true
+					},
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log(data.datas);
+						if(data.responseCode == 0){
+							for (var i = 0; i < data.datas.length; i++) {
+				                $("#organize").append(
+				                	'<a class="swiper-slide item opacity" href="javascript:goOrganizeDetail(' + data.datas[i].id + ')" style="width:100%;height:100%">'
+				                	 + '<img style="width:100%;height:70%;" src="'+ data.datas[i].img + '">'
+				                	 + '<div style="height:20%;font-size:0.2rem;">' + data.datas[i].name + '</div>'
+				                	 + '</a>'
+				                    
+				                );
+				          	};
+						}else if(data.responseCode == 1){
+							mui.toast(data.responseMsg);
+						}
+						
+					},
+					error: function(xhr, type) {
+						mui.toast('Ajax error!');
+					}
+				});
+			};
+			function goOrganizeDetail(id){
+				window.location.href = "../voluntaryService/organDetail.html?rid=" + id;
+			}
+			
+			// 志愿项目
+			function getVolProject(sign){
+				$.ajax({
+					url: mui.apiUrl + '/ajax.php',
+					data:{
+						act:'home_activity',
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'GET', //HTTP请求类型
+					crossDomain:true,
+					xhrFields:{
+						withCredentials:true
+					},
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						console.log(data.datas);
+						if(!!data.datas){
+							for (var i = 0; i < data.datas.length; i++) {
+								var x = i+1;
+				                $('.list ul').append(
+				                	'<li>'
+				                	+ '<a class="item opacity" href="javascript:goActivityDetail(' + data.datas[i].id + ')" style="display:block;width:100%;">'
+				                	+ '<span style="background-color:#54efb6;">' + x + '</span>'
+				                	+ '<span>' + data.datas[i].name + '</span>'
+				                	+ '</a>'
+				                	+ '</li>'
+				                )
+				          	};
+						}
+					},
+					error: function(xhr, type) {
+						mui.toast('Ajax error!');
+					}
+				});
+			};
+			function goActivityDetail(id){
+				window.location.href = "../voluntaryService/activityDetail.html?rid=" + id;
+			}
+			
+			// 首页底部
+			function contactUs(sign){
+				$.ajax({
+					url: mui.apiUrl + '/ajax.php',
+					data:{
+						act:'contactus',
+						sign:sign
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'GET', //HTTP请求类型
+					crossDomain:true,
+					xhrFields:{
+						withCredentials:true
+					},
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+//						console.log(data);
+						$('#addr').html('地址：' + data.datas.addr);
+						$('#tel').html('电话：' + data.datas.tel);
+						$('#code').html('邮政编码：' + data.datas.mailcode);
+						$('#email').html('电子邮件：' + data.datas.email);
+						$('#fax').html('传真Fax：' + data.datas.fax);
+					},
+					error: function(xhr, type) {
+						mui.toast('Ajax error!');
+					}
+				});
+			}
+			
+		    // 新闻动态滚动
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: false, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				indicators: false, //是否显示滚动条
+				deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+
+			var swiper2 = new Swiper('#slider1', {
+		        slidesPerView: 3,
+		        spaceBetween: 20,				        
+		        observer:true,
+		        autoplayDisableOnInteraction:false
+		    });
+		    
+		    var swiper4 = new Swiper('#slider3', {
+		        slidesPerView: 3,
+		        spaceBetween: 20,				        
+		        observer:true,
+		        autoplayDisableOnInteraction:false
+		    });
+			
+		</script>
+		
+	</body>
+</html>

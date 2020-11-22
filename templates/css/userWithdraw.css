@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+.con_right_bottom p{width:718px;height:25px;line-height:25px;margin:5px auto;}
+#withdrawForm{display:block;border:1px solid #D8D8D8;width:718px;margin:10px auto;}
+#withdrawForm div{width:400px;height:60px;line-height:60px;margin:5px auto;}
+/*.button{width:80px;height:30px;}*/

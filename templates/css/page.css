@@ -1,0 +1,21 @@
+/*分页css*/
+.flip_over{float: left; line-height: 15px; margin-right: 10px; height:20px;}
+.page{float: right; height:20px;}
+.mtr10{display: inline;margin-top: 2px;margin-right: 10px;margin-bottom: 2px;margin-left: 10px;line-height:18px;}
+.former{border: 1px solid #dfdfdf;display: block;float: left;padding-top: 2px;padding-right: 8px;padding-bottom: 2px;padding-left: 15px;color:#666;font-size:12px; height:16px; background:url(../images/page/up.gif) no-repeat left center;}
+.formerNull, .downNull, .former, .page_link, .page_hover, .down, .nonce{margin-left: 3px;}
+.formerNull{ background: url(../images/page/page_dot.gif) no-repeat center center;border: 1px solid #c7c7c7;display: block;float: left;width: 15px;height: 20px;+height: 20px;}
+.former:hover{border: 1px solid #6DBD1C; color:#fff;background:url(../images/page/page_up.gif) no-repeat left center;background-color:#6DBD1C; text-decoration:none;}
+.page_link{color: #666; border:1px solid #dfdfdf;}
+.page_hover{color: #fff;border:1px solid #dfdfdf; background:#6DBD1C;}
+.page_link, .page_hover{display: block; float: left; text-decoration: none; padding: 2px 5px 0; font-size: 14px;}
+.page_link:hover, .page_hover:hover{text-decoration: none;border:1px solid #6DBD1C; color:#fff;background:#6DBD1C;}
+.down{height: 15px;padding: 2px 8px 2px 8px;border: 1px solid #dfdfdf;text-decoration: none; display: block;float: left; background:url(../images/page/down.gif) no-repeat right center; padding-right:20px; color:#666; height:16px;}
+.downNull{height: 15px;padding: 2px 8px 2px 8px;border: 1px solid #dfdfdf;text-decoration: none;display: block;float: left;background-repeat: no-repeat;color: #fff;background:#6DBD1C;}
+.down:hover{border: 1px solid #dfdfdf;background:url(../images/page/page_down.gif) no-repeat right center; background-color:#6DBD1C; padding-right:20px; color:#fff; text-decoration:none;}
+.page .nonce{border: 1px solid #dfdfdf; display: block; float: left; height: 16px; text-decoration: none; color: #a3a3a3; line-height: 16px; padding: 2px 2px 2px 2px;}
+.page_form{ float:left; height:20px; line-height:20px; padding-left:5px; padding-top:1px;}
+.page_num{ width:24px; height:18px; border:1px solid #dfdfdf; padding-left:2px; line-height:18px;}
+.page_bnt{ width:34px; height:20px; border:0px; background:url(../images/page/page_bnt.gif) no-repeat; cursor:pointer}
+.page_text{ height:18px; float:left; line-height:18px; padding-right:5px;}
+.page_item_total{float:left;height:20px;line-height: 20px;}

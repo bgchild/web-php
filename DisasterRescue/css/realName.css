@@ -1,0 +1,77 @@
+body,html{ 
+	height:100%;background-color:#FFFFFF;color:#000000;
+}
+
+.mui-content{
+	background-color:#FFFFFF;
+}
+
+.container{
+	/*border:1px solid red;*/
+	padding:30px 30px;
+	color:#000;
+}
+
+.line{
+	border-top:1px solid #C0C0C0;
+}
+
+p{
+	padding:0px 10px;
+}
+
+.top{
+	margin-top:10px;
+}
+
+.top input{
+	font-family: tahoma;
+	font-size:0.3rem;
+	vertical-align: middle;
+}
+
+.top lable{
+	font-family: tahoma;
+	vertical-align: middle;
+}
+
+.mui-icon{
+	float:right;
+}
+
+.text_name{
+	font-size:0.3rem;
+	color:#696969;	
+}
+
+.btn{
+	margin-top:40px;
+	background-color:#36ccab;
+	border-radius:10px;
+	width:100%;
+	height:0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	font-size: 0.4rem;
+	color:#FFFFFF;
+}
+
+#portrait{
+	width:10%;
+	height:10%;
+	/*float:left;*/
+}
+
+#file{
+	position:absolute;
+	right:0.15rem;
+	top:0rem;
+	z-index:99999;
+	opacity:0;
+	border:1px solid red;
+	width:5%;
+	height:0.4rem;
+	padding:0;
+	margin-bottom:0;
+	outline: medium;
+}

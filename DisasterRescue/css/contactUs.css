@@ -1,0 +1,55 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+html,body,.mui-content{
+	background-color: #FFFFFF;
+	font-size: 14px;
+}
+
+.left{
+	float: left;
+}
+
+.right{
+	float: right;
+}
+
+.clean{
+	clear: both;
+}
+
+.mui-content{
+	color: #101010;
+}
+
+.wrapper img{
+	width: 100%;
+	height:auto;
+	display:block;
+}
+
+.text div{
+	/*padding: 0 0 0 22px;*/
+	margin-top:10px;
+	font-size: 0.3rem;
+	color: #101010;
+	line-height: 0.35rem;
+}
+
+.text-content div{
+	margin-top:0;
+	display: inline-block;
+	/*border:1px solid blue;*/
+}
+
+.text-content div:nth-child(1){
+	width:35%;
+	text-align: right;
+}
+
+#helpStyle{
+	display: none;
+}
+

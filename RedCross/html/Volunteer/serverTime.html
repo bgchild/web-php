@@ -1,0 +1,386 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>志愿服务时间</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../dist/dropload.css">
+		<!--选择条件查询-->
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 10px;
+			}
+			.divInputSeach{
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 72%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				/*border-color: rgba(255,255,255,.2) !important;*/
+			    color: #adadad;
+			    font-size: 12.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;}
+			/*选项卡*/
+			.mui-segmented-control .mui-control-item.mui-active {
+			    color: #101010;
+			    position: relative;
+			}
+			.mui-segmented-control .mui-control-item.mui-active:after {
+			    content: "";
+			    position: absolute;
+			    display: block;
+			    bottom: 0;
+			    left: 22%;
+			    width: 55%;
+			    height: 2px;
+			    border-radius: 4px;
+			    background: #ff000f;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted{
+				font-size: 14px;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			    color: #101010;
+			    border-bottom: 0px;
+			}
+			/*内容*/
+			.activityServerTime{
+				position: relative;
+				width: 100%;
+				margin-top: 10px;
+				padding: 10px 30px;
+				background: #FFFFFF;
+				border-bottom: 1px solid #ddd;	
+			}
+			.activityServerTime:nth-child(1):before{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 14px;
+			    top: 10px;
+			    width: 10px;
+			    height: 20px;
+			    border-radius: 50%;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #ff000f;
+			}
+			.activityServerTime:nth-child(2):before{
+				position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 14px;
+			    top: 10px;
+			    width: 10px;
+			    height: 20px;
+			    border-radius: 50%;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+				background-color: #6372f7;
+			}
+			.activityServerTime:nth-child(3):before{
+				position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 14px;
+			    top: 10px;
+			    width: 10px;
+			    height: 20px;
+			    border-radius: 50%;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+				background-color: #f28c2e;
+			}
+			.activityServerTime:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 10px;
+			    right: 10px;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.activityServerTime p{
+				font-size: 12px;
+				margin-bottom: 5px;
+			}
+			.activityServerTime p span:nth-child(1){
+				color: #6b6b6b;
+				margin-right: 10px;
+			}
+			.activityServerTime p span:nth-child(2){
+				color: #101010;
+			}
+			/*查询*/
+			.forum-top{
+				position: fixed;
+				top: 0;
+				z-index: 999;
+				background: #fff;
+			}
+			.first-list {
+			    max-height: 166px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--条件查询-->
+			<!--<div class="forum-top" :style="{top: top1 +'px'}">
+			    <div class="forum-btn">
+			   		<button type="button" class="mui-btn"  @click="clickBtn1()">{{postingPlateFirst.name}}<i class="iconfont" :class="isShow?'is-rotate':''"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+			   		<ul class="first-list" v-if="isShow">
+					    <li v-for="(item,index) in postingsPlateList" @click="firstBLClick(index)">
+					    	<span :class="{iscolor:item.isActive}">{{item.name}}</span>
+					        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+					    </li>
+					</ul>
+					<div class="clear"></div>
+			   </div>
+			</div>
+			<div class="mui-backdrop" v-show="isShow" @click="clickBtn1()"></div>
+			
+			<div class="divInputSeach" :style="{marginTop: top2 +'px'}">
+				<span class="mui-icon mui-icon-search left"></span>
+				<input class="inputSeach left" id="searchName" type="text" placeholder="服务队名称" />
+				<div class="left" id="search">搜索</div>
+			</div>-->
+			<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted" style="">
+				<a id="1" class="mui-control-item mui-active" href="#item1mobile">活动服务时间</a>
+				<a id="2" class="mui-control-item" href="#item2mobile">新增服务时间</a>
+			</div>
+			<div>
+				<div id="item1mobile" class="mui-control-content mui-active">
+					<div class="mui-scroll innerTag1">
+						<!--<div class="activityServerTime" v-for="item in infoList">
+							<p><span>志愿服务时间：</span><span>{{item.time}}</span></p>
+							<p><span>活动名称：</span><span>{{item.activityName}}</span></p>
+							<p><span>活动日期：</span><span>{{item.activityStartDate}}至{{item.activityEndDate}}</span></p>
+							<p><span>服务队名称：</span><span>{{item.serviceTeamName}}</span></p>
+						</div>
+						<div class="activityServerTime">
+							<p><span>志愿服务时间：</span><span>8</span></p>
+							<p><span>活动名称：</span><span>人道援助</span></p>
+							<p><span>活动日期：</span><span>2017-10-10</span></p>
+							<p><span>服务队名称：</span><span>中国红十字供水救援队</span></p>
+						</div>-->
+					</div>	
+				</div>
+				<div id="item2mobile" class="mui-control-content">
+					<div class="mui-scroll innerTag2">
+						<!--<div class="activityServerTime" v-for="item in infoList">
+							<p><span>新增工时：</span><span>{{item.hours}}</span></p>
+							<p><span>新增日期：</span><span>{{item.addDate}}</span></p>
+							<p><span>新增原因：</span><span>{{item.reason}}</span></p>
+						</div>
+						<div class="activityServerTime">
+							<p><span>新增工时：</span><span>8</span></p>
+							<p><span>新增日期：</span><span>2017-10-10 15：30：00</span></p>
+							<p><span>新增原因：</span><span>工时补录</span></p>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+		<script src="../../js/zepto.min.js"></script>
+		<script src="../../dist/dropload.min.js"></script>
+		<!--<script type="text/javascript" src="../../js/vue.min.js" ></script>-->
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				var tag = 1,page = 0;
+				var size = 10;
+			    var dropload = $('.mui-content').dropload({
+			    	scrollArea : window,
+				    // 初始化
+			        domDown : {
+			            domClass   : 'dropload-down',
+			            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+			            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+			            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+			        },
+			        loadDownFn : function(me){
+			        	page ++;
+			        	var oldTag = tag;
+			            $.ajax({
+			                type: 'POST',
+			                url: mui.apiUrl + '/ajax.php?act=userServerTime',
+			                dataType: 'json',
+			                crossDomain: true,
+			                xhrFields: {
+			                    withCredentials: true
+			                },
+			                asasync:true,
+			                data:{
+								tag:tag,
+								page:page,
+								len:size
+							},
+			                success: function(data){
+			                	if(oldTag != tag){
+	                    			return false;
+	                    		}
+			                	console.log(data);
+			                    var result = '';
+			                    if(!!data.datas){
+//			                    	console.log(data.datas.length);
+			                    	for(var i = 0; i < data.datas.length; i++){
+			                    		var item = data.datas[i];
+			                    		result += '<div class="activityServerTime">';
+			                    		if(tag == 1){
+											result += '<p><span>志愿服务时间：</span><span>'+item.time+'</span></p>'
+											+'<p><span>活动名称：</span><span>'+item.activityName+'</span></p>'
+											+'<p><span>活动日期：</span><span>'+item.activityStartDate+'至'+item.activityEndDate+'</span></p>'
+											+'<p><span>服务队名称：</span><span>'+item.serviceTeamName+'</span></p>';
+			                    		}else if(tag == 2){
+											result += '<p><span>新增工时：</span><span>'+item.hours+'</span></p>'
+											+'<p><span>新增日期：</span><span>'+item.addDate+'</span></p>'
+											+'<p><span>新增原因：</span><span>'+item.reason+'</span></p>';
+			                    		}
+			                    		result += '</div>';
+				                    }
+				                    if(data.datas.length < size){
+				                    	// 锁定
+				                        me.lock();
+				                        // 无数据
+				                        me.noData();
+				                    }
+			                    }else{
+			                    	// 锁定
+			                        me.lock();
+			                        // 无数据
+			                        me.noData();
+			                    }
+			                    
+			                    // 为了测试，延迟1秒加载
+//			                    setTimeout(function(){
+			                        // 插入数据到页面，放到最后面
+		                        	if(tag == 1){
+			                        	$('.innerTag1').append(result);
+			                        }else if(tag == 2){
+			                        	$('.innerTag2').append(result);
+//			                        	console.log(result);
+			                        }
+			                        // 每次数据插入，必须重置
+			                        me.resetload();
+//			                    },1000);
+			                },
+			                error: function(xhr, type){
+			                    console.log('错误'+e);
+			                    // 即使加载出错，也得重置
+			                    dropload.resetload();
+			                }
+			            });
+			        }
+			    });
+			    
+			    mui(".mui-content").off("tap","#segmentedControl").on("tap","#segmentedControl",function(e){
+//			    	console.log($('.innerTag'+e.target.id));
+			    	if(tag != e.target.id){
+			    		$('.innerTag'+e.target.id).children().remove();
+				    	page = 0,tag = e.target.id;
+				    	dropload.unlock();
+				    	setTimeout(function(){
+				    		dropload.noData(false);
+				    		dropload.resetload();
+				    	},1)
+			    	}
+			    })
+			});
+//			var vm = new Vue({
+//				el: '#serverTime',
+//				data: {
+//					top1:0,
+//					top2:44,
+//					isShow:false,
+//					isShow1:false,
+//					postingPlateFirst:{name:"活动日期", id:"", isActive:true, isShow:true},
+//					postingsPlateList:[
+//						{id:"",name:"活动日期",isActive:true, isShow:true}
+//					],
+//					postingsList:[],
+//					sdate:'',
+//					edate:'',
+//					title:'',
+//				},
+//				methods: {
+////					clickBtn1:function(){
+////						this.isShow = !this.isShow;
+////					},
+////					firstBLClick:function(index){
+////						var self = this;
+////						self.postingsPlateList[index].isActive = true;
+////						self.postingsPlateList[index].isShow = true;
+////						for (var i = 0; i < self.postingsPlateList.length; i++) {
+////							if(i!=index){
+////								self.postingsPlateList[i].isActive = false;
+////								self.postingsPlateList[i].isShow = false;
+////							}
+////						}
+////						self.postingPlateFirst = self.postingsPlateList[index];
+////						self.page = 1;
+////						self.postingsList = [];
+////	//					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0);
+////	//					mui('.mui-scroll').pullToRefresh().refresh(true)
+////	//					self.getPostingsList();
+////						self.isShow = false;
+////					},
+//				}
+//			})
+		</script>
+	</body>
+
+</html>

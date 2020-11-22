@@ -1,0 +1,39 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+html,body,.mui-content{
+	background-color: #FFFFFF;
+	font-size: 14px;
+}
+
+.left{
+	float: left;
+}
+
+.right{
+	float: right;
+}
+
+.clean{
+	clear: both;
+}
+
+.mui-content{
+	color: #101010;
+}
+
+.wrapper img{
+	width: 100%;
+	height:auto;
+	display:block;
+}
+
+.text p{
+	padding: 0 22px;
+	font-size: 0.3rem;
+	color: #101010;
+	line-height: 0.35rem;
+	
+}

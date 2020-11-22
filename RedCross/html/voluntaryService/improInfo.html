@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.all.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #ffffff;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 15px;
+			}
+			.title {
+				font-size: 17px;
+			    font-weight: 500;
+			    line-height: 44px;
+			    width: 100%;
+			    padding: 0;
+			    text-align: center;
+			    white-space: nowrap;
+			    margin: 0; 
+			    color: #101010;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row{
+				position: relative;
+			}
+			.mui-input-row span{
+				position: absolute;
+				top: 7px;
+				right: -2px;
+			}
+			.mui-input-row label{
+				display: inline-block;
+				color: #696969;
+				font-size: 13.0px;
+				padding: 13px 5px;
+			}
+			.mui-input-row input{
+				color: #101010;
+				font-size: 12.0px;
+				border: 0;
+				margin-bottom: 0px;
+				padding: 10px 20px;
+			}
+			.mui-input-row label {
+			    width: 45%;
+			}
+			.mui-input-row label~input {
+			    width: 55%;
+			}
+			/*按钮*/
+			.mui-btn.mui-btn-red{
+				margin: 5px auto;
+				width: 100%;
+			}
+			.mui-btn-red {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			}
+			.mui-btn-red:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="newOrganize">
+			<div class="mui-content">
+				<h2 class="title">完善基本信息</h2>
+			    <div class="mui-input-row">
+			    	<label>服务地</label>
+			    	<input name="servePlace" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('servePlace')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>服务领域</label>
+			    	<input name="serveField" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('serveField')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>姓名</label><input name="name" type="text" placeholder="">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>证件类型</label>
+			    	<input name="idType" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('idType')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>证件号码</label>
+			    	<input name="idnumber" type="text" placeholder="">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>性别</label>
+			    	<input name="sex" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('sex')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>出生日期</label>
+			    	<input v-model="dateOfBirth" name="dateOfBirth" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClickDate('dateOfBirth')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>国籍</label>
+			    	<input name="nationality" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('nationality')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>手机</label><input name="cellphone" type="number" placeholder="">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>居住地</label>
+			    	<input name="placeReside" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('placeReside')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>是否是高校在校学生</label>
+			    	<input name="isSchool" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    	<span @click="userClick('isSchool')" class="right mui-icon mui-icon-forward"></span>
+			    </div>
+			    <div class="mui-button-row">
+					<button @click="prevClick" type="button" class="mui-btn mui-btn-red">上一步</button>
+					<button @click="nextClick" type="button" class="mui-btn mui-btn-red">下一步</button>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script src="../../js/mui.picker.all.js"></script>
+		<script type="text/javascript" src="../../js/city.data-3.js" ></script>
+		<script type="text/javascript" src="../../js/nation.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#newOrganize',
+				data: {
+					isShow:false,
+					servePlace:[], //服务地
+					servePlaceSprovince:{}, //服务地省
+					servePlaceScity:{}, //服务地市
+					servePlaceSarea:{}, //服务地区
+					
+					serveField:[], //服务领域
+					idType:[], //证件类型
+					sex:[
+						{value: '1',text: '男'}, 
+						{value: '2',text: '女'}
+					], //性别
+					dateOfBirth:"", //出生日期
+					nationality:[], //国籍
+					
+					placeReside:[], //居住地
+					placeResideSprovince:{}, //居住地省
+					placeResideScity:{}, //居住地市
+					placeResideSarea:{}, //居住地区
+					
+					isSchool:[
+						{value: '1',text: '是'}, 
+						{value: '2',text: '否'}
+					], //是否在校
+					newList:{},  //存储数据
+					
+					postingPlateFirst:{name:"活动日期", id:"", isActive:true, isShow:true},
+					postingsPlateList:[
+						{id:"1",name:"苍天",isActive:true, isShow:true},
+						{id:"2",name:"大地",isActive:false, isShow:false}
+					]
+				},
+				mounted: function() {
+					var self = this;
+					self.servePlace = cityData3; //服务地
+					self.serveFieldFun();  //服务领域
+					self.nationality = nationData;  //国籍
+					self.idTypeFun();      //证件类型
+
+					var list = JSON.parse(getCookie("newList"));
+					self.newList = list;
+					console.log(self.newList);
+					var doc = document;
+					if(JSON.parse(getCookie("newList")).name){
+						doc.querySelector("input[name='name']").value = self.newList.name;
+						doc.querySelector("input[name='idnumber']").value = self.newList.idnumber;
+						doc.querySelector("input[name='dateOfBirth']").value = self.newList.birthday;
+						doc.querySelector("input[name='cellphone']").value = self.newList.cellphone;
+						doc.querySelector("input[name='sex']").id = self.newList.sex;
+						doc.querySelector("input[name='sex']").value = self.idValueText(self.sex,self.newList.sex);
+						doc.querySelector("input[name='isSchool']").id = self.newList.isstudent;
+						doc.querySelector("input[name='isSchool']").value = self.idValueText(self.isSchool,self.newList.isstudent);
+						setTimeout(function(){
+							doc.querySelector("input[name='serveField']").id = self.newList.sdomain;
+							doc.querySelector("input[name='serveField']").value = self.idValueText(self.serveField,self.newList.sdomain) ;
+							doc.querySelector("input[name='idType']").id = self.newList.idtype;
+							doc.querySelector("input[name='idType']").value = self.idValueText(self.idType,self.newList.idtype);
+						},800);	
+						setTimeout(function(){
+							doc.querySelector("input[name='servePlace']").value = self.idValueText3(self.servePlace,self.newList.sprovince,self.newList.scity,self.newList.sarea);
+							self.servePlaceSprovince.value = self.newList.sprovince;
+							self.servePlaceScity.value = self.newList.scity;
+							self.servePlaceSarea.value = self.newList.sarea;
+							doc.querySelector("input[name='placeReside']").value = self.idValueText3(self.servePlace,self.newList.province,self.newList.city,self.newList.area);
+							self.placeResideSprovince.value = self.newList.province;
+							self.placeResideScity.value = self.newList.city;
+							self.placeResideSarea.value = self.newList.area;
+							doc.querySelector("input[name='nationality']").id = self.newList.nationality;
+							doc.querySelector("input[name='nationality']").value = self.idValueText(self.nationality,self.newList.nationality);
+						},100);
+					}
+				},
+				methods: {
+					//根据id判断值
+					idValueText: function(list,id){
+						for(var key in list){
+							if(Number(list[key].value) == id) return list[key].text;
+						}
+						return;
+					},
+					idValueText3: function(list,pid,cid,aid){
+						for(var key in list){
+							if(Number(list[key].value) == pid){
+								var value0 = list[key].text;
+								var children1 = list[key].children;
+								for(var key1 in children1){
+									if(Number(children1[key1].value) == cid){
+										var value1 = children1[key1].text;
+										var children2 = children1[key1].children;
+										for(var key2 in children2){
+											if(Number(children2[key2].value) == aid){
+												var value2 = children2[key2].text;
+												return value0+" "+value1+" "+value2;
+											}
+										}
+									}
+								}
+							} 
+						}
+						return;
+//						return children1;
+					},
+					//点击选择
+					userClick: function(type) {
+						var self = this;
+						var doc = document;
+						if(type == "servePlace" || type == "placeReside"){
+							var userPicker = new mui.PopPicker({layer: 3});
+							userPicker.setData(self.servePlace);
+						}else{
+							var userPicker = new mui.PopPicker();
+							userPicker.setData(self[type]);
+						}
+//						console.log(self[type]);
+						var userSelect = doc.querySelector("input[name='"+type+"']");
+						userPicker.show(function(items) {
+							document.activeElement.blur();// 关闭输入法的api
+//							userSelect.value = JSON.stringify(items[0].text);
+							if(type == "servePlace" || type == "placeReside"){
+								userSelect.value = items[0].text+" "+items[1].text+" "+items[2].text;
+								self[type+"Sprovince"].value = items[0].value;
+								self[type+"Sprovince"].text = items[0].text;
+								self[type+"Scity"].value = items[1].value;
+								self[type+"Scity"].text = items[1].text;
+								self[type+"Sarea"].value = items[2].value;
+								self[type+"Sarea"].text = items[2].text;
+							}else{
+								userSelect.value = items[0].text;
+								userSelect.id = items[0].value;
+//								self.newList[type]=items[0].value;
+							}
+							userPicker.dispose();
+						});
+					},
+					userClickDate:function(type){
+						var self = this;
+						var optionsJson = '{"type":"date","beginYear":1890,"endYear":3000}';
+						var options = JSON.parse(optionsJson);
+						var picker = new mui.DtPicker(options);
+						console.log(picker);
+						picker.show(function(rs) {
+							document.activeElement.blur();// 关闭输入法的api
+							self.dateOfBirth =  rs.text;
+							picker.dispose();
+						})
+					},
+					//服务领域
+					serveFieldFun: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"sdomain"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								self.serveField = data.datas;
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					//证件类型
+					idTypeFun: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"idtype"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								self.idType = data.datas;
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					//插入到newList中
+					insertNewList: function(){
+						var self = this;
+						self.newList.sprovince = self.servePlaceSprovince.value;
+						self.newList.scity = self.servePlaceScity.value;
+						self.newList.sarea = self.servePlaceSarea.value;
+						self.newList.sdomain = document.querySelector("input[name='serveField']").id;
+						self.newList.name = document.querySelector("input[name='name']").value;
+						self.newList.idtype = document.querySelector("input[name='idType']").id;
+						self.newList.idnumber = document.querySelector("input[name='idnumber']").value;
+						self.newList.sex = document.querySelector("input[name='sex']").id;
+						self.newList.birthday = document.querySelector("input[name='dateOfBirth']").value;
+						self.newList.nationality = document.querySelector("input[name='nationality']").id;
+						self.newList.cellphone = document.querySelector("input[name='cellphone']").value;
+						self.newList.province = self.placeResideSprovince.value;
+						self.newList.city = self.placeResideScity.value;
+						self.newList.area = self.placeResideSarea.value;
+						self.newList.isstudent = document.querySelector("input[name='isSchool']").id;
+						
+						var list = JSON.stringify(self.newList);
+						setCookie("newList",list);
+						
+//						console.log(self.newList);
+//						console.log(JSON.parse(getCookie("newList")));
+					},
+					//上一步
+					prevClick: function(e){
+						var self = this;
+						self.insertNewList();
+						console.log(self.newList);
+						setTimeout(function(){
+							window.location.href = "./register.html";
+						},800);
+					},
+					//下一步
+					nextClick: function(e){
+						var self = this;
+						self.insertNewList();
+						console.log(self.newList);
+						if(!self.newList.sprovince){
+							mui.toast("请选择服务地")
+						}else if(!self.newList.sdomain){
+							mui.toast("请选择服务领域")
+						}else if(!((self.newList.name.trim()).length)){
+							mui.toast("姓名不能为空")
+						}else if(!self.newList.idtype){
+							mui.toast("请选择证件类型")
+						}else if(!((self.newList.idnumber.trim()).length)){
+							mui.toast("证件号码不能为空")
+						}else if(!self.newList.sex){
+							mui.toast("请选择性别")
+						}else if(!self.newList.birthday){
+							mui.toast("出生日期格式不正确")
+						}else if(!self.newList.nationality){
+							mui.toast("请选择国籍")
+						}else if(!(/^1[34578]\d{9}$/.test(self.newList.cellphone))){
+							mui.toast("请填写正确的手机号")
+						}else if(!self.newList.province){
+							mui.toast("请选择居住地")
+						}else if(!self.newList.isstudent){
+							mui.toast("请选择是否在校")
+						}else{
+							setTimeout(function(){
+								window.location.href = "./improOther.html";
+							},800);
+						}
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

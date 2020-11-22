@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-cn">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>加入组织</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../dist/dropload.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.divInputSeach{
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 72%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				/*border-color: rgba(255,255,255,.2) !important;*/
+			    color: #101010;
+			    font-size: 13.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;} 
+			.divInputSeach input.inputSeach::-moz-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;}
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;} 
+			.content{
+				margin: 10px 10px;
+				padding: 10px;
+				background: #FFFFFF;
+				border-bottom: 1px solid #ddd;
+			}
+			.imgDiv{
+				width: 70px;
+				text-align: center;
+			}
+			.imgDiv img{
+				width: 70px;
+				height: 70px;
+			}
+			.goDetail{
+				width: 70%;
+			}
+			.apply{
+				width: 55px;
+				height: 25px;
+				padding: 3px 12px;
+			    color: #101010;
+			    font-size: 12.0px;
+			    text-align: center;
+			}
+			p{
+				color: #6b6b6b;
+				font-size: 12px;
+				margin-bottom: 1px;
+			}
+			.name{
+				width: 100%;
+				color: #101010;
+				font-size: 14px;
+				white-space: nowrap;
+				overflow:hidden;
+				text-overflow:ellipsis;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div class="divInputSeach">
+				<span class="mui-icon mui-icon-search left"></span>
+				<input class="inputSeach left" id="searchName" type="text" placeholder="组织名称" />
+				<div class="left" id="search">搜索</div>
+				<div class="clean"></div>
+			</div>
+			<div class="inner">
+				<!--<div class="content" v-for='item in infoList'>
+					<div class="left imgDiv">
+						<img class="goDetail" :src="item.img"/>
+						<button @click="joinIn" :id="item.id" type="button" class="apply" >申请</button>
+					</div>
+					<div @click="liClick" :id="item.id" class="left goDetail" style="margin-left: 10px;">
+						<p class="name">{{item.name}}</p>
+						<p><span>招收人数：{{item.planMemberNumber}}人 </span><span class="right">已有人数：{{item.people}}人</span><span class="clean"></span></p>
+						<p>服务类型：{{item.sType}}</p>
+						<p>所需技能：{{item.skill}}</p>
+						<p>所属地区：{{item.areas}}</p>
+					</div>
+					<div class="clean"></div>
+				</div>-->
+				<!--<div class="content">
+					<div class="left imgDiv">
+						<img class="goDetail" src="../../img/raw_1509010013.png"/>
+						<button type="button" class="apply">申请</button>
+					</div>
+					<div class="left goDetail" style="margin-left: 10px;">
+						<p class="name">人道援助</p>
+						<p><span>招收人数：20人 </span><span class="right">已有人数：1人</span><span class="clean"></span></p>
+						<p>服务类型：人道救助</p>
+						<p>所需技能：心理资格证、助理社会工作</p>
+						<p>所属地区：西城区</p>
+					</div>
+					<div class="clean"></div>
+				</div>-->
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a"></script>
+		<script src="../../js/mui.min.js"></script>
+		<!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+		<script src="../../js/zepto.min.js"></script>
+		<script src="../../dist/dropload.min.js"></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				var page = 0;
+				var size = 10;
+				var searchName = "";
+				var map, geolocation;
+			    //加载地图，调用浏览器定位服务
+			    map = new AMap.Map('', {
+			        resizeEnable: true
+			    });
+			    map.plugin('AMap.Geolocation', function() {
+			        geolocation = new AMap.Geolocation({
+			            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+			            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+			            buttonPosition:'RB'
+			        });
+			        geolocation.getCurrentPosition();
+			        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+			        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+			    });
+			    //解析定位结果
+			    function onComplete(data) {
+			    	districtName = data.addressComponent.district;
+           			getSign(districtName);//获取区域标签
+			    }
+			    //解析定位错误信息
+			    function onError(data) {
+			    	mui.toast("获取当前位置失败！");
+			    }
+			    
+			    function getSign(districtName){
+			    	mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act: "sign",
+							name: districtName
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+//							setCookie("sign", data.datas.sign)
+							var dropload = $('.mui-content').dropload({
+								scrollArea : window,
+								domDown: {
+									domClass: 'dropload-down',
+									domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
+									domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+									domNoData: '<div class="dropload-noData">没有更多数据了</div>'
+								},
+								loadDownFn: function(me) {
+									console.log(123)
+									page++;
+						            $.ajax({
+						                type: 'POST',
+						                url: mui.apiUrl + '/ajax.php?act=team',
+						                dataType: 'json',
+						                data:{
+											name:searchName,   //活动名称
+											sign:data.datas.sign,   //登录地id 'yz'
+											page: page,
+											len: size
+										},
+						                success: function(data){
+			//			                	console.log(data.datas);
+						                    var result = '';
+						                    if(!!data.datas){
+			//			                    	console.log(data.datas.length);
+						                    	for(var i = 0; i < data.datas.length; i++){
+						                    		var item = data.datas[i];
+						                    		result +='<div class="content">'
+														+'<div class="left imgDiv">'
+															+'<img class="goDetail" id="'+item.id+'" src="'+item.img+'"/>'
+															+'<button type="button" id="'+item.id+'" class="apply">申请</button>'
+														+'</div>'
+														+'<div class="left goDetail" id="'+item.id+'" style="margin-left: 10px;">'
+															+'<p class="name">'+item.name+'</p>'
+															+'<p><span>招收人数：'+item.planMemberNumber+'人 </span><span class="right">已有人数：'+item.people+'人</span><span class="clean"></span></p>'
+															+'<p>服务类型：'+item.sType+'</p>'
+															+'<p>所需技能：'+item.skill+'</p>'
+															+'<p>所属地区：'+item.areas+'</p>'
+														+'</div>'
+														+'<div class="clean"></div>'
+													+'</div>';
+							                    }
+							                    if(data.datas.length < size){
+							                    	// 锁定
+							                        me.lock();
+							                        // 无数据
+							                        me.noData();
+							                    }
+						                    }else{
+						                    	// 锁定
+						                        me.lock();
+						                        // 无数据
+						                        me.noData();
+						                    }
+						                    
+						                    // 为了测试，延迟1秒加载
+						                    setTimeout(function(){
+						                        // 插入数据到页面，放到最后面
+						                        $('.inner').append(result);
+						                        // 每次数据插入，必须重置
+						                        me.resetload();
+						                    },1000);
+						                },
+						                error: function(xhr, type){
+						                    console.log('错误'+e);
+						                    // 即使加载出错，也得重置
+						                    dropload.resetload();
+						                }
+						            });
+								}
+							});
+							$(".inner").off("click",".goDetail").on("click",".goDetail",function(){
+				            	console.log(this.id);
+				            	var rid = this.id;
+								setTimeout(function(){
+									window.location.href = "./organDetail.html?rid="+rid;
+								},300);
+							});
+						    $(".inner").off("click",".apply").on("click",".apply",function(){
+			//	            	console.log(this);
+								var rid = this.id;
+								mui.rAjax({
+									url:'/ajax.php?act=joinTeam',
+									data:{
+										rid: rid
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'POST',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应，根据响应结果，分析是否登录成功；
+										console.log(data);
+										if(data.responseCode == 0){
+											mui.toast("申请成功");
+										}else if(data.responseCode == 2){
+											mui.toast(data.responseMsg);
+											window.location.href = "./loginIn.html";
+										}else{
+											mui.toast(data.responseMsg)
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										console.log(type);
+									}
+								});
+							});
+							document.getElementById("search").addEventListener("click",function(){
+						    	$('.inner').children().remove();
+						    	searchName = document.getElementById("searchName").value;
+			//			    	console.log(searchName);
+						    	page = 0;
+						    	dropload.unlock();
+						    	dropload.noData(false);
+						    	dropload.resetload();
+						    })
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+			    }
+			    
+			});
+				
+		</script>
+	</body>
+
+</html>

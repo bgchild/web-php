@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+@import url(user_center.css);
+
+
+.show_status{width:100%;height:240px; background:#fff;}
+.userphotoDiv{width:200px;height:200px;margin-top:20px;margin-left:19px;_margin-left:10px;float:left;background:#DBDBDB;}
+.userphoto{display:block;width:192px;height:192px;margin:4px auto;}
+.stars-show{width:520px;height:160px;margin-top:30px;margin-left:25px; display:inline;float:left;}
+.stars {width:515px;height:66px;margin-left:2px;_margin-left:1px;float:left;background:url(../images/stars/stars1.png) no-repeat;}
+.nowstars{width:515px;height:66px;background:url(../images/stars/stars2.png) no-repeat;}
+.bars {width:520px;height:90px;float:left;background:url(../images/stars/backfull_bars.png) no-repeat;}
+.fullbars{width:468px;height:15px;margin-left:23px;_margin-left:11px;margin-top:2px;background:url(../images/stars/fullbars.png) no-repeat;}
+.redbars{height:15px;background:url(../images/stars/redhead.png) right 0px no-repeat;float:left;}
+.userOption{width:100%; background:#fff url(../images/bg_dot.png) bottom repeat-x ; padding-bottom:20px}
+.userOpt_innder{width:700px;height:40px;margin-left:20px;}
+
+.msgbox{width:430px;float:left;margin:10px; display:inline; position:relative;}
+.more_title{ font-size:35px; color:#DF1D13; float:left;}
+.more_title span{ float:left; padding-left:5px;}
+.more_title a{ background:url(../images/more_icon.gif) no-repeat; width:24px; height:24px; float:left; margin-top:13px; margin-left:20px; display:inline}
+.volunteer_sever{ width:400px;}
+.volunteer_sever ul{padding-top:20px; float:left; height:205px; overflow:hidden}
+.volunteer_sever ul li{ background:url(../images/arrows_icon.png) no-repeat 1% center; padding-left:20px; height:25px; line-height:25px;width:380px;  overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}

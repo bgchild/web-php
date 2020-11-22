@@ -1,0 +1,358 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>服务队展示图片添加</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.divInputSeach{
+				position: relative;
+				width: 100%;
+			}
+			.divInputSeach .inputSeach{
+				width: 65%;
+				height: 30px;
+				padding: 0;
+				margin: 15px 100px 5px 10px; 
+				border-color: rgba(255,255,255,.2);
+			    color: #adadad;
+			    font-size: 12.0px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach .mui-button-row{
+				position: absolute;
+				top: 14px;
+				left: 0;
+				margin-left: 72%;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;}
+			/*图片上传按钮*/
+			/*上传图片*/
+			
+			#add{
+				position:absolute;
+				right:-0.1rem;
+				top:0.1rem;
+				
+				width:20%;
+    			height: 30px;
+				font-family: Muiicons;
+			    font-size: 24px;
+			    font-weight: 400;
+			    font-style: normal;
+			    line-height: 1.6;
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			#fileColorCard{
+				position: absolute;
+			    top: 0;
+			    right: 0;
+				opacity:0;
+				width:20%;
+				height:30px;
+				padding:0;
+				margin-bottom:0;
+				outline: medium;
+			}
+			.mui-btn-red {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			    padding: 4px 8px;
+			}
+			.mui-btn-red:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+			/*内容*/
+			.activityServerTime{
+				position: relative;
+				padding: 10px 30px;
+				background: #FFFFFF;
+				margin: 10px 10px;
+				padding: 10px;
+			}
+			.activityServerTime:nth-child(2):before{
+				background-color: #6372f7;
+			}
+			.activityServerTime:nth-child(3):before{
+				background-color: #f28c2e;
+			}
+			.activityServerTime:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0px;
+			    right: 0px;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.activityServerTime p{
+				font-size: 12px;
+				margin-bottom: 5px;
+			}
+			.activityServerTime p img{
+				width: 130px;
+				height: 100px;
+			}
+			.activityServerTime p span:nth-child(1){
+				color: #6b6b6b;
+				margin-right: 10px;
+			}
+			.activityServerTime p span:nth-child(2){
+				color: #101010;
+			}
+			.activityServerTime span img{
+				width: 15px;
+			}
+			.activityServerTime .edit span:nth-child(1),.delete span:nth-child(1){
+				margin-right: 8px;
+			}
+			.activityServerTime .edit{
+				position: absolute;
+				bottom: 50%;
+				right: 20px;
+				color: #36ccab;
+			}
+			.activityServerTime .delete{
+				position: absolute;
+				bottom: 25%;
+				right: 20px;
+				color: #bbbbbb;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="showPic" style="width: 100%;">
+			<div class="mui-content">
+				<div class="divInputSeach" style="width: 100%;">
+					<input v-model="name" class="inputSeach" type="text" placeholder="图片名称" />
+					<div class="mui-button-row">
+						<form id="add" method="post" action="http://yz.honghui.o.surcent.com/image_thumb.php" enctype="multipart/form-data">
+							<span class="mui-btn mui-btn-red">选择图片</span>
+							<input type="file" id="fileColorCard" name="imgFile" accept="image/*">
+							<input type="hidden" name="time" id="fileTime" value="now">
+							
+						</form>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div v-if="images.length >0">
+					<div v-for="(imgs,key) in images" class="activityServerTime" :data-number="key">
+						<p><span>图片名称：</span><span>{{imgs.name}}</span></p>
+						<p><img :src="imgs.img"/></p>
+						<span @click="editTitle" :data-number="key" class="edit"><span :data-number="key"><img src="../../img/icon_29.png"/></span><span>编辑</span></span>
+						<span @click="removeImage" :data-number="key" class="delete"><span :data-number="key"><img src="../../img/icon_26.png"/></span><span>删除</span></span>
+					</div>
+					<!--<div class="activityServerTime">
+						<p><span>图片名称：</span><span>人道援助</span></p>
+						<p><img :src="images"/></p>
+						<span class="edit"><span><img src="../../img/icon_29.png"/></span><span>编辑</span></span>
+						<span @click="removeImage" class="delete"><span><img src="../../img/icon_26.png"/></span><span>删除</span></span>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../../js/jquery.form.js" ></script>
+		
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#showPic',
+				data: {
+					rid:'',
+					images:[],
+					name:"",
+					img:""
+				},
+				mounted: function() {
+					var self = this;
+					self.rid = GetArgsFromHref(window.location.toString(),"rid");
+					self.getImg();
+					console.log(self.rid);
+					//上传图片
+					document.getElementById("fileTime").value = new Date().getTime();
+					document.getElementById("fileColorCard").addEventListener("change",function(){
+						jQuery("#add").ajaxSubmit(options);
+					})
+					//ajaxSubmit提交配置
+					var options = {
+						dataType:'json',
+						success:regeistCallBack
+					};
+					//表单提交成功回调
+					function regeistCallBack(data, statusText, xhr, $form){
+						self.img = data.url;
+						console.info(JSON.stringify(data));
+						self.setImg();
+					};
+				},
+				methods: {
+		            removeImage: function(e) {
+		            	var self = this;
+		            	var selfE = e;
+		            	var keys = e.target.parentNode.getAttribute("data-number");
+//		                console.log(selfE.target.parentNode);
+		                var btnArray = ['否', '是'];
+						mui.confirm('确认要删除该图片吗？', '删除图片', btnArray, function(e) {
+							if (e.index == 1) {
+								mui.rAjax({
+									url:'/ajax.php',
+									data:{
+										act:"userTeamPictureDel",
+										rid:self.images[keys].id
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'GET',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应，根据响应结果，分析是否登录成功；
+										if(data.responseCode == 0){
+											mui.toast("删除成功")
+											self.getImg();
+										}else{
+											mui.toast(data.responseMsg)
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										console.log(type);
+									}
+								});
+							}
+						})
+		            },
+		            //图片地址截取
+		            imgPath:function(path){
+		            	return path.substring(path.lastIndexOf("imageuploads"),path.length);
+		            },
+		            editTitle: function(e) {
+		            	var self = this;
+//		            	console.log(e.target.parentNode.getAttribute("data-number"));
+		                var keys = e.target.parentNode.getAttribute("data-number");
+//		                console.log(self.imgPath(self.images[keys].img));
+		            	var btnArray = ['取消', '确定'];
+						mui.prompt('请重新输入图片名称：', '', '图片编辑', btnArray, function(e) {
+							if (e.index == 1) {
+								mui.rAjax({
+									url:'/ajax.php?act=userTeamPictureEdit',
+									data:{
+										rid:self.images[keys].id,
+										name:e.value,
+										img:self.imgPath(self.images[keys].img)
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'POST',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应，根据响应结果，分析是否登录成功；
+										if(data.responseCode == 0){
+											mui.toast("编辑成功")
+											self.getImg();
+										}else{
+											mui.toast(data.responseMsg)
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										console.log(type);
+									}
+								});
+							}
+						})
+		            },
+		            getImg:function(e){
+		            	var self = this;
+		            	mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"userTeamPictureList",
+								rid:self.rid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data.datas);
+								if(data.responseCode == 0){
+									if(Boolean(data.datas)){
+										self.images = data.datas; 
+									}else{
+										mui.toast("没有图片信息")
+									}
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+		           	},
+		           	setImg:function(){
+		           		var self = this;
+		            	mui.rAjax({
+							url:'/ajax.php?act=userTeamPictureAdd',
+							data:{
+								rid:self.rid,
+								name:self.name,
+								img:self.img
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data.datas);
+								if(data.responseCode == 0){
+									mui.toast("添加图片成功")
+									self.getImg();
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+		           	}
+				}
+			})
+		</script>
+	</body>
+
+</html>

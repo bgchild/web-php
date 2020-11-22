@@ -1,0 +1,22 @@
+.app_top{width:100%;float:left; margin-bottom:10px;}
+.searchFrom{display:bolck;width:95%;height:90px;clear:both;margin:10px auto;}
+.searchFieldSet{height:90px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+
+.btn_alone{margin-left:830px;margin-bottom:10px;}
+.uma{width:95%;margin:0px auto;}
+.server_top{margin:60px auto 10px;}
+.server_top tr{line-height:40px;height:40px;}
+.dosave{margin-left:200px;margin-top:30px;}
+.doreset{margin-top:30px;}
+/*超出部分隐藏*/
+.tdprizewinner a{float:left; width:72px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdwinaddress a{float:left; width:148px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdwincontent a{float:left; width:320px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+/*隐藏选获奖人*/
+.choose_fa{position:relative;}
+.choose_so{position:absolute;width:750px;height:470px;background:#fff;border:solid 2px #ccc;top:60px; left:0px;display:none;}
+.choose_top{margin-top:10px;}
+.choose_tab{border:solid 1px #ccc; margin:0 auto; width:700px;height:50px;}
+.choose_middle{margin-top:10px; width:758px;}
+.choose_btn{ margin-left:600px;}

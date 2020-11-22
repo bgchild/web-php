@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/disasterShow.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>灾情展示</title>
+		<style>
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.container .name input{
+				width: 5.1rem;
+				font-size: 0.25rem;
+			}
+			.container .name div.left{
+				width: 1.5rem;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+				font-size: 0.3rem;
+				margin-top: 8px;
+				margin-left: 0.1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<div class="name">
+						<input v-model="search" class="left" type="text" placeholder="  灾情名称"/>
+						<div @click="searchName" class="left">搜索</div>
+						<div class="clean"></div>
+					</div>
+					
+					<div class="diaster" v-for='item in infoList'>
+						<span v-if="item.status==0" class="triangle" style=" border-top: 1rem solid #f22c2c;"></span>
+						<span v-if="item.status==1" class="triangle" style=" border-top: 1rem solid #47c94c;"></span>
+						<span v-if="item.status==2" class="triangle" style=" border-top: 1rem solid #366eff;"></span>
+						<ul>		
+							<p v-if="item.status==0" class="triangle_text">未处理</p>
+							<p v-if="item.status==1" class="triangle_text">处理中</p>
+							<p v-if="item.status==2" class="triangle_text">已处理</p>
+							<li class="title">{{item.name}}</li>
+							
+							<li>
+								<lable>灾害种类：</lable>
+								<span>{{item.cname}}</span>
+							</li>
+							<li>
+								<lable>灾害地点：</lable>
+								<span>{{item.address}}</span>
+							</li>
+							<li>
+								<lable>上&nbsp;&nbsp;报&nbsp;&nbsp;人：</lable>
+								<span>{{item.vname}}</span>
+							</li>
+							<li>
+								<lable>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</lable>
+								<span>{{item.mobile}}</span>
+							</li>
+							<li>
+								<lable>上报时间：</lable>
+								<span>{{item.adddate}}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		<script type="text/javascript" src="../js/xback.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					openid:'o9bJ3xJgtmrF_jA1FMXxRaWbl4mU',
+					infoList:[],
+					cate:'', //种类
+					status:'', //状态
+					search:''  //名称
+				},
+				mounted: function(){
+					var self = this;
+					self.openid = getCookie("openid");
+					self.ajaxList();
+				},
+				methods:{
+					ajaxList: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php?act=dlist',
+							data:{
+								openid: self.openid,    //微信用户唯一标识
+								cate:self.cate,
+								status:self.status,
+								name:self.search,
+								pstart: 1,
+								psize: 100
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								self.infoList = data.datas;
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					searchName:function(){
+						var self = this;
+						self.ajaxList();
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

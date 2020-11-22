@@ -1,0 +1,208 @@
+body,html,.mui-content{ 
+	height:100%;
+	background-color:#f2f2f2;
+	color:#000000;
+}
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.clean{
+	clear: both;
+}
+.head{
+	position:relative;
+	height:1rem;
+}
+
+.pic{
+	padding-left: 10px;
+	padding-top:10px;
+}
+
+.pic img{
+	width:100%;
+	height:55%;
+}
+
+.title{
+	/*margin-top:10px;
+	margin-left:10px;*/
+	position:absolute;
+	left:1.3rem;
+	bottom:0;
+}
+
+.title span:nth-child(1){
+	font-weight:bold;
+	font-size:0.3rem;
+}
+
+.title span:nth-child(2){
+	font-size:0.3rem;
+}
+
+.title span:nth-child(4){
+	font-size:0.15rem;
+}
+
+.addressList{
+	position:absolute;
+	top: 15px;
+	right:5px;
+	height:60%;
+	bottom:0;
+}
+
+.address{
+	font-size:0.15rem;
+	background-color:#f2f2f2;
+}
+
+.sportPic{
+	/*border:1px solid red;*/
+	height:3.5rem;
+	margin-top:5px;
+}
+
+.sportPic .mui-slider,
+.sportPic .mui-slider .mui-slider-group,
+.mui-slider-item a,
+.mui-slider-item a img{
+	height:100%;
+}
+
+.organize,.project,.video,.special,.end{
+	border-top: 12px solid #dcdcdc;
+}
+
+/*志愿组织*/
+.organize{
+	background-color:#ffffff;
+}
+.imgDiv{
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+.imgDiv img{
+	width: 1.9rem;
+}
+/*图片下的文字*/
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+    font-size: 0.15rem;
+    line-height: 15px;
+    width: 100%;
+    height: 15px;
+    margin-top: 5px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+}
+/*志愿项目*/
+.project{
+	/*border-top: 12px solid #e6e6e6;*/
+	background-color:#ffffff;
+}
+.project ul{
+	padding: 0 11px;
+	margin: 5px 0;
+}
+.project ul li{
+	line-height: 0.55rem;
+}
+
+.project ul li span{
+	font-size:0.25rem;
+}
+
+.project ul li span:nth-child(1){
+	display: inline-block;
+	width:0.4rem;
+	height:0.4rem;
+	line-height: 0.45rem;
+	text-align: center;
+	color:#ffffff;
+}
+
+.project ul li span:nth-child(2){
+	display: inline-block;
+	width: 6.1rem;
+	margin-left:10px;
+	color:#969696;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
+/*视频*/
+.video{
+	height:4rem;
+	padding:10px;
+	background-color:#ffffff;
+}
+
+.video_pic{
+	height:100%;
+}
+
+.video_pic img{
+	width:100%;
+	height:100%;
+}
+
+/*小图片展示*/
+.small .mui-table-view.mui-grid-view {
+    padding: 10px 2px 10px 0;
+}
+.small .mui-table-view.mui-grid-view .mui-table-view-cell {
+    padding: 5px 0 0 10px;
+}
+.small .mui-table-view-cell:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: rgba(0,0,0,0.9);
+}
+.small .mui-table-view.mui-grid-view .mui-table-view-cell>a:not(.mui-btn) {
+    margin: -10px 0 0 -10px;
+}
+.small .mui-table-view.mui-grid-view .mui-table-view-cell .mui-slider-title{
+	font-size: 0.12rem;
+	background: rgba(255,255,255,0.1);
+	/*color: #FFFFFF;*/
+	text-align: center;
+}
+
+.special{
+	background-color:#ffffff;
+}
+
+.end{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #FFFFFF;
+}
+
+.end_text{
+	width:60%;
+	height:70%;
+	text-align: center;
+}
+
+.end_text span{
+	font-size:0.2rem;
+}
+
+.end_text span.red{
+	color:#f51811;
+}

@@ -1,0 +1,45 @@
+body,html{ 
+	height:100%;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+.mui-content{
+	background-color:#FFFFFF;
+}
+
+.container{
+	/*border:1px solid red;*/
+	padding:30px 30px;
+}
+
+.container p{
+	color:#000000;
+}
+
+.title{
+	font-size:0.32rem;
+}
+
+.name{
+	font-size:0.25rem;
+	margin-top:20px;
+}
+
+.name span:nth-child(2){
+	float:right;
+}
+
+.time{
+	font-size:0.25rem;
+	margin-top:10px;
+	text-align: right;
+}
+
+.text{
+	text-indent: 2em;
+	margin-bottom:10px;
+	font-size:0.28rem;
+	color:#000000;
+	line-height:0.45rem;
+}

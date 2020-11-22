@@ -1,0 +1,70 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+@import url(detail.css);
+.con{ padding-bottom:20px;}
+.content_left{ width:285px; float:left; margin-right:18px;}
+.content_right{width:890px; float:left; }
+.content{ width:100%; float:left;}
+.con_border{ float:left; border:1px solid #ccc; width:878px; padding:0 5px 5px 5px;}
+.serach_more{ margin:20px 0 20px 0; float:left; width:80%;}
+.first{  padding-left:30px;}
+/*左边样式*/
+.addvolunteer{ height:28px; line-height:28px; text-align:center; color:#fff; font-size:15px; font-weight:bolder; margin-bottom:10px; background:red;}
+h3{color:#fff; background:#E9423C; height:25px;  line-height:25px; padding-left:10px;}
+.volunteerhelp{ border:1px solid #ccc; padding:15px 0 20px 10px; float:left; width:273px;}
+.volunteerhelp dl{ width:260px;}
+.volunteerhelp dl dt{ background: url(../images/redcross.png) no-repeat 3% center; padding-left:40px; height:22px; line-height:22px; border-bottom:dashed 1px red;}
+/*activity活动样式*/
+.one_activity{ border:1px solid #333; float:left; width:415px; padding:5px 0 5px 10px; margin:0 0 8px 8px; display:inline;}
+.one_activity dl dt{ font-weight:bold; color:#000; height:25px; width:310px; line-height:25px;  overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.one_activity dl dd {height:25px; line-height:25px;  }
+.add_activity{ float:left;}
+.add_activity p{ width:180px; float:left; line-height:25px;}
+.addbtn{ width:25px;}
+/*serveteam样式*/
+.one_team{ border:1px solid #333; float:left; width:415px; padding:5px 0 5px 10px; margin:0 0 8px 8px; display:inline; overflow:hidden}
+.team_img{ float:left; padding-right:10px;}
+.team_img dt{width:80px; height:80px; line-height:80px; text-align:center;}
+.team_img dt img{ width:80px; height:80px;}
+.team_img dd { text-align:center; padding-top:5px;}
+.team_introduce{ float:left;width:210px;}
+.team_introduce dt{ font-weight:bold; color:#000; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.team_introduce dd {height:25px; line-height:25px; overflow:hidden;}
+.areaspan{ float:left;  padding-right:3px;}
+.area{ padding-left:42px; height:50px;}
+.area ul li{ margin-right:3px; display:inline; }
+.area span{color:red; font-weight:bolder;}
+.area ul li select{ width:90px;}
+/*volunteers.php*/
+.user_img dt img{ width:80px; height:80px; margin-top:4px;}
+/*serveteam样式*/
+.onetd{ width:150px;}
+.onetd a{ float:left; width:150px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+/*service.php样式*/
+.service_con{ width:600px; float:left;}
+.service_more{ width:600px; float:left; margin-bottom:10px;}
+.service_more h3{ margin-bottom:10px;}
+.service_more h3 span{ float:left;}
+.service_more h3 a{font-size:12px; font-weight:lighter; color:#FFF; float:right; padding-right:15px;}
+.service_team{ border:1px solid #333; float:left; width:280px; padding:5px 0 5px 10px;  margin:4px 0 4px 6px; display:inline}
+.serviceteam_img{ float:left; padding-right:10px;}
+.serviceteam_img dt{width:90px; height:90px; line-height:90px; text-align:center;}
+.serviceteam_img dt img{ width:80px; height:80px;}
+.serviceteam_img dd { text-align:center; padding-top:5px;}
+.serviceteam_introduce{ float:left;width:155px; }
+.serviceteam_introduce dt{width:120px; font-weight:bold; color:#000; overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.serviceteam_introduce dd {height:25px; line-height:25px; overflow:hidden;}
+
+.service_activity{ border:1px solid #333; float:left; width:280px; padding:5px 0 5px 10px; margin:4px 0 4px 6px; display:inline;}
+.service_activity dl dt{ font-weight:bold;color:#000; height:25px; width:200px; line-height:25px;  overflow:hidden; text-overflow:ellipsis;white-space:nowrap;}
+.service_activity dl dd {height:25px; line-height:25px;  }
+.serviceadd_activity{ float:left;}
+.serviceadd_activity p{ width:150px; float:left; line-height:25px;}
+
+
+.special_events{width:270px; float:right;}
+.special_events dl { float:left;}
+.special_events dl dt{ color:#fff; line-height:25px; text-align:center; background:#E9423C; font-size:15px; font-weight:bolder; float:left; width:270px;}
+.special_events dl dd{ width:270px; float:left; padding-top:8px;}
+.special_events dl dd img{ width:270px; height:170px; float:left;}

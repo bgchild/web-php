@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+.searchFrom{display:bolck;width:95%;height:120px;clear:both;margin:10px auto;}
+.searchFieldSet{height:120px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.searchTable{width:90%;margin:0px auto;table-layout:fixed;}
+.searchTable tr{height:41px;line-height:30px;}
+.listright{text-align:right;}
+.middleinput{width:120px;}
+.ust{width:95%;margin:0px auto; margin-top:15px;}
+.omit1 a{float:left; width:120px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.omit2 a{float:left; width:90px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}

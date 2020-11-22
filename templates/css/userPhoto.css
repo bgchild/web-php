@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+/*加载公共样式*/
+@import url(common.css);
+/*会员中心样式*/
+@import url(user_center.css);
+.set-hd{float:left;background:red; height:20px; margin-top:5px; width:890px; line-height:20px; color:#fff; padding-left:20px;}
+.thumb2{ width:200px; height:200px; float:left; border:1px solid #ccc; margin-left:10px;}
+.thumb2 img{width:200px; height:200px; }
+.up_btn{width:80%; float:left; margin-left:20px; margin-top:10px; display:inline;}
+.photo{width:200px; float:left; margin-left:20px; display:inline; margin-top:10px; height:200px;}
+.photo img{width: 200px; height: 200px;}
+.btn{ float:left; cursor:pointer; margin-right:10px; display:inline;}
+.frame{width: 300px;  height:auto; float:left; margin-left:25px; display:inline;}
+.opp{ width:80%; float:left; padding:20px 25px 25px 25px;}
+.jump{float:left; width:70%; display:inline; padding:25px;}
+.addbtn{ float:left;}

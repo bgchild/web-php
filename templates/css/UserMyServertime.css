@@ -1,0 +1,26 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+
+.searchFrom{display:bolck;width:95%;height:120px;clear:both;margin-left:20px;margin-bottom:10px;margin-top:10px;}
+.searchFieldSet{height:120px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.base_table tr{height:30px;line-height:30px;}
+.umst{display:bolck;width:95%;clear:both;margin-left:20px;margin-bottom:10px;margin-top:5px;}
+
+.import_prompt{position:absolute;width:300px;height:200px;border:solid 1px black;padding:10px;background:white;display:inline;}
+.hiddenDiv{width:450px;height:90px;margin:0 auto 10px;border:2px solid #DFDFDF;display:none;clear:both;}
+.a_red{text-decoration:none !important;color:#FF0000 !important;}
+.hiddenDivSave{height:200px;position:relative;bottom:500px;background:#FEFCFD;}
+.TimeTable{text-align:center;}
+.TimeTable td{align:center;}
+.TimeTable h1{font-size:20px;}
+
+.tabContent{display:bolck;width:95%;clear:both;margin-left:20px;margin-bottom:10px;margin-top:10px;}
+.tab{width:100%;}
+.tab_item{width:100%;}
+.allmyservertime{margin-left:20px;margin-top:12px;}
+/*超出部分隐藏*/
+.omit a{float:left; width:420px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdact a{float:left; width:210px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdteam a{float:left; width:150px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}

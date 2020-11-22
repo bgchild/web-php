@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<title>志愿队管理</title>	
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #FFFFFF;
+				font-size: 14px;
+				color: #101010;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-table-view:before {
+			    height: 0px;
+			}
+			.mui-table-view:after {
+			    height: 0px;
+			}
+			.mui-table-view-cell{
+				padding-left: 20px;
+				color: #101010;
+			}
+			.mui-table-view-cell:after {
+			    right: 15px;
+			}
+			.mui-table-view-cell.mui-active{
+				background: #FFFFFF;
+			}
+			.no-show {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content" v-bind:class="{'no-show':noShow}">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id="organManage">组织管理<span class="right mui-icon mui-icon-forward"></span></li>
+					<li class="mui-table-view-cell" id="activeManage">活动管理<span class="right mui-icon mui-icon-forward"></span></li>
+					<li class="mui-table-view-cell" id="serverTimeManage">志愿服务时间管理<span class="right mui-icon mui-icon-forward"></span></li>
+				</ul>
+			</div>		
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script src="../../js/comm.js"></script>
+		<script src="../../js/jquery-3.1.1.min.js"></script>
+		<script>
+			var forumVue = new Vue({
+				el:'#app',
+				data:{
+					noShow: true
+				},
+				mounted: function(){
+					var self = this;
+					self.isCaptain();
+					mui(".mui-table-view").off("click","#organManage").on("click","#organManage",function(e){
+						mui.openWindow({
+							url: './organManage.html',
+							id: 'organManage',
+							waiting: {
+								autoShow: false
+							},
+							show: {
+								autoShow: true
+//								aniShow: "slide-in-bottom",
+//								duration: (plus.os.name == "iOS") ? 200 : 400
+							}
+						});
+					});
+					mui(".mui-table-view").off("click","#activeManage").on("click","#activeManage",function(e){
+						mui.openWindow({
+							url: './activeManage.html',
+							id: 'activeManage',
+							waiting: {
+								autoShow: false
+							},
+							show: {
+								autoShow: true
+//								aniShow: "slide-in-bottom",
+//								duration: (plus.os.name == "iOS") ? 200 : 400
+							}
+						});
+					});
+					mui(".mui-table-view").off("click","#serverTimeManage").on("click","#serverTimeManage",function(e){
+						mui.openWindow({
+							url: './serverTimeManage.html',
+							id: 'serverTimeManage',
+							waiting: {
+								autoShow: false
+							},
+							show: {
+								autoShow: true
+//								aniShow: "slide-in-bottom",
+//								duration: (plus.os.name == "iOS") ? 200 : 400
+							}
+						});
+					});
+					delCookie('tag');
+				},
+				methods:{
+					// 判断是否是队长 0 ok ，1  未登录 ，2  您不是队长
+					isCaptain : function(){
+						var self = this;
+						$.ajax({
+							url: mui.apiUrl + "/ajax.php?act=isCaptain",
+							async:true,
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							crossDomain:true,
+							xhrFields:{
+								withCredentials:true
+							},
+							success:function(data){
+								if(data.responseCode == 0){
+									self.noShow = false;
+								}else if(data.responseCode == 1){
+									mui.toast("请先登录！");
+									window.location.href = "../voluntaryService/loginIn.html?urlOne=Volunteer&urlTwo=volunteerTeamManage";
+								}else{
+									mui.toast("您不是队长，无法操作！");
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

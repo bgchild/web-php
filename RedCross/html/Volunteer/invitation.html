@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../dist/dropload.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>邀请</title>
+		<style>
+			body,html,.mui-content{ 
+				height:100%;
+				background-color:#f1f1f1;
+				color:#000000;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			
+			.top div input{
+				width:50%;
+				float:left;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				border:none;
+				font-size: 0.3rem;
+				height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.top div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+				font-size: 0.3rem;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.top div input::-ms-input-placeholder{padding-left: 15px;} 
+			.top div input::-webkit-input-placeholder{padding-left: 15px;} 
+			
+			.top div button{
+				width:16%;
+				margin:2px 4%;
+				margin-top: 18px;
+				padding: 2px 4px;
+				float:right;
+				background-color:#36ccab;
+				border-color: #36ccab;
+				color:#ffffff;
+			}
+			
+			.container{
+			}
+			.mui-input-row{
+				margin: 10px 10px;
+				padding: 10px;
+				padding-left: 0;
+				background: #fff;
+				border-bottom: 1px solid #ddd;
+			}
+			.mui-input-row:last-child {
+			   background: #fff;
+			}
+			/*checkbox*/
+			.container .mui-checkbox input[type=checkbox]{
+			    top: 47px;
+			    left: 10px;
+			    width: 20px;
+    			height: 20px;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+			    font-size: 20px;
+			}
+			.mui-checkbox.mui-left label{
+				padding: 0 0px 0 40px;
+			}
+			label span{
+				display:inline-block;
+				font-size:0.3rem;
+				line-height: 0.6rem;
+				color:#8f8f94;
+			}
+			label .blc{
+				color:#000000;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<div class="mui-content">
+			<div class="mui-row top">
+				<div>
+					<span class="mui-icon mui-icon-search left"></span>
+					<input class="left" id="searchName" type="text" placeholder="姓名"/>
+					<div class="left" id="search">搜索</div>
+					<button  id="clickPass">邀请</button>
+					<div class="clean"></div>
+				</div>
+			</div>
+			
+			<div class="container inner">
+				<!--<div class="mui-input-row mui-checkbox mui-left" v-for='item in infoList'>
+					<label>
+						<span>姓名：<span class="blc">&#x3000;{{item.name}}</span></span><span>&#x3000;&#x3000;姓别：<span class="blc">&#x3000;{{(item.sex)==1?'男':'女'}}</span></span><br />
+						<span>用户名：<span class="blc">&#x3000;{{item.username}}</span></span><span>&#x3000;&#x3000;昵称：<span class="blc">&#x3000;{{item.nickname}}</span></span><br />
+						<span>出生日期：<span class="blc">&#x3000;{{item.birthday}}</span></span><br />
+						<span>专业技能：<span class="blc">&#x3000;{{item.pNames}}</span></span>
+					</label>
+					<input :id="item.id" name="checkbox" value="Item 1" type="checkbox" >
+				</div>-->
+				<!--<div class="mui-input-row mui-checkbox mui-left">
+					<label>
+						<span>姓名：<span class="blc">&#x3000;德元师</span></span><span>&#x3000;&#x3000;姓别：<span class="blc">&#x3000;女</span></span><br />
+						<span>用户名：<span class="blc">&#x3000;德源</span></span><span>&#x3000;&#x3000;昵称：<span class="blc">&#x3000;晓得</span></span><br />
+						<span>出生日期：<span class="blc">&#x3000;2017-10-10</span></span><br />
+						<span>专业技能：<span class="blc">&#x3000;计算机</span></span>
+					</label>
+					<input name="checkbox" value="Item 1" type="checkbox" >
+				</div>-->
+				
+			</div>	
+		</div>	
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/zepto.min.js" ></script>
+		<script type="text/javascript" src="../../dist/dropload.js" ></script>
+		<!--<script type="text/javascript" src="../../js/vue.min.js" ></script>-->
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			$(function(){
+				var page = 0,size = 10,uids=[]; //志愿者主键（可多个”,”隔开） join
+				var rid = GetArgsFromHref(window.location.toString(),"rid");
+				var searchName = "";
+				var openid = getCookie("openid");
+			    var dropload = $('.mui-content').dropload({
+			    	scrollArea : window,
+				    // 初始化
+			        domDown : {
+			            domClass   : 'dropload-down',
+			            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+			            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+			            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+			        },
+			        loadDownFn : function(me){
+			        	page ++;
+			            $.ajax({
+			                type: 'POST',
+			                url: mui.apiUrl + '/ajax.php?act=userActivityInvitationList',
+			                dataType: 'json',
+			                crossDomain: true,
+			                xhrFields: {
+			                    withCredentials: true
+			                },
+			                data:{
+								rid:rid,
+								page: page,
+								len:size
+							},
+			                success: function(data){
+			                	console.log(data);
+			                    var result = '';
+			                    if(!!data.datas){
+			//                  	console.log(data.datas.length)
+			                    	for(var i = 0; i < data.datas.length; i++){
+			                    		var item = data.datas[i];
+			                    		result += '<div class="mui-input-row mui-checkbox mui-left">'
+											+'<label>'
+												+'<span>姓名：<span class="blc">'+item.name+'</span></span><span>&#x3000;&#x3000;姓别：<span class="blc">'+(item.sex==1?"男":"女")+'</span></span><br />'
+												+'<span>用户名：<span class="blc">'+item.username+'</span></span><span>&#x3000;&#x3000;昵称：<span class="blc">'+item.nickname+'</span></span><br />'
+												+'<span>出生日期：<span class="blc">'+item.birthday+'</span></span><br />'
+												+'<span>专业技能：<span class="blc">'+item.pNames+'</span></span>'
+											+'</label>'
+											+'<input id="'+item.id+'" name="checkbox" value="Item 1" type="checkbox" >'
+										+'</div>';
+				                    }
+				                    if(data.datas.length < size){
+				                    	// 锁定
+				                        me.lock();
+				                        // 无数据
+				                        me.noData();
+				                    }
+			                    }else{
+			                    	// 锁定
+			                        me.lock();
+			                        // 无数据
+			                        me.noData();
+			                    }
+			                    
+			                    // 为了测试，延迟1秒加载
+			                    setTimeout(function(){
+			                        // 插入数据到页面，放到最后面
+			                        $('.inner').append(result);
+			                        // 每次数据插入，必须重置
+			                        me.resetload();
+			                    },1000);
+			                },
+			                error: function(xhr, type){
+			                    console.log('错误'+e);
+			                    // 即使加载出错，也得重置
+			                    dropload.resetload();
+			                }
+			            });
+			        },
+			        threshold : 50
+			    });
+			    mui('.container').on('change', 'input', function() {
+					var value = this.checked?true:false;
+			//						console.log(typeof value);
+					if(value){
+						uids.push(this.id);
+					}else{
+						removeArr(uids,this.id);
+					}
+					console.log(uids);
+				});
+				//搜索
+				 mui('.mui-row.top').on('click', '#search', function(){
+				 	$('.inner').children().remove();
+			    	searchName = document.getElementById("searchName").value;
+	//			    	console.log(searchName);
+			    	page = 0;
+			    	dropload.unlock();
+			    	dropload.noData(false);
+			    	dropload.resetload();
+				});
+				//邀请
+				 mui('.mui-row.top').on('click', '#clickPass', function(){
+				 	console.log(789);
+					mui.rAjax({
+						url:'/ajax.php?act=userActivityInvitation',
+						data:{
+							rid: rid,
+							uids: uids
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'POST',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							console.log(data);
+							if(data.responseCode == 0){
+								mui.toast("ok");
+								window.location.href = "./activeManage.html";
+							}else{
+								mui.toast(data.responseMsg)
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				});
+			    function indexOf(arr,value){
+					for (var i = 0,len = arr.length; i < len; i++) {
+						if (arr[i] == value) return i;
+					}
+					return -1;
+				}
+				function removeArr(arr,value) {
+					var index = arr.indexOf(value);
+					if (index > -1) {
+					arr.splice(index, 1);
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

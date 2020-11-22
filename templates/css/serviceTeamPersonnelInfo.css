@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+.basic_red{width:758px;float:left;background:red; margin-top:5px;}
+.basic_title{float:left;margin-left:30px;display:inline;color:#FFF;}
+#basicInfo{width:698px;float:left;padding-left:30px;padding-right:30px;}
+.basic_tab{width:698px;float:left;}
+.basic_tab img{width:100px;height:100px;}
+#eduInfo{width:698px;float:left;padding-left:30px;padding-right:30px;}
+.eduInfo_tab{width:698px;float:left;}
+#skill{width:698px;float:left;padding-left:30px;padding-right:30px;}
+.skill_tab{width:698px;float:left;}
+#voservice{width:698px;float:left;padding-left:30px;padding-right:30px;}
+.voservice_tab{width:698px;float:left;}
+#serviceTime{width:698px;float:left;padding-left:30px;padding-right:30px;margin-top:15px; display:inline;}
+.serviceTime_tab{width:698px;float:left;}
+.table5{ background:#333; width:560px;  margin-top:10px;margin-left:30px;}
+.table5 tr{ background:#FFF; text-align:center;}
+.table5 td{height:35px;line-height:35px;}
+.table5 tr td input{ visibility:hidden;}
+.chose{ background: #fff url(../images/yes.png) no-repeat center center;}
+#goback{width:698px;float:left;padding-left:30px;padding-right:30px;margin-top:20px; margin-bottom:10px;text-align:center;}

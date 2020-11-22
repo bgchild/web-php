@@ -1,0 +1,171 @@
+<!--灾情上报---实名认证   已废弃-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/realName.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.css" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>实名认证</title>
+		
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<p class="top" style="margin-top:0;">
+						<lable class="text_name">姓名：</lable>
+						<input v-model="name" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top">
+						<lable class="text_name">性别：</lable>
+						<input v-model="sex.text" id="txt" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span class="mui-icon mui-icon-forward biao" @click="clicked"></span>
+					</p>
+					<div class="line"></div>
+					
+					<div class="people">
+						
+						<p class="top">
+							<lable class="text_name">身份证号：</lable>
+							<input v-model="cardno" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+						
+						<p class="top">
+							<lable class="text_name">手机：</lable>
+							<input v-model="mobile" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+						
+						<p class="top">
+							<lable class="text_name">邮件：</lable>
+							<input v-model="email" type="email" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+						
+						<p class="top">
+							<lable class="text_name">地址：</lable>
+							<input v-model="address" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+					</div>
+					
+					<div class="btn" @click="ajaxLoad">下一步</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/mui.picker.js" ></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					openid:'123456',    //微信用户唯一标识
+					myPosition:'',
+					name:'',
+					sex:{},
+					cardno:'',
+					mobile:'',
+					email:'',
+					address:'',
+					code:''
+				},
+				mounted: function(){
+					var self = this;
+					var pageHref = window.location.toString();
+					self.myPosition = getCookie("myPosition")
+					self.code = GetArgsFromHref(pageHref,"code");//通过此code换取openid
+					alert(self.myPosition);
+					self.clicked();
+				},
+				methods:{
+					clicked:function(){
+						var selfSex = this;
+						var txt = document.getElementById('txt');			
+						mui('.top').off('click','.biao').on('click','.biao',function() {
+							var self = this;
+							if(self.picker){
+								self.picker.show(function (item) {
+									self.picker.dispose();
+									self.picker = null;
+								});
+							}else{
+								self.picker = new mui.PopPicker();//获取弹出列表组建，假如是二联则在括号里面加入{layer:2}
+						        self.picker.setData([
+						        	{//设置弹出列表的信息，假如是二联，还需要一个children属性
+				                    	value: "1",
+					                    text: "男"
+					                }, 
+					                {
+					                    value: "2",
+					                    text: "女"				                
+					                }
+				                ]);
+						       	self.picker.show(function(item) {//弹出列表并在里面写业务代码
+			                		selfSex.sex = item[0];		                		
+			                		self.picker.dispose();
+									self.picker = null;
+						       	});
+							}  	
+			            });
+					},
+					ajaxLoad: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act:"puser",  
+								openid: self.openid,    //微信用户唯一标识
+								name:self.name,
+								sex:self.sex.value,
+								cardno:self.cardno,
+								mobile:self.mobile,
+								email:self.email,
+								address:self.address
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+//								if(data.responseCode == 0){
+//									window.location.href = "disasterReport.html?name="+encodeURIComponent(self.name)+"&mobile="+encodeURIComponent(self.mobile)+"&email="+encodeURIComponent(self.email)+"&address="+encodeURIComponent(self.address)+"&myPosition="+encodeURIComponent(self.myPosition);
+//								}else if(data.responseCode == 1){
+//									mui.toast(data.responseMsg)
+//								}
+//								else if(data.responseCode == 2){
+//									mui.toast(data.responseMsg)
+//								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+						
+					}
+				}
+			})
+		</script>		
+		
+	</body>
+</html>

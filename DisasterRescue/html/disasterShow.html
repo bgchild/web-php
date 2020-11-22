@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link href="../css/helpShow.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../dist/dropload.css">
+	<script>
+		!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+	</script>
+	<title>最新灾情</title>
+	<style>
+		.left{
+			float: left;
+		}
+		.right{
+			float: right;
+		}
+		.clean{
+			clear: both;
+		}
+		.head div.left{
+			width: 1.5rem;
+			border: 1px solid #DDDDDD;
+			border-radius: 5px;
+			text-align: center;
+			font-size: 0.3rem;
+			margin-left: 0.4rem;
+		}
+		.triangleto{
+			border-top: 1rem solid #f22c2c;
+		}
+		.trianglein{
+			border-top: 1rem solid #47c94c;
+		}
+		.triangleok{
+			border-top: 1rem solid #366eff;
+		}
+	</style>
+</head>
+<body>
+	<div class="mui-content">
+		<div class="head">
+			<input class="left" id="searchName" type="text" placeholder="  灾情名称"/>
+			<div class="left" id="search">搜索</div>
+			<div class="clean"></div>
+		</div>
+		
+		<div class="container inner">		
+			<div class="diaster">
+				
+			</div>
+		</div>
+	</div>
+<!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+<script src="../js/zepto.min.js"></script>
+<script src="../dist/dropload.min.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="../js/comm.js"></script>
+<script>
+$(function(){
+	var page = 0;
+	var size = 10;
+	var searchName = "";
+	var openid = getCookie("openid");
+    var dropload = $('.mui-content').dropload({
+    	scrollArea : window,
+	    // 初始化
+        domDown : {
+            domClass   : 'dropload-down',
+            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+            domNoData  : '<div class="dropload-noData">暂无更多数据</div>'
+        },
+        loadDownFn : function(me){
+        	page ++;
+            $.ajax({
+                type: 'GET',
+                url: mui.apiUrl + '/ajax/disaster.php?act=dlist',
+                dataType: 'json',
+                data:{
+//					openid: "o9bJ3xJgtmrF_jA1FMXxRaWbl4mU",    //微信用户唯一标识
+					openid: openid,
+					name:searchName,
+					pstart: page,
+					psize: size
+				},
+                success: function(data){
+                	console.log(data.datas);
+                    var result = '';
+                    if(!!data.datas){
+                    	console.log(data.datas.length)
+                    	for(var i = 0; i < data.datas.length; i++){
+                    		var status = data.datas[i].status;
+                    		var statusHtm;
+                    		var statusPic;
+                    		if(status == 0){
+                    			statusHtm = '<p class="triangle_text">未处理</p>';
+                    			statusPic = '<span class="triangle triangleto"></span>'
+                    		}else if(status == 1){
+                    			statusHtm = '<p class="triangle_text">处理中</p>';
+                    			statusPic = '<span class="triangle trianglein"></span>'
+                    		}else{
+                    			statusHtm = '<p class="triangle_text">已处理</p>';
+                    			statusPic = '<span class="triangle triangleok"></span>'
+                    		}
+	                        result += '<div class="diaster" id="'+data.datas[i].recordid+'">'+statusPic
+	                        +'<ul>'+statusHtm
+	                        +'<li class="title">'+data.datas[i].name+'</li>'
+	                        +'<li><lable>灾害种类：</lable><span>'+data.datas[i].cname+'</span></li>'
+	                        +'<li><lable>求助地点：</lable><span>'+data.datas[i].address+'</span></li>'
+	                        +'<li><lable>上&nbsp;&nbsp;报&nbsp;&nbsp;人：</lable><span>'+data.datas[i].vname+'</span></li>'
+	                        +'<li><lable>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机：</lable><span>'+data.datas[i].mobile+'</span></li>'
+	                        +'<li><lable>上报时间：</lable><span>'+data.datas[i].adddate+'</span></li>'
+	                       +'</ul></div>';
+	                    }
+	                    if(data.datas.length < size){
+	                    	// 锁定
+	                        me.lock();
+	                        // 无数据
+	                        me.noData();
+	                    }
+                    }else{
+                    	// 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        // 插入数据到页面，放到最后面
+                        $('.inner').append(result);
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    console.log('错误'+e);
+                    // 即使加载出错，也得重置
+                    dropload.resetload();
+                }
+            });
+        },
+        threshold : 50
+    });
+    
+    document.getElementById("search").addEventListener("click",function(){
+    	$('.inner').children().remove();
+    	searchName = document.getElementById("searchName").value;
+    	page = 0;
+    	dropload.unlock();
+    	dropload.noData(false);
+    	dropload.resetload();
+    });
+    mui(".container").on("click",".diaster",function(){
+    	window.location.href = "./disasterDetail.html?rid="+this.id;
+    	console.log(this.id);
+    });
+});
+</script>
+</body>
+</html>

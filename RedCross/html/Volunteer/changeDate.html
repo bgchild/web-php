@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.picker.all.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>改期</title>
+		<style>
+			body,html{ 
+				height:100%;
+				background-color:#FFFFFF;
+				color:#000000;
+			}
+			
+			.mui-content{
+				background-color:#FFFFFF;
+			}
+			
+			.mui-row{
+				padding:30px 15px;
+			}
+			
+			.line{
+				border-top:1px solid #C0C0C0;
+			}
+			
+			.date{
+				font-size:0.32rem;
+			}
+			
+			p{
+				padding-left:12px;
+				margin-bottom:5px;
+			}
+			
+			.int{
+				margin-bottom:0;
+			}
+			input,textarea{
+				font-size: 0.3rem;
+				color: #101010;
+			}
+			.int input{
+				/*width:45%;*/
+				margin-bottom:0;
+				font-size:0.3rem;
+				border:none;
+				color: #101010;
+			}
+			
+			.int span{
+				font-size:0.3rem;
+			}
+			
+			.top{
+				margin-top:20px;
+			}
+			
+			.text_name{
+				font-size:0.32rem;
+			}
+			
+			.mui-icon{
+				float:right;
+			}
+			
+			.btn{
+				margin-top:40px;
+				background-color:#36ccab;
+				border-radius:5px;
+				width:100%;
+				height:0.8rem;
+				line-height: 0.8rem;
+				text-align: center;
+				font-size: 0.35rem;
+				color:#FFFFFF;
+			}
+			#oldTime{
+				padding-right: 2px;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="appDate">
+			<div class="mui-content">
+				<div class="mui-row">
+					<p class="date">原日期：</p>
+					<p class="int">
+						<input type="text" id="oldTime" unselectable="on" onfocus="this.blur()" readonly="readonly"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top">
+						<lable class="text_name">新日期：</lable>
+						<input v-model="nsdate" unselectable="on" onfocus="this.blur()" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span @click="userClickDate('nsdate')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">新日期：</lable>
+						<input v-model="nedate" unselectable="on" onfocus="this.blur()" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span @click="userClickDate('nedate')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					
+					<p class="changed_because top text_name">改期原因：</p>
+					<textarea v-model="changereason" name="changed_because" cols="30" rows="6"></textarea>
+				
+					<div @click="ajaxSuccess" class="btn">确定</div>
+				</div>
+			</div>	
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript" src="../../js/mui.picker.all.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#appDate',
+				data: {
+					rid:'',
+					startDate:'',
+					endDate:'',
+					nsdate:'',
+					nedate:'',
+					changereason:'',
+				},
+				mounted: function() {
+					var self = this;
+					self.rid = GetArgsFromHref(window.location.toString(),"rid");
+					console.info(self.rid);
+					self.getTime();
+					
+				},
+				methods: {
+					//选择时间
+					userClickDate:function(type){
+						var self = this;
+						var optionsJson = '{"value":"2017-10-25 10:38","beginYear":1890,"endYear":3000}';
+						var options = JSON.parse(optionsJson);
+						var picker = new mui.DtPicker(options);
+						picker.show(function(rs) {
+							document.activeElement.blur();// 关闭输入法的api
+							self[type] =  rs.text;
+							picker.dispose();
+						})
+					},
+					getTime:function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"getActivityTime",
+								rid: self.rid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									document.querySelector("#oldTime").value = data.datas.startDate+" 至 "+data.datas.endDate;
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					ajaxSuccess: function(){
+						var self = this;
+						console.log(self.rid);
+						mui.rAjax({
+							url:'/ajax.php?act=changeDate',
+							data:{
+								rid: self.rid,
+								nsdate:self.nsdate,
+								nedate:self.nedate,
+								changereason:self.changereason
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									mui.toast("改期成功")
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

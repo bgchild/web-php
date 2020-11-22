@@ -1,0 +1,29 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*如果需要加载分页*/
+@import url(page.css);
+.admin_left{ width:250px;  float:left;background:url(../images/admin/left_bg.jpg) repeat-x;}
+.manage_sys{ width:100%; height:33px; line-height:33px; float:left; text-indent:30px; color:#FFF; background:#E9423C;font-weight:bold;display:block}
+.left_menu{ width:100%; float:left; margin-top:23px;  background:#FFF;}
+.left_menu ul{ padding-left:20px; padding-bottom: 1px;}
+.left_menu ul li{ float:left; width:100%; height:32px; line-height:32px;  color:#F00; text-indent:50px; display:block; background:url(../images/admin/left_li.jpg) no-repeat;
+}
+.left_menu ul li a{
+    display: block;
+    color:#F00;
+}
+.left_menu ul li a.active{
+    background-color: #ff958a;
+    color:white;
+}
+.admin_right{ width:910px; float:right; min-height:500px; }
+.admin_top{ width:908px; height:36px; line-height:36px; color:#FFF; font-weight:bold; background:#E9423C; float:left; border:1px solid #830000}
+.wel{ width:650px; float:left; margin-left:40px; display:inline}
+.lgout{ width:60px; float:right;}
+.explain-col{ width:908px; float:left;background: none repeat scroll 0 0 #FFFCED;border: 1px solid #FFBE7A;line-height: 20px; margin-top:10px; padding-top:5px; padding-bottom:5px;}
+.col_con{ float:left; padding-left:14px;}
+.cl{ color:#00F}
+.adm_con{width:99%; float:left;}
+
+

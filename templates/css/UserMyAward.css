@@ -1,0 +1,13 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+
+.searchFrom{display:bolck;width:95%;clear:both;margin-left:20px;margin-top:10px;}
+.searchFieldSet{height:80px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.uma{display:bolck;width:95%;clear:both;margin-left:20px;margin-bottom:10px;margin-top:10px;}
+/*超出部分隐藏*/
+.tdwinaddress a{float:left; width:200px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdwincontent a{float:left; width:380px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+
+

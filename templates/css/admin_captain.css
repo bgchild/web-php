@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+.cap_td{ text-align:center;}
+.cap_td_red { color:#F00; text-align:center;}
+.search_title { font-weight:bold;}
+.search_bar_inside{ width:95%; float:left; height:50px; margin-top:20px; margin-left:20px;}
+.omit1 a{float:left; width:110px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.omit2 a{float:left; width:150px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}

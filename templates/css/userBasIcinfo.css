@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+/*加载公共样式*/
+@import url(common.css);
+/*会员中心样式*/
+@import url(user_center.css);
+.u_title{ float:left;background:#E9423C; height:20px; margin-top:5px; width:882px; line-height:20px; color:#fff; padding-left:28px;}
+.con_right_bottom table{float:left; color:#000;}
+.con_right_bottom table tr{height:35px; line-height:35px}
+.table1{ margin-left:50px; display:inline;}
+table tr td ul{ width:400px;}
+table tr td ul li{ margin-right:2px; display:inline;}
+table tr td ul li select{ width:90px;}
+.table2{padding-top:10px;}
+.table3 tr td{width:135px;}
+.table4 td{ width:135px;}
+.table5 td{ width:135px;}
+.w_time{ float:left;  line-height:150px; color:#000; padding:0 10px 0 45px; margin-top:10px;}
+.table6{ background:#333; width:560px;  margin-top:10px; cursor:pointer;}
+.table6 tr{ background:#FFF; text-align:center;}
+.table6 tr td input{ visibility:hidden;}
+.t_submit{width:90px; height:20px; float:left; margin:20px 0px 0 200px; border:1px solid #ccc; background:#99CC00; color:#fff; line-height:20px; display:inline; cursor:pointer;}
+.chose{ background: #fff url(../images/yes.png) no-repeat center center;}
+.pos_ab{position:absolute;display:none;width:178px; background:#fff;border:solid 2px black;padding:10px;}
+.server_child{width:88px;float:left;margin-bottom:10px;display:inline;}
+.server_child_btn{clear:both;text-align: center;}
+.notnull{ color:red; font-weight:bolder; padding-left:5px; font-size:14px;}

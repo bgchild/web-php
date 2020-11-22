@@ -1,0 +1,19 @@
+@charset "utf-8";
+*{margin:0px; padding:0px;}
+body {margin:0 auto;background:url(../images/admin_login.jpg) no-repeat ;}
+body{font-size:12px;FONT-FAMILY: 微软雅黑,宋体,Arial, sans-serif; color:#424242;}
+body,html{ height:100%; text-align:left;}
+img { margin:0px; padding:0px; border:0px;}
+A{color:#333; text-decoration:none}
+A:hover{color: #990000; text-decoration:none}
+ul{margin:0px; padding:0px;  list-style-type:none}
+li{margin:0px; padding:0px; list-style-type:none}
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dt, dd, li, body, form, input, button, img, cite, strong, em, table, td, th{padding:0; margin:0;}
+h1, h2, h3, h4, h5, h6{font-size: 14px;}
+img, table, td, th{border: 0;}
+ul, ol{list-style-type:none;}
+
+.main{width:340px;height:200px;margin-top:220px;margin-left:505px;position:relative;}
+.input_name{display:block;width:220px;height:22px;line-height:22px;position:absolute;top:30px ;left:55px;border:none;border-color: transparent;}
+.input_pwd{display:block;width:220px;height:22px;line-height:22px;position:absolute;top:75px ;left:55px;border:none;border-color: transparent;}
+.input_sub{display:block;width:81px;height:31px;background:url(../images/admin_login_login.png) no-repeat;cursor:pointer;position:absolute;top:139px ;left:107px;}

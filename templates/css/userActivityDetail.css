@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+
+
+.activityAddDiv{width:95%;margin: 0 auto;border:1px solid #d8d8d8;clear:both;}
+.activityAddTable{width:90%;margin:10px auto;}
+.activityAddTable tr{height:30px;}
+.listright{text-align:right;}
+

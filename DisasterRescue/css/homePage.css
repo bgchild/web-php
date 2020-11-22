@@ -1,0 +1,148 @@
+body,html{ 
+	height:100%;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+.head{
+	height:1rem;
+	/*border: 1px solid red;*/	
+}
+
+.pic{
+	height:100%;
+}
+
+.pic img{
+	width:100%;
+	height:100%;
+}
+
+.title{
+	height: 100%;
+	/*border:1px solid red;*/
+	display: flex;
+	align-items: center;
+}
+
+/*顶部图片*/
+.picture{
+	width:80%;
+	height:50%;
+	/*border:1px solid black;*/
+}
+
+.picture img{
+	width:100%;
+	height:100%;
+	/*border:1px solid yellow;*/
+}
+
+.address{
+	/*border:1px solid blue;*/
+	width:15%;
+	height:100%;	
+	background-color:#efeff4;
+	display: flex;
+	justify-content:flex-start;
+	align-items:flex-end;
+}
+
+#adres{
+	border:none;
+	font-size:0.25rem;
+	background-color:#efeff4;
+	padding:0;
+}
+
+
+.sportPic{
+	/*border:1px solid red;*/
+	height:3rem;
+	margin-top:10px;
+}
+
+.sportPic .mui-slider,
+.sportPic .mui-slider .mui-slider-group,
+.mui-slider-item a,
+.mui-slider-item a img{
+	height:100%;
+}
+
+.info{
+	/*border:1px solid red;*/
+	margin-top:10px;
+	background-color:#ffffff;
+}
+
+.help{
+	text-align: center;
+	color:#6d6d6d;
+	font-size:0.2rem;
+}
+
+
+.list ul li{
+	line-height: 0.55rem;
+}
+
+.list ul li span{
+	font-size:0.25rem;
+}
+
+.list ul li span:nth-child(1){
+	display: inline-block;
+	width:0.4rem;
+	height:0.4rem;
+	line-height: 0.4rem;
+	text-align: center;
+	color:#ffffff;
+	/*border:1px solid red;*/
+}
+
+.list ul li span:nth-child(2){
+	margin-left:10px;
+	color:#969696;
+}
+
+.active{
+	/*border:1px solid blue;*/
+	height:3rem;
+	margin-top:10px;
+	background-color:#ffffff;
+	position:relative;
+}
+
+.end{
+	/*border:1px solid red;*/
+	margin-top:10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color:#c0c0c0;
+}
+
+.end_text{
+	/*border:1px solid blue;*/
+	width:60%;
+	height:70%;
+	text-align: center;
+}
+
+.end_text span{
+	font-size:0.2rem;
+}
+
+.red{
+	color:#CF2D28;
+}
+
+#slider{
+	margin-top:0;
+}
+
+/*轮播图片*/
+#slider .mui-slider .mui-slider-group .mui-slider-item img{
+	height:100%;
+}
+

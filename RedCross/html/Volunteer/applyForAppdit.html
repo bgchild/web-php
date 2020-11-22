@@ -1,0 +1,327 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>申请加入考核</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../dist/dropload.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<style>
+			body,html,.mui-content{ 
+				height:100%;
+				background-color:#f1f1f1;
+				color:#000000;
+			}
+			.left{
+				float: left;
+			}
+			.clean{
+				clear: both;
+			}
+			.divInputSeach{
+				position: relative;
+				/*text-align: center;*/
+			}
+			.divInputSeach .inputSeach{
+				width: 62%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				/*border-color: rgba(255,255,255,.2);*/
+			    color: #adadad;
+			    font-size: 12.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+				font-size: 14.0px;
+				color: #696969;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;} 
+			.top{
+				padding:0px 20px;
+			}
+			
+			.top button{
+				width:30%;
+				height:90%;
+				float:left;
+				background-color:#36ccab;
+				border-color: #36ccab;
+				color:#ffffff;
+				font-size:0.3rem;
+				border-radius:4px;
+			}
+			
+			.mui-input-row{
+				margin: 10px 10px;
+				background: #fff;
+				border-bottom: 1px solid #ddd;
+			}
+			.mui-input-row:last-child {
+			   background: #fff;
+			}
+			/*checkbox*/
+			.container .mui-checkbox input[type=checkbox]{
+			    top: 48px;
+			    left: 12px;
+			    width: 20px;
+    			height: 20px;
+			}
+			.mui-checkbox.mui-left label{
+			    padding-right: 15px;
+			    padding-left: 45px;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+			    font-size: 20px;
+			}
+			label span{
+				display:inline-block;
+				font-size:0.3rem;
+				line-height: 0.6rem;
+				color:#8f8f94;
+			}
+			label .blc{
+				color:#000000;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--搜索-->
+			<div class="divInputSeach">
+				<span class="mui-icon mui-icon-search left"></span>
+				<input class="inputSeach left" id="searchName" type="text" placeholder="姓名" />
+				<div class="left" id="search">搜索</div>
+				<div class="clean"></div>
+			</div>
+			<div class="mui-row top">
+				<button id="clickPass">批量通过</button>
+				<button id="clickRefuse" style="margin-left:20px;background-color:#949494;border-color: #949494;">批量不通过</button>
+			</div>
+			
+			<div class="container inner" style="margin-top:10px;">
+				<!--<div class="mui-input-row mui-checkbox mui-left" v-for='item in infoList'>
+					<label>
+						<span>姓名：<span class="blc">&#x3000;{{item.name}}</span></span><br />
+						<span>年龄：<span class="blc">&#x3000;{{item.age}}</span></span><span style="margin-left: 30px;">性别：<span class="blc">&#x3000;{{(item.sex)==1?'男':'女'}}</span></span><br />
+						<span>申请时间：<span class="blc">&#x3000;{{item.joinDate}}</span></span><br />
+						<span>已有志愿者服务时间：<span class="blc">&#x3000;{{item.serverTime}}</span></span>
+					</label>
+					<input :id="item.id" name="checkbox" value="Item 1" type="checkbox" >
+				</div>-->
+				<!--<div class="mui-input-row mui-checkbox mui-left">
+					<label>
+						<span>姓名：<span class="blc">&#x3000;德元师</span></span><br />
+						<span>年龄：<span class="blc">&#x3000;25</span>&#x3000;&#x3000;&#x3000;&#x3000;</span><span>性别：<span class="blc">&#x3000;女</span></span><br />
+						<span>申请时间：<span class="blc">&#x3000;2017-10-10</span></span><br />
+						<span>已有志愿者服务时间：<span class="blc">&#x3000;30</span></span>
+					</label>
+					<input name="checkbox" value="Item 2" type="checkbox" checked>
+				</div>-->
+			</div>	
+		</div>	
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/zepto.min.js" ></script>
+		<script type="text/javascript" src="../../dist/dropload.js" ></script>
+		<!--<script type="text/javascript" src="../../js/vue.min.js" ></script>-->
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			$(function(){
+				var page = 0,size = 10;
+				var ids=[],rid = GetArgsFromHref(window.location.toString(),"rid");
+			    var dropload = $('.mui-content').dropload({
+			    	scrollArea : window,
+				    // 初始化
+			        domDown : {
+			            domClass   : 'dropload-down',
+			            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+			            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+			            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+			        },
+			        loadDownFn : function(me){
+			        	page ++;
+			            $.ajax({
+			                type: 'POST',
+			                url: mui.apiUrl + '/ajax.php?act=userTeamPersonnel',
+			                dataType: 'json',
+			                crossDomain: true,
+			                xhrFields: {
+			                    withCredentials: true
+			                },
+			                data:{
+								rid: rid,
+								page: page,
+								len:size
+							},
+			                success: function(data){
+			                	console.log(data);
+			                    var result = '';
+			                    if(!!data.datas){
+			                    	for(var i = 0; i < data.datas.length; i++){
+			                    		var item = data.datas[i];
+				                        result += '<div class="mui-input-row mui-checkbox mui-left">'
+											+'<label>'
+												+'<span>姓名：<span class="blc">&#x3000;'+item.name+'</span></span><br />'
+												+'<span>年龄：<span class="blc">&#x3000;'+item.age+'</span></span><span style="margin-left: 30px;">性别：<span class="blc">&#x3000;'+(item.sex==1?"男":"女")+'</span></span><br />'
+												+'<span>申请时间：<span class="blc">&#x3000;'+changeDate(Number(item.joinDate))+'</span></span><br />'
+												+'<span>已有志愿者服务时间：<span class="blc">&#x3000;'+item.serverTime+'</span></span>'
+											+'</label>'
+											+'<input id="'+item.id+'" name="checkbox" value="Item 1" type="checkbox" >'
+										+'</div>';
+				                    }
+				                    if(data.datas.length < size){
+				                    	// 锁定
+				                        me.lock();
+				                        // 无数据
+				                        me.noData();
+				                    }
+			                    }else{
+			                    	// 锁定
+			                        me.lock();
+			                        // 无数据
+			                        me.noData();
+			                    }
+			                    
+			                    // 为了测试，延迟1秒加载
+			                    setTimeout(function(){
+			                        // 插入数据到页面，放到最后面
+			                        $('.inner').append(result);
+			                        // 每次数据插入，必须重置
+			                        me.resetload();
+			                    },1000);
+			                },
+			                error: function(xhr, type){
+			                    console.log('错误'+e);
+			                    // 即使加载出错，也得重置
+			                    dropload.resetload();
+			                }
+			            });
+			        },
+			        threshold : 50
+			    });
+			    
+			    mui('.container').on('change', 'input', function() {
+					var value = this.checked?true:false;
+			//						console.log(value);
+					if(value){
+						ids.push(this.id);
+					}else{
+						removeArr(ids,this.id);
+					}
+			//		console.log(ids);
+				});
+				//批量通过
+				mui(".mui-row.top").on("click","#clickPass",function(){
+					mui.rAjax({
+						url:'/ajax.php?act=userTeamPersonnelPass',
+						data:{
+							rid: rid,
+							ids: ids
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'POST',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							console.log(data);
+							if(data.responseCode == 0){
+								mui.toast("批量通过成功");
+								window.location.href = "./organManage.html";
+							}else{
+								mui.toast(data.responseMsg)
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				});
+				//批量不通过
+				mui(".mui-row.top").on("click","#clickRefuse",function(){
+					mui.rAjax({
+						url:'/ajax.php?act=userTeamPersonnelRefuse',
+						data:{
+							rid: rid,
+							ids: ids
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'POST',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							console.log(data);
+							if(data.responseCode == 0){
+								mui.toast("批量不通过成功");
+								window.location.href = "./organManage.html";
+							}else{
+								mui.toast(data.responseMsg)
+							}
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				});
+			    function indexOf(arr,value){
+					for (var i = 0,len = arr.length; i < len; i++) {
+						if (arr[i] == value) return i;
+					}
+					return -1;
+				}
+			    function removeArr(arr,value) {
+					var index = arr.indexOf(value);
+					if (index > -1) {
+					arr.splice(index, 1);
+					}
+				}
+			    function changeDate(times){
+					//小于10的时间数补零函数
+					var plusZero = function(str) {
+						if(str < 10) { //小于10 补零返回
+							return "0" + str;
+						} else { //不小于10 返回参数
+							return str;
+						}
+					};
+					//如果times为null 返回" "
+					if(times === null) return " ";
+					var date;
+					if(times === undefined) {
+						date = new Date();
+					} else {
+						date = new Date(times);
+					}
+					var temp1 = "-";
+					var temp2 = " ";
+					var temp3 = ":";
+					//返回格式化时间
+					return date.getFullYear() + temp1 + plusZero((date.getMonth() + 1)) + temp1 + plusZero(date.getDate());
+					//return plusZero(date.getHours()) + temp3 + plusZero(date.getMinutes());
+				}
+			});
+		</script>
+	</body>
+
+</html>

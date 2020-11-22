@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+@import url(userActivityManage.css);
+.searchTable tr{height:35px;}
+.searchFieldSet{height:100px;}
+.searchFrom{display:bolck;width:95%;height:105px;clear:both;margin-left:20px;margin-bottom:10px;}
+.tabContent{display:bolck;width:95%;clear:both;margin-left:20px;margin-bottom:10px;}
+.tab{width:100%;}
+.tab_item{width:100%;}
+.omit1 a{float:left; width:290px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.omit2 a{float:left; width:120px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.omit3 a{float:left; width:120px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.omit4 a{float:left; width:240px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}

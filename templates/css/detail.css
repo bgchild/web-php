@@ -1,0 +1,15 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+@import url(page.css);
+/*detailactivity.php详细页样式*/
+.detail_title{ width:100%; float:left; }
+.detail_title h1{ text-align:center; line-height:30px; font-size:16px; padding-top:10px;}
+.title_time{ float:right; padding-right:30px;}
+.detail_con{padding-left:40px; padding-right:40px;}
+.item{ line-height:220%; font-size:14px; }
+.apply_add{ float:left; padding:30px 100px 30px 250px;}
+.apply_add .addbtn{ width:50px; margin-left:20px; float:left; display:inline;}
+/*detailteam.php详细页样式*/
+.team_activity{ padding:20px 40px  0 40px;}
+.team_activity  table a{ text-decoration:none!important; cursor:pointer; color:red!important; }

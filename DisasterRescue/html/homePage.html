@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/homePage.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/swiper.min.css"/>
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a"></script>
+		<title>灾害首页</title>
+	</head>
+	<body>
+		<div id="app">
+			
+			<div class="mui-content">
+				<div class="mui-row head">					
+					<div class="mui-col-xs-10 mui-col-sm-10 title">
+						<div class="picture">
+							<img src="../img/jiuyuan_03.png"/>
+						</div>		
+					</div>
+					<div class="mui-col-xs-2 mui-col-sm-1 address">
+						<div class="mui-btn" id="adres">
+							
+						</div>
+					</div>
+				</div>
+				
+				<!--轮播-->
+				<div id="slider" class="mui-row sportPic">
+					<div class="mui-slider">
+					  	<div class="mui-slider-group">
+						    					    
+					  	</div>
+					</div>
+				</div>
+				
+				<!--救援队信息-->
+				<div class="mui-row info">
+					<div class="help">— 通知公告 —</div>
+					<div class="list">
+						<ul style="list-style: none;margin:0 0 0 -20px">
+							<li v-for="(item,index) in homeNotices" @click="noticeClick" :id="item.recordid">
+								<span v-if="index==0" style="background-color:#54efb6">{{index+1}}</span>
+								<span v-if="index==1" style="background-color:#5473ed">{{index+1}}</span>
+								<span v-if="index==2" style="background-color:#f65076">{{index+1}}</span>
+								<span v-if="index==3" style="background-color:#f09356">{{index+1}}</span>
+								<span :id="item.recordid">{{item.title}}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<!--灾害救援活动-->
+				<div class="mui-row active">
+					<div class="help">— 新闻动态 —</div>
+			    	<div class="mui-scroll-wrapper" style="height:2.65rem;margin-top:20px;">
+						<div class="mui-scroll" style="height:100%;">																		               			                	
+		                	<div id='slider1' style="width: 100%;height:100%;">
+		                		<div class="list-container swiper-wrapper" >
+			                		<div class="swiper-slide" v-for="item in homeNewss" :id="item.recordid" @click="newsClick" style="height:100%;width:100%;" >
+			                			<img :src="item.pictures" :id="item.recordid" style="width:100%;height:70%;">
+			                			<div :id="item.recordid" style="line-height: 15px;height:25%;font-size:0.1rem;">{{item.title}}</div>
+			                		</div>
+		                		</div>
+		                	</div>
+						</div>
+					</div>   
+				</div>
+				
+				<div class="mui-row end">
+					<div class="end_text">
+						<span class="red">中国红十字会</span><br />
+						<span>地址：{{homeEnds.addr}}</span><br />
+						<span>电话：{{homeEnds.tel}}</span><br />
+						<span>邮政编码：{{homeEnds.mailcode}}</span><br />
+						<span>电子邮件：{{homeEnds.email}}</span><br />
+						<span>传真Fax：{{homeEnds.fax}}</span>
+					</div>
+				</div>	
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/swiper.min.js"></script>
+		<script type="text/javascript" src="../js/mui.pullToRefresh.js"></script>
+		<script type="text/javascript" src="../js/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					homeNotices:[],
+					homeNewss:[],
+					homeEnds:[],
+					homeAdresses:[],
+					sign: ''
+				},
+				mounted: function(){
+					var self = this;
+					var map, geolocation;
+				    //加载地图，调用浏览器定位服务
+				    map = new AMap.Map('', {
+				        resizeEnable: true
+				    });
+				    map.plugin('AMap.Geolocation', function() {
+				        geolocation = new AMap.Geolocation({
+				            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+				            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+				            buttonPosition:'RB'
+				        });
+				        geolocation.getCurrentPosition();
+				        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+				        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+				    });
+				    //解析定位结果
+				    function onComplete(data) {
+				    	// 当前所在区
+				    	var districtName = data.addressComponent.district;
+				    	document.getElementById('adres').innerText = districtName;
+				    	
+				    	self.getSign(districtName);
+				    }
+				    
+				    //解析定位错误信息
+				    function onError(data) {
+				    	mui.toast("定位失败！");
+				    	self.getSign("北京");
+				    }
+					
+					// 底部红色跳转到关于我们页面
+					mui('.end_text').on('tap','.red',function(){
+						mui.openWindow({
+							'url':'./aboutUs.html',
+							'id':'aboutUs.html'
+						});
+					});					
+					
+					// 新闻动态滚动
+					mui('.mui-scroll-wrapper').scroll({
+						scrollY: false, //是否竖向滚动
+						scrollX: true, //是否横向滚动
+						indicators: false, //是否显示滚动条
+						deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+						bounce: true //是否启用回弹
+					});
+
+					var swiper2 = new Swiper('#slider1', {
+				        slidesPerView: 3,
+				        spaceBetween: 20,				        
+				        observer:true,
+				        autoplayDisableOnInteraction:false
+				    });
+				    
+				},
+				methods:{
+					// 获取城市标签
+					getSign: function(districtName){
+						var self = this;
+				    	mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act: "sign",
+								name: districtName
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								self.sign = data.datas.sign;
+								self.homeRoasting();
+								self.homeNotice();
+								self.homeNews();
+								self.homeEnd();
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+				    },
+				    
+					// 首页轮播
+					homeRoasting: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act: 'flash',
+								sign: self.sign
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.responseCode == 0){
+									for (var i = 0; i < data.datas.length; i++) {
+						                $(".sportPic .mui-slider-group").append(
+						                    '<div class="mui-slider-item" ><img src="'+ data.datas[i].img + '"> </div>'
+						                );
+						          	}
+								}
+						
+					          	mui("#slider").slider({
+					               	interval: 3000
+					          	});
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					// 首页通知公告
+					homeNotice: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act: 'notice',
+								sign: self.sign
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(!!data.datas){
+									self.homeNotices = data.datas;
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					// 首页新闻动态
+					homeNews: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act: 'news',
+								sign: self.sign
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(!!data.datas){
+									self.homeNewss = data.datas;
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					// 首页底部
+					homeEnd: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act: 'contactus',
+								sign: self.sign
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(!!data.datas){
+									self.homeEnds = data.datas;
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					// 通知公告跳转
+					noticeClick:function(n){
+//						console.log(n.target.getAttribute('id'))
+						window.location.href = "noticeDetail.html?rid="+n.target.getAttribute('id');
+					},
+					
+					// 新闻动态跳转
+					newsClick:function(w){
+//						console.log(w.target.getAttribute('id'))
+						window.location.href = "newsDetail.html?rid="+w.target.getAttribute('id');
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

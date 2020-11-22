@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>报名人数</title>
+		<style>
+			body,html,.mui-content{ 
+				height:100%;
+				background-color:#f1f1f1;
+				color:#000000;
+			}
+			.left{
+				float: left;
+			}
+			.clean{
+				clear: both;
+			}
+			.top{
+				padding:20px 0 0px 11px;
+			}
+			
+			.top button{
+				width:30%;
+				height:90%;
+				float:left;
+				background-color:#36ccab;
+				border-color: #36ccab;
+				color:#ffffff;
+				font-size:0.3rem;
+				border-radius:4px;
+			}
+			
+			.mui-input-row{
+				margin: 10px 10px;
+				background: #fff;
+				border-bottom: 1px solid #ddd;
+			}
+			.mui-input-row:last-child {
+			   background: #fff;
+			}
+			/*checkbox*/
+			.container .mui-checkbox input[type=checkbox]{
+			    top: 58px;
+			    left: 10px;
+			    width: 20px;
+    			height: 20px;
+			}
+			.mui-checkbox.mui-left label{
+			    padding-right: 15px;
+			    padding-left: 45px;
+			}
+			.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+			    font-size: 20px;
+			}
+			label span{
+				display:inline-block;
+				font-size:0.3rem;
+				line-height: 0.6rem;
+				color:#8f8f94;
+			}
+			label .blc{
+				color:#000000;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<div id="app">
+			<div class="mui-content">
+				<div class="mui-row top">
+					<button @click="clickPass">批量通过</button>
+					<button @click="clickRefuse" style="margin-left:20px;background-color:#949494;border-color: #949494;">批量不通过</button>
+				</div>
+				
+				<div class="container" style="margin-top:5px;">
+					<!--<div class="mui-input-row mui-checkbox mui-left" v-for='item in infoList'>
+						<label>
+							<span>志愿者姓名：<span class="blc">&#x3000;{{item.name}}</span></span><br />
+							<span>性别：<span class="blc">&#x3000;{{(item.sex)==1?'男':'女'}}</span></span><br />
+							<span>出生日期：<span class="blc">&#x3000;{{item.birthday}}</span></span><br />
+							<span>特长：<span class="blc">&#x3000;{{item.skillNames}}</span></span><br />
+							<span>报名时间：<span class="blc">&#x3000;{{item.addDate}}</span></span>
+						</label>
+						<input :id="{{item.id}}" name="checkbox" value="Item 1" type="checkbox" >
+					</div>-->
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label>
+							<span>志愿者姓名：<span class="blc">&#x3000;德元师</span></span><br />
+							<span>性别：<span class="blc">&#x3000;女</span></span><br />
+							<span>出生日期：<span class="blc">&#x3000;2017-10-10</span></span><br />
+							<span>特长：<span class="blc">&#x3000;计算机</span></span><br />
+							<span>报名时间：<span class="blc">&#x3000;2017-10-10</span></span>
+						</label>
+						<input name="checkbox" value="Item 1" type="checkbox" >
+					</div>	
+				</div>	
+			</div>	
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					rid:"",
+					rids:[],
+					infoList:[]
+				},
+				mounted: function() {
+					var self = this;
+					self.rid = GetArgsFromHref(window.location.toString(),"rid");
+					self.getInfoList();
+					mui('.container').on('change', 'input', function() {
+						var value = this.checked?true:false;
+						if(value){
+							self.ids.push(this.id);
+						}else{
+							self.removeArr(self.ids,this.id);
+						}
+						console.log(self.ids);
+					});
+				},
+				methods: {
+					indexOf:function(arr,value){
+						for (var i = 0,len = arr.length; i < len; i++) {
+							if (arr[i] == value) return i;
+						}
+						return -1;
+					},
+					removeArr: function(arr,value) {
+						var index = arr.indexOf(value);
+						if (index > -1) {
+						arr.splice(index, 1);
+						}
+					},
+					getInfoList:function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php?act=userActivityVolunteerList',
+							data:{
+								rid: self.rid,
+								tag:1
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+//							async:false,
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
+								if(data.responseCode == 0){
+									self.infoList = data.datas;
+//									for(var i = 0,len = self.infoList.length; i < len; i++){
+//										self.infoList[i].joinDate = self.changeDate(Number(self.infoList[i].joinDate));
+//									}
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					clickPass: function() {
+						var self = this;
+//						mui.rAjax({
+//							url:'/ajax.php?act=userActivityVolunteerPass',
+//							data:{
+//								rid: self.rid,
+//								rids: self.rids
+//							},
+//							dataType:'json',//服务器返回json格式数据
+//							type:'POST',//HTTP请求类型
+//							timeout:10000,//超时时间设置为10秒；
+//							success:function(data){
+//								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
+//								if(data.responseCode == 0){
+//									mui.toast("ok");
+//									window.location.href = "./editOrganize.html";
+//								}else{
+//									mui.toast(data.responseMsg)
+//								}
+//							},
+//							error:function(xhr,type,errorThrown){
+//								//异常处理；
+//								console.log(type);
+//							}
+//						});
+					},
+					clickRefuse: function() {
+						var self = this;
+//						mui.rAjax({
+//							url:'/ajax.php?act=userActivityVolunteerRefuse',
+//							data:{
+//								rid: self.rid,
+//								rids: self.rids
+//							},
+//							dataType:'json',//服务器返回json格式数据
+//							type:'POST',//HTTP请求类型
+//							timeout:10000,//超时时间设置为10秒；
+//							success:function(data){
+//								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
+//								if(data.responseCode == 0){
+//									mui.toast("ok");
+//									window.location.href = "./activeManage.html";
+//								}else{
+//									mui.toast(data.responseMsg)
+//								}
+//							},
+//							error:function(xhr,type,errorThrown){
+//								//异常处理；
+//								console.log(type);
+//							}
+//						});
+					}
+				}
+			})
+	</body>
+</html>
+

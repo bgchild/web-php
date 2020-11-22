@@ -1,0 +1,279 @@
+<!--完善信息-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/realName.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.css" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>完善信息</title>
+		
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<p class="top" style="margin-top:0;">
+						<lable class="text_name">姓名：</lable>
+						<input v-model="name" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" id="sexPicker">
+						<lable class="text_name">性别：</lable>
+						<input v-model="sex.text" readonly="readonly" id="txt" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span class="mui-icon mui-icon-forward biao"></span>
+					</p>
+					<div class="line"></div>
+					
+					<div class="people">
+						<p class="top">
+							<lable class="text_name">手机：</lable>
+							<input v-model="mobile" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+						
+						<p class="top">
+							<lable class="text_name">邮件：</lable>
+							<input v-model="email" type="email" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						</p>
+						<div class="line"></div>
+						
+					</div>
+					
+					<div class="btn" @click="saveUserInfo">保存</div>
+					<p class="top" style="font-size: 0.2rem;">
+						<lable class="text_name">本公众号仅提供灾情和求援信息采集功能，特此声明</lable>
+					</p>
+				</div>
+			</div>
+		</div>
+		
+	    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a"></script>
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/mui.picker.js" ></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var sign, map, geolocation;
+		    //加载地图，调用浏览器定位服务
+		    map = new AMap.Map('', {
+		        resizeEnable: true
+		    });
+		    map.plugin('AMap.Geolocation', function() {
+		        geolocation = new AMap.Geolocation({
+		            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+		            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+		            buttonPosition:'RB'
+		        });
+		        geolocation.getCurrentPosition();
+		        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+		        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+		    });
+		    //解析定位结果
+		    function onComplete(data) {
+		    	districtName = data.addressComponent.district;
+       			getSign(districtName);//获取区域标签
+		    }
+		    //解析定位错误信息
+		    function onError(data) {
+		    	mui.toast("获取当前位置失败！");
+		    }
+		    function getSign(districtName){
+		    	mui.rAjax({
+					url:'/ajax.php',
+					data:{
+						act: "sign",
+						name: districtName
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'GET',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						sign = data.datas.sign;
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		    }
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					openid:'',    //微信用户唯一标识
+					pageCode:'',
+					name:'',
+					sex:{
+						value:'',
+						text:''
+					},
+					mobile:'',
+					email:''
+				},
+				mounted: function(){
+					var self = this;
+					// 获取回传地址code参数
+					var code = GetArgsFromHref(window.location.href,'code');
+					// 根据code获取openid
+					mui.rAjax({
+						url:'/ajax/getOpenid.php',
+						data:{
+							code: code
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//得到openid，根据openid判断用户是否完善过信息
+							self.initUserInfo(data.openid);
+							self.openid = data.openid;
+							setCookie("openid", data.openid);
+							self.initSexPicker();
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				},
+				methods:{
+					// 初始化用户基本信息
+					initUserInfo: function(openid){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act: 'userinfo',
+								openid: openid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果
+								if(data.responseCode == 0){
+									self.name = data.datas.name;
+									if(data.datas.sex == "1"){
+										self.sex.text = "男";
+										self.sex.value = "1";
+									}else{
+										self.sex.text = "女";
+										self.sex.value = "2";
+									}
+//									self.cardno = data.datas.cardno;
+									self.mobile = data.datas.mobile;
+									self.email = data.datas.email;
+//									self.address = data.datas.address;
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					
+					// 初始化性别选择器
+					initSexPicker: function() {
+						var self = this;
+						var sexData = [{
+							value: "1",
+							text: "男"
+						}, {
+							value: "2",
+							text: "女"
+						}]
+						var sexPicker = new mui.PopPicker();
+						sexPicker.setData(sexData);
+						var showSexPickerButton = document.getElementById('sexPicker');
+						showSexPickerButton.addEventListener('tap', function(event) {
+							document.activeElement.blur();
+							sexPicker.show(function(items) {
+								self.sex.text = items[0].text;
+								self.sex.value = items[0].value;
+							});
+						}, false);
+					},
+					
+					// 校验用户基本数据填写
+					checkDatas: function(){
+						var self = this;
+						if(!self.name){
+							mui.alert("请填写姓名！");
+							return false;
+						}
+						if(!self.sex.value){
+							mui.alert("请选择性别！");
+							return false;
+						}
+						if(!self.mobile){
+							mui.alert("请填写手机号！");
+							return false;
+						}
+						if(!self.email){
+							mui.alert("请填写邮箱地址！");
+							return false;
+						}
+						// 手机号规则校验
+						var reg = /^1[358][0-9]{9}$/;
+						if(!reg.test(self.mobile)){
+							mui.alert("请填写正确手机号！");
+							return false;
+						}
+						// 手机号规则校验
+						var emailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+						if(!emailReg.test(self.email)){
+							mui.alert("请填写正确邮箱地址！");
+							return false;
+						}
+						return true;
+					},
+					
+					// 保存用户数据
+					saveUserInfo: function(){
+						var self = this;
+						if(self.checkDatas()){
+							mui.rAjax({
+								url:'/ajax/disaster.php?act=puser',
+								data:{
+									openid: self.openid,    //微信用户唯一标识
+									name: self.name,
+									sex: self.sex.value,
+									mobile: self.mobile,
+									email: self.email,
+									sign: sign
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'POST',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									//服务器返回响应，根据响应结果，分析是否登录成功；
+									if(data.responseCode == 0){
+										mui.alert("个人信息完善成功！");
+									}else{
+										mui.toast(data.responseMsg)
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(type);
+								}
+							});
+						}
+						
+					}
+				}
+			})
+		</script>		
+		
+	</body>
+</html>

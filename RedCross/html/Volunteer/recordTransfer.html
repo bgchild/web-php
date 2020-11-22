@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>记录转移</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #FFFFFF;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 20px 18px;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row{
+				position: relative;
+				line-height: 35px;
+				color: #696969;
+				font-size: 12.0px;
+				border: 0;
+				margin-bottom: 0px;    
+			}
+			.mui-input-row .mui-icon-forward{
+				position: absolute;
+				top: 0px;
+				right: -2px;
+				color: #101010;
+			}
+			.mui-input-row input{
+				height: auto;
+				line-height: 14px;
+				color: #101010;
+				font-size: 12.0px;
+				border: 0;
+				margin-bottom: 0px;
+			}
+			.mui-btn.mui-btn-red{
+				margin: 30px auto;
+				width: 100%;
+			}
+			.mui-btn-red {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			}
+			.mui-btn-red:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+			
+			.move{
+				display:none;
+			}
+			
+			.move p{
+				margin-bottom:0;
+			}
+			
+			.show{
+				display:block;
+			}
+			
+			.none{
+				display:none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="vueModifyPas">
+			<div class="mui-content">
+				<!--记录转移-->
+				<div class="move">
+					<p id="moveCity" style="color:#CF2D28;">{{applyRecords.title}}</p>
+					<p id="moveTime">{{applyRecords.msg}}</p>
+					<textarea id="reason" name="" rows="6" cols="8">{{applyRecords.remark}}</textarea>
+				</div>
+				
+				<div class="nowPage">
+					<div>
+					    <div class="mui-input-row">
+					    	<label>所属城市</label>
+					    	<span id="belongCity"></span>
+					    </div>
+					    <div class="mui-input-row" @click="userClick('citys')">
+					    	<label>转至城市</label>
+					    	<input name="citys" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" value=""/>
+					    	<span class="right mui-icon mui-icon-forward" style="padding-top: 5px;"></span>
+					    </div>
+					     <div class="mui-input-row">
+					     	<label>备注</label>
+					     	<input type="text" name="reason" placeholder="">
+					    </div>
+					</div>
+					<div class="mui-button-row">
+						<button type="button" @click="submission" class="mui-btn mui-btn-red">提交申请</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/city.data-3.js" ></script>
+		
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#vueModifyPas',
+				data: {
+					citys:[],
+					areaId:[],
+					reason:'',
+					baseInfos:[],
+					servePlace:[],
+					applyRecords:[]// 转移记录
+				},
+				mounted: function() {
+					var self = this;
+//					self.baseInfo();
+					self.applyRecord();
+					self.servePlace = cityData3;
+					var allCity = cityData3;
+//					console.log(allCity);
+					
+					// 遍历取出所有城市
+					for(var i in allCity){
+						if(allCity[i].text == '北京市' || allCity[i].text == '天津市' ||
+							allCity[i].text == '上海市' || allCity[i].text == '重庆市'){
+							self.citys.push(allCity[i]);// 存放四大直辖市
+//							console.log(allCity[i].children[0].children.value)
+						}else{
+							for(var j in allCity[i].children){
+								self.citys.push(allCity[i].children[j]);// 存放其他城市
+//								console.log(allCity[i].children[j].value)
+							}
+						}
+					}
+//					console.log(self.citys)
+				},
+				methods: {
+					userClick: function(type) {
+						var self = this;
+						var doc = document;
+						var userPicker = new mui.PopPicker({layer:3});
+						userPicker.setData(self.citys);
+						var userSelect = doc.querySelector("input[name='"+type+"']");
+						userPicker.show(function(items) {
+							if(items[0].text == '北京市' || items[0].text == '天津市' ||
+							items[0].text == '上海市' || items[0].text == '重庆市'){
+								userSelect.value = items[0].text + ' ' + items[2].text;
+								self.areaId.push(items[2].value);
+							}else{
+								userSelect.value = items[0].text + ' ' + items[1].text;
+								self.areaId.push(items[1].value);
+							}
+//							console.log(items[0].text + items[2].text);
+//							console.log(self.areaId[self.areaId.length-1]);
+						});
+					},
+					// 编译服务地
+					idValueText3: function(list,pid,cid,aid){
+						for(var key in list){
+							if(Number(list[key].value) == pid){
+								var value0 = list[key].text;
+								var children1 = list[key].children;
+								for(var key1 in children1){
+									if(Number(children1[key1].value) == cid){
+										var value1 = children1[key1].text;
+										var children2 = children1[key1].children;
+										for(var key2 in children2){
+											if(Number(children2[key2].value) == aid){
+												var value2 = children2[key2].text;
+												return value0+" "+value1+" "+value2;
+											}
+										}
+										return value0+" "+value1;
+									}
+								}
+								return value0;
+							} 
+						}
+					},
+					// 记录转移(申请)
+					submission: function() {
+						var self = this;
+						
+						mui.rAjax({
+							url:'/ajax.php?act=userTransfer',
+							data:{
+								areaId:self.areaId[self.areaId.length-1],
+								reason:self.reason
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									mui.toast(data.responseMsg);
+									setTimeout(function(){
+//										self.reloadPage();
+										 window.location.reload();
+									},2500);
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg);
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg);
+								}else if(data.responseCode == 3){
+									mui.toast(data.responseMsg);
+								}else if(data.responseCode == 4){
+									mui.toast(data.responseMsg);
+//									setTimeout(function(){
+//										self.reloadPage();
+//									},2500);
+								}
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					// 重新初始化页面
+					reloadPage:function(){
+						// 显示转移记录，隐藏当前页面内容
+						document.querySelector('.nowPage').classList.add('none');
+						document.querySelector('.move').classList.add('show');
+
+					},
+					//记录转移(申请记录)
+					applyRecord:function(){
+						var self = this;
+						
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:'userTransferInfo'
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								self.applyRecords = data.datas;
+								document.getElementById('belongCity').innerText = self.applyRecords.ownedCity;
+								console.log(data.datas);
+								if(self.applyRecords.allowTransfer == false){
+									self.reloadPage();
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

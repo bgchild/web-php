@@ -1,0 +1,12 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*如果需要加载分页*/
+@import url(admin_base.css);
+.btn_alone{margin:10px;}
+
+.adm_user{border: 1px solid #D8D8D8;width: 753px; float:left;height:400px;}
+.contact_table{width:96%;margin:40px auto;}
+.contact_table tr {height:50px;}
+.list-right{text-align:right;width:100px;}
+

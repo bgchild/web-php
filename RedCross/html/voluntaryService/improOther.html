@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="HandheldFriendly" content="true"/>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<title>注册</title>	
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #FFFFFF;
+				font-size: 14px;
+				color: #101010;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clear{
+				clear: both;
+			}
+			.title {
+				font-size: 17px;
+			    font-weight: 500;
+			    line-height: 44px;
+			    width: 100%;
+			    padding: 0;
+			    text-align: center;
+			    white-space: nowrap;
+			    margin: 0; 
+			    color: #101010;
+			}
+			.mui-table-view:before {
+			    height: 0px;
+			}
+			.mui-table-view:after {
+			    left: 15px;
+			    right: 15px;
+			}
+			.mui-table-view-cell{
+				padding-left: 20px;
+				color: #696969;
+			}
+			/*.mui-table-view-cell:after {
+			    right: 15px;
+			}*/
+			/*时间表*/
+			/*
+			.middle.mui-table-view:before{
+				height: 0;
+			}
+			.middle.mui-table-view:after{
+				height: 0;
+			}
+			.mui-table-view-cell.mui-active{
+				background: #FFFFFF;
+			}
+			.middle .mui-table-view-cell{
+				padding-left: 10px;
+			}
+			.middle .mui-table-view-cell:after{
+				left: 40px;
+			}*/
+			table{
+				text-align: center;
+				margin: 10px 0;
+			}
+			th{
+				font-weight: 100;
+			}
+			table tr{
+				text-align: center;
+				line-height: 30px;
+			}
+			table tr td img{
+				width: 20px;
+			}
+			.skills{
+				display: inline-block;
+				width: 70%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			/*按钮*/
+			.mui-btn.mui-btn-green{
+				margin: 10px auto;
+				width: 90%;
+			}
+			.mui-btn-green {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			}
+			.mui-btn-green:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+			.mui-table-view-cell.mui-active{
+				background: #FFFFFF;
+			}
+			/*弹出框*/
+			.forum-top{
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				z-index: 999;
+			}
+			.first-list {
+			    max-height: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<h2 class="title">完善基本信息</h2>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">志愿服务时间</li>
+					<li class="mui-table-view-cell" style="padding: 0 10px;">
+						<ul class="mui-table-view middle">
+							<table width="100%" @click="selects">
+								<tr>
+									<th></th><th>周一</th><th>周二</th><th>周三</th><th>周四</th><th>周五</th><th>周六</th><th>周日</th>
+								</tr>
+								<tr id="am">
+									<th>上午</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+								</tr>
+								<tr id="pm">
+									<th>下午</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+								</tr>
+								<tr id="night">
+									<th>晚上</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+								</tr>
+							</table>
+						</ul>
+					</li>
+					<li class="mui-table-view-cell">专业技能
+						<span @click="clickBtn()" class="right mui-icon mui-icon-forward"></span>
+						<span class="skills right">{{skillsText}}</span>
+					</li>
+				</ul>
+				
+				<div class="forum-top">
+				    <div class="forum-btn">
+				   		<ul class="first-list" v-if="isShow">
+						    <li v-for="(item,index) in skillsList" @click="selected(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.text}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<div class="clear"></div>
+				   </div>
+				</div>
+				<div class="mui-backdrop" v-show="isShow" @click="clickBtn()"></div>
+				
+				<div class="mui-button-row">
+					<button @click="prevClick" type="button" class="mui-btn mui-btn-green" id="prev">上一步</button>
+					<button @click="successClick" type="button" class="mui-btn mui-btn-green" id="success">完成</button>
+				</div>
+			</div>		
+		</div>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a"></script>
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				var map, geolocation;
+			    //加载地图，调用浏览器定位服务
+			    map = new AMap.Map('', {
+			        resizeEnable: true
+			    });
+			    map.plugin('AMap.Geolocation', function() {
+			        geolocation = new AMap.Geolocation({
+			            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+			            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+			            buttonPosition:'RB'
+			        });
+			        geolocation.getCurrentPosition();
+			        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+			        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+			    });
+			    //解析定位结果
+			    function onComplete(data) {
+			    	districtName = data.addressComponent.district;
+           			getSign(districtName);//获取区域标签
+			    }
+			    //解析定位错误信息
+			    function onError(data) {
+			    	mui.toast("获取当前位置失败！");
+			    }
+			    
+			    function getSign(districtName){
+			    	mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act: "sign",
+							name: districtName
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							setCookie("sign", data.datas.sign);
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+			    }
+			    
+			});
+		</script>
+		<script>
+			var forumVue = new Vue({
+				el:'#app',
+				data:{
+					isShow:false,
+					sign:'',
+					am:[],
+					pm:[],
+					night:[],
+					skillsList:[], //专业技能
+					skills:[], //专业技能  存value
+					skillsText:'',
+					newList:{}  //存储数据
+				},
+				mounted: function(){
+					var self = this;
+					self.sign = getCookie("sign"); //获取城市
+//					console.log(self.sign);
+					self.skill(); //获取技能
+					var list = JSON.parse(getCookie("newList"));
+					self.newList = list;
+					
+					if(JSON.parse(getCookie("newList")).skills){
+						var value="";
+						setTimeout(function(){
+							for(var i = 0,len = self.skillsList.length;i<len;i++){
+								for(var j=0,lenJ = self.newList.skills.length;j<lenJ;j++){
+									if(self.skillsList[i].value == self.newList.skills[j]){
+										value += self.skillsList[i].text+" ";
+									}
+								}
+							}
+							self.skillsText = value;
+						},1500);
+						
+						
+//						console.log(document.querySelector("#am").childNodes);
+						var ams = document.querySelector("#am").childNodes;
+						var pms = document.querySelector("#pm").childNodes;
+						var nights = document.querySelector("#night").childNodes;
+						self.getTime(ams,self.newList.am);
+						self.getTime(pms,self.newList.pm);
+						self.getTime(nights,self.newList.night);
+					}
+				},
+				methods:{
+					getTime: function(time,getTimes){
+						for(var i in getTimes){
+							var img= document.createElement('img');
+							img.setAttribute("src","../../img/selected.svg");
+							var j = Number(getTimes[i]);
+							time[j].appendChild(img);
+						}
+					},
+					clickBtn:function(){
+						this.isShow = !this.isShow;
+					},
+					selected:function(index){
+						var self = this;
+						if(self.skillsList[index].isShow){
+							self.skillsList[index].isActive = false;
+							self.skillsList[index].isShow = false;
+							self.removeArr(self.skills,self.skillsList[index].value);
+						}else{
+							self.skillsList[index].isActive = true;
+							self.skillsList[index].isShow = true;
+							self.skills.push(self.skillsList[index].value);
+						}
+						console.log(self.skillsList);
+						var value="";
+						for(var i = 0,len = self.skillsList.length;i<len;i++){
+							for(var j=0,lenJ = self.skills.length;j<lenJ;j++){
+								if(self.skillsList[i].value == self.skills[j]){
+									value += self.skillsList[i].text+" ";
+								}
+							}
+						}
+						self.skillsText = value;
+						self.newList.skills = self.skills;
+					},
+					indexOf:function(arr,value){
+						for (var i = 0,len = arr.length; i < len; i++) {
+							if (arr[i] == value) return i;
+						}
+						return -1;
+					},
+					removeArr: function(arr,value) {
+						var index = arr.indexOf(value);
+						if (index > -1) {
+						arr.splice(index, 1);
+						}
+					},
+					selects:function(e){
+//						console.log(e);
+						var self = this;
+						if(/^[\u4e00-\u9fa5]+$/.test(e.target.innerHTML)){
+//							console.log(e.target.innerHTML);
+						}else if(e.target.tagName == "IMG"){
+							var eTarParent = e.target.parentNode;
+							e.target.remove();
+							if(eTarParent.parentNode.rowIndex == 1){
+								self.removeArr(self.am,eTarParent.cellIndex+"");
+							}else if(eTarParent.parentNode.rowIndex == 2){
+								self.removeArr(self.pm,eTarParent.cellIndex+"");
+							}else if(eTarParent.parentNode.rowIndex == 3){
+								self.removeArr(self.night,eTarParent.cellIndex+"");
+							}
+						}else if(e.target.tagName == "TD" && e.target.childElementCount == 0){
+							var eTarParent = e.target.parentNode;
+							var img= document.createElement('img');
+							img.setAttribute("src","../../img/selected.svg");
+							e.target.appendChild(img);
+							if(eTarParent.rowIndex == "1"){
+								self.am.push(e.target.cellIndex+"");
+							}else if(eTarParent.rowIndex == 2){
+								self.pm.push(e.target.cellIndex+"");
+							}else if(eTarParent.rowIndex == 3){
+								self.night.push(e.target.cellIndex+"");
+							}
+						}
+						self.newList.am = self.am;
+						self.newList.pm = self.pm;
+						self.newList.night = self.night;
+//						console.log(self.newList);
+					},
+					skill: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"skills"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.skillsList = data.datas;
+									for(var i = 0,len = data.datas.length; i <len;i++){
+										self.skillsList[i].isActive = false;
+										self.skillsList[i].isShow = false;
+									}
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					prevClick:function(e){
+						var self = this;
+						var list = JSON.stringify(self.newList);
+						setCookie("newList",list);
+						setTimeout(function(){
+							window.location.href = "./improInfo.html";
+						},300);
+					},
+					successClick: function(e){
+						var self = this;
+						self.newList.sign = self.sign;
+						console.log(self.newList);
+						$.ajax({
+							url: mui.apiUrl+'/ajax.php?act=register',
+							data:self.newList,
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							crossDomain:true,
+							xhrFields:{
+								withCredentials:true
+							},
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									window.location.href = "./loginIn.html";
+									setCookie("newList"," ");
+									setCookie("registFlag",true);
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

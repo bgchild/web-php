@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/helpReport.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>求援详情</title>
+		<style type="text/css">
+			.top img{
+				height: 60px;
+				margin-left: 10px;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content" style="width: 7.5rem">
+				<div class="container">
+					<p class="top" style="margin-top:0;">
+						<lable class="text_name">求助类型：</lable>
+						<input v-model="title" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" style="margin-top:10px;">
+						<lable class="text_name">您是：</lable>
+						<input v-model="type_desc" readonly="readonly" type="text" style="width:70%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" style="margin-top:10px;">
+						<lable class="text_name">事发地点：</lable>
+						<input v-model="address" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<div class="text top">
+						<p class="describe text_name">求援简要描述：</p>
+						<textarea v-model="describe" readonly="readonly" id="describe" cols="30" rows="5"></textarea>
+					</div>
+					
+					<div class="top" style="position:relative;">
+						<lable class="text_name">求援图片：</lable>
+						<p style="margin-bottom: 0;">
+							<img v-for="item in imageUrl" :src="item" alt="" />
+						</p>
+					</div>
+					<div class="line"></div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					rid:'',
+					titleData:[{value: "1",text: "物资求援"},
+						{value: "2",text: "人员失踪"}, 
+						{value: "3",text: "建筑物坍塌"}, 
+						{value: "4",text: "水域求援"}, 
+						{value: "5",text: "其他"}],
+					title:'',
+					type_desc:'',
+					describe:'',
+					address:'',
+					imageUrl:[]
+				},
+				mounted: function(){
+					var self = this;
+					var pageHref = window.location.href;
+					self.rid = GetArgsFromHref(pageHref,"rid");
+//					console.log(self.rid);
+					self.ajaxHelp();
+				},
+				methods:{
+					ajaxHelp: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act:'hinfo',
+								rid:self.rid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.responseCode == 0){
+									console.log(data.datas);
+									self.title = data.datas.name;
+									self.type_desc = data.datas.type_desc;
+									self.address = data.datas.place;
+									self.describe = data.datas.description;
+									self.imageUrl = data.datas.image;
+								}else{
+									mui.toast(data.responseMsg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>编辑组织</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.picker.all.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #ffffff;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 15px;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row label{
+				display: inline-block;
+				color: #696969;
+				font-size: 13.0px;
+				padding: 13px 5px;
+			}
+			.mui-input-row input{
+				color: #101010;
+				font-size: 12.0px;
+				border: 0;
+				margin-bottom: 0px;
+				padding: 10px 20px;
+				text-align: right;
+				padding-right: 2px;
+			}
+			.lastDiv{
+				color: #141414;
+				
+			}
+			.lastDiv label{
+				display: inline-block;
+				color: #696969;
+				font-size: 13.0px;
+				padding: 13px 5px;
+			}
+			.lastDiv .divContent{
+				height: 70px;
+				border: 1px solid #c8c7cc;
+				padding: 6px 15px;
+				font-size: 12.0px;
+				color: #101010;
+			}
+			/*按钮*/
+			.mui-btn.mui-btn-red{
+				margin: 30px auto;
+				width: 100%;
+			}
+			.mui-btn-red {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			}
+			.mui-btn-red:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+			/*上传图片*/
+			.img_box,.img_box img{
+				height: 40px;
+			}
+			/*#add:before {
+			    content: '\e470';
+			} */
+			#add{
+				position:absolute;
+				right:0.15rem;
+				top:-0.02rem;
+	
+				width: 120px;
+    			height: 40px;
+				font-family: Muiicons;
+			    font-size: 24px;
+			    font-weight: 400;
+			    font-style: normal;
+			    line-height: 1;
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			#fileColorCard{
+				position: absolute;
+			    top: 0;
+			    right: 0;
+				opacity:0;
+				width:8.5rem;
+				height:40px;
+				padding:0;
+				margin-bottom:0;
+				outline: medium;
+			}
+			/*弹出框*/
+			.forum-top{
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				z-index: 999;
+			}
+			.first-list {
+			    max-height: 350px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="editOrganize">
+			<div class="mui-content">
+			    <div class="mui-input-row">
+			    	<label>服务队名称</label><input v-model="name" type="text">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>所属地区：</label>
+			    	<input v-model="districtString" type="text" @click="userClick()" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>成立日期：</label>
+			    	<input v-model="foundingTime" type="text" @click="userClickDate()" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>负责人：</label>
+			    	<input v-model="responsiblePerson" type="text">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>联系人：</label>
+			    	<input v-model="relationPerson" type="text">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>计划人数：</label>
+			    	<input v-model="planMemberNumber" type="number">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>手机：</label>
+			    	<input v-model="mobile" type="number">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>邮编：</label>
+			    	<input v-model="postcodes" type="text">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>电子邮箱：</label>
+			    	<input v-model="emails" type="email">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>详细通信地址：</label>
+			    	<input v-model="address" type="text">
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>服务队图片：</label>
+			    	<form id="add" method="post" action="http://yz.honghui.o.surcent.com/image_thumb.php" enctype="multipart/form-data">
+						<input @change="changeImg()" type="file" id="fileColorCard" name="imgFile" accept="image/*">
+						<input type="hidden" name="time" id="fileTime" value="now">
+					</form>
+			    	<!--<input type="file" id="onload" accept="image/jpeg,image/png,image/gif" hidden>-->
+					<div class="right img_box">
+			    		<img :src="images"/>
+					</div>
+					<div class="clear"></div>
+			    </div>
+			    <div class="mui-input-row">
+			    	<label>服务类别：</label>
+			    	<input @click="clickBtn()" v-model="stypeText" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    </div>
+			    <div class="forum-top">
+				    <div class="forum-btn">
+				   		<ul class="first-list" v-if="isShow">
+						    <li v-for="(item,index) in serveTypeList" @click="selected(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.text}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<div class="clear"></div>
+				   </div>
+				</div>
+				<div class="mui-backdrop" v-show="isShow" @click="clickBtn()"></div>
+			    <div class="mui-input-row">
+			    	<label>技能特长：</label>
+			    	<input v-model="skillsText" @click="clickBtn1()" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly">
+			    </div>
+			    <div class="forum-top">
+				    <div class="forum-btn">
+				   		<ul class="first-list" v-if="isShow1">
+						    <li v-for="(item,index) in skillsList" @click="selected1(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.text}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<div class="clear"></div>
+				   </div>
+				</div>
+				<div class="mui-backdrop" v-show="isShow1" @click="clickBtn1()"></div>
+			    <div class="lastDiv">
+			    	<label>服务计划：</label><textarea v-model="others" class="divContent" name="" rows="" cols="">{{others}}</textarea>
+			    	<label>服务队简介：</label><textarea v-model="introduction" class="divContent" name="" rows="" cols="">{{introduction}}</textarea>
+			    </div>
+			    <div class="mui-button-row">
+					<button @click="successEdit" type="button" class="mui-btn mui-btn-red">保存</button>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript" src="../../js/mui.picker.all.js" ></script>
+		<script type="text/javascript" src="../../js/city.data-3.js" ></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../../js/jquery.form.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#editOrganize',
+				data: {
+					isShow:false,
+					isShow1:false,
+					id:'',
+					name:"",
+					district:[], //所属地区
+					districtString:"", //所属地区
+					province:"",  //省
+					city:"",   //市
+					area:"",   //区
+					foundingTime:"",
+					responsiblePerson:"",
+					relationPerson:"",
+					planMemberNumber:"",
+					mobile:"",
+					postcodes:"",
+					emails:"",
+					address:"",
+					images:'',
+					img:"",
+					imgFlag:false,
+					serveTypeList:[], //服务类别
+					stype:[], //服务类别
+					stypeText:"", //服务类别
+					skillsList:[], //专业技能列表
+					skills:[], //技能特长
+					skillsText:'',
+					others:"",
+					introduction:""
+				},
+				mounted: function() {
+					var self = this;
+					self.district = cityData3;
+					self.id = GetArgsFromHref(window.location.toString(),"rid");
+					self.skill();
+					self.serveType();
+					self.ajaxDeail();
+					//上传图片
+					document.getElementById("fileTime").value = new Date().getTime();
+					document.getElementById("fileColorCard").addEventListener("change",function(){
+						jQuery("#add").ajaxSubmit(options);
+					})
+					//ajaxSubmit提交配置
+					var options = {
+						dataType:'json',
+						success:regeistCallBack
+					};
+					//表单提交成功回调
+					function regeistCallBack(data, statusText, xhr, $form){
+						self.img = data.url;
+						self.imgFlag = true;
+						console.info(JSON.stringify(data))
+					};
+				},
+				methods: {
+					clickBtn:function(){
+						this.isShow = !this.isShow;
+					},
+					clickBtn1:function(){
+						this.isShow1 = !this.isShow1;
+					},
+					//服务类别事件
+					selected:function(index){
+						var self = this;
+						if(self.serveTypeList[index].isShow){
+							self.serveTypeList[index].isActive = false;
+							self.serveTypeList[index].isShow = false;
+							self.removeArr(self.stype,self.serveTypeList[index].value);
+						}else{
+							self.serveTypeList[index].isActive = true;
+							self.serveTypeList[index].isShow = true;
+							self.stype.push(self.serveTypeList[index].value);
+						}
+						var value="";
+						for(var i = 0,len = self.serveTypeList.length;i<len;i++){
+							for(var j=0,lenJ = self.stype.length;j<lenJ;j++){
+								if(self.serveTypeList[i].value == self.stype[j]){
+									value += self.serveTypeList[i].text+" ";
+								}
+							}
+						}
+						self.stypeText = value;
+					},
+					//技能特长事件
+					selected1:function(index){
+						var self = this;
+						if(self.skillsList[index].isShow){
+							self.skillsList[index].isActive = false;
+							self.skillsList[index].isShow = false;
+							self.removeArr(self.skills,self.skillsList[index].value);
+						}else{
+							self.skillsList[index].isActive = true;
+							self.skillsList[index].isShow = true;
+							self.skills.push(self.skillsList[index].value);
+						}
+						var value="";
+						for(var i = 0,len = self.skillsList.length;i<len;i++){
+							for(var j=0,lenJ = self.skills.length;j<lenJ;j++){
+								if(self.skillsList[i].value == self.skills[j]){
+									value += self.skillsList[i].text+" ";
+								}
+							}
+						}
+						self.skillsText = value;
+					},
+					indexOf:function(arr,value){
+						for (var i = 0,len = arr.length; i < len; i++) {
+							if (arr[i] == value) return i;
+						}
+						return -1;
+					},
+					removeArr: function(arr,value) {
+						var index = arr.indexOf(value);
+						if (index > -1) {
+						arr.splice(index, 1);
+						}
+					},
+					//技能特长
+					skill: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"skills"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.skillsList = data.datas;
+									for(var i = 0,len = data.datas.length; i <len;i++){
+										self.skillsList[i].isActive = false;
+										self.skillsList[i].isShow = false;
+									}
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 3){
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					//服务类别
+					serveType: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"serveCate"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.serveTypeList = data.datas;
+									for(var i = 0,len = data.datas.length; i <len;i++){
+										self.serveTypeList[i].isActive = false;
+										self.serveTypeList[i].isShow = false;
+									}
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 3){
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					userClick: function() {
+						var self = this;
+						var doc = document;
+						var userPicker = new mui.PopPicker({layer: 3});
+						userPicker.setData(self.district);
+						var userSelect = doc.querySelector("input[name='district']");
+						userPicker.show(function(items) {
+							document.activeElement.blur();// 关闭输入法的api
+//							userSelect.value = JSON.stringify(items[0].text);
+							self.districtString = items[0].text+" "+items[1].text+" "+items[2].text;
+							self.province = items[0].value;
+							self.city = items[1].value;
+							self.area = items[2].value;
+						});
+					},
+					userClickDate:function(type){
+						var self = this;
+						var optionsJson = '{"type":"date","beginYear":1890,"endYear":3000}';
+						var options = JSON.parse(optionsJson);
+						var picker = new mui.DtPicker(options);
+						picker.show(function(rs) {
+							document.activeElement.blur();// 关闭输入法的api
+							self.foundingTime =  rs.text;
+							picker.dispose();
+						})
+					},
+					//根据判断  (单个)
+					idValueText: function(list,id){
+						var newIds = [];
+						for(var key in list){
+							for(var j in id){
+								if((list[key].text) == id[j]) {
+									newIds.push(list[key].value);
+								};
+							}
+							
+						}
+						return newIds;
+					},
+					//根据值判断id  (3个)
+					idValueText3: function(list,pid,cid,aid){
+						for(var key in list){
+							if((list[key].text) == pid){
+								var value0 = list[key].value;
+								var children1 = list[key].children;
+								for(var key1 in children1){
+									if((children1[key1].text) == cid){
+										var value1 = children1[key1].value;
+										var children2 = children1[key1].children;
+										for(var key2 in children2){
+											if((children2[key2].text) == aid){
+												var value2 = children2[key2].value;
+												return value2;
+											}
+										}
+										return value1;
+									}
+								}
+								return value0;
+							} 
+						}
+						return;
+					},
+					ajaxDeail: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"userTeamDetail",
+								rid: self.id
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.name = data.datas.name;
+									self.districtString = data.datas.pca;
+									var districtS = data.datas.pca.split(" ");
+									if(districtS.length = 3){
+										self.area = self.idValueText3(self.district,districtS[0],districtS[1],districtS[2]);
+									}
+									self.province = self.idValueText3(self.district,districtS[0]);
+									self.city = self.idValueText3(self.district,districtS[0],districtS[1]);
+									self.foundingTime = data.datas.foundingTime;
+									self.responsiblePerson = data.datas.responsiblePerson;
+									self.relationPerson = data.datas.relationPerson;
+									self.planMemberNumber = data.datas.planMemberNumber;
+									self.mobile = data.datas.mobile;
+									self.postcodes = data.datas.postcodes;
+									self.emails = data.datas.emails;
+									self.address = data.datas.detailedAddress;
+									self.images = data.datas.img;
+									
+									self.stypeText = data.datas.cates;
+									self.stype = self.idValueText(self.serveTypeList,data.datas.cates);
+									self.skillsText = data.datas.skills;
+									self.skills = self.idValueText(self.skillsList,data.datas.skills);
+									self.others = data.datas.others;
+									self.introduction = data.datas.introduction;
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					changeImg() {
+		            	var e = document.querySelector("input[type='file']");
+		                var files = e.files || e.dataTransfer.files;
+		                if (!files.length)return; 
+		                this.createImage(files);
+		            },
+		            createImage(file) {
+		                if(typeof FileReader==='undefined'){
+		                    alert('您的浏览器不支持图片上传，请升级您的浏览器');
+		                    return false;
+		                }
+		                var image = new Image();         
+		                var vm = this;
+		                var leng=file.length;
+		                for(var i=0;i<leng;i++){
+		                    var reader = new FileReader();
+		                    reader.readAsDataURL(file[i]); 
+		                    reader.onload =function(e){
+		                    	console.log(e);
+		                   		vm.images = e.target.result;  
+		                    };                 
+		                }                        
+		            },
+		            successEdit:function(){
+		            	var self = this;
+		            	if(!self.imgFlag){
+		            		self.img = "";
+		            	}
+						$.ajax({
+							url: mui.apiUrl+'/ajax.php?act=userTeamEdit',
+							data:{
+								rid: self.id,
+								name:self.name, //服务队名称
+								province:self.province, //省
+								city:self.city, //市
+								area:self.area, //区
+								foundingTime:self.foundingTime, // 成立日期
+								responsiblePerson:self.responsiblePerson, // 负责人
+								relationPerson:self.relationPerson, //联系人
+								planMemberNumber:self.planMemberNumber, //计划人数
+								mobile:self.mobile, //手机
+								postcodes:self.postcodes, //邮编
+								emails:self.emails, //电子邮箱
+								address:self.address, //通讯地址
+								img:self.img, //服务队图片
+								stype:self.stype, //服务类别
+								skills:self.skills, //技能特长
+								others:self.others, //服务计划
+								introduction:self.introduction //服务队简介
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							crossDomain:true,
+							xhrFields:{
+								withCredentials:true
+							},
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									window.location.href = "./organManage.html";
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+		            }
+				}
+			})
+		</script>
+	</body>
+</html>

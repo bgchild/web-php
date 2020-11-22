@@ -1,0 +1,138 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*如果需要加载分页*/
+@import url(page.css);
+
+/*.content{width:962px;margin:8px auto;}*/
+
+
+/*个人中心左部列表*/
+.user_left{
+    width:268px;float:left;margin:0px 18px 8px 0px;border:1px solid #CCCCCC;
+}
+.li_first{height:30px;line-height:30px;padding-left:45px;font-size:14px;font-weight:bold;}
+.li_first a{color:black;}
+.li_item{width:150px;margin:0px auto 5px;height:28px;line-height:28px;padding-left:30px;border:1px solid #FAB0AF;background:url(../images/nav_left_1.png) repeat-x;}
+.li_item a{font-weight:bold;font-size:14px;color:#AC0820;}
+
+
+
+/*个人中心右部*/
+.content_right{
+    width:910px;float:right;min-height: 300px;
+    border:1px solid #DBDBDB;
+    margin-bottom:8px;
+    position:relative;
+}
+.con_right_top{height:33px; background:#E9423C}
+.welcome_msg{margin-left:20px;_margin-left:10px;float:left;color:white;height:33px;line-height:33px;overflow:hidden;}
+.wmail{margin: 10px 0; vertical-align:middle;}
+.login_service{float:right;margin-right:20px;line-height:33px;}
+.login_service a{text-decoration:underline;color:white;font-weight:bold;display:block;margin-left:10px;float:left;font-size:12px !important;}
+.moreInfo{background:url(../images/user-top-tips.png) no-repeat;width:150px;height:53px;position:absolute;left:460px;top:34px;display:none;z-index: 99999999;}
+.moreInfoClose{width:15px;height:13px;margin-top:10px;margin-left:130px;clear:both;cursor:pointer;}
+.moreInfoText{height:30px;line-height:30px;margin-top:0px;padding-left:10px;}
+
+
+
+
+
+/*个人中心右下部*/
+.con_right_bottom{width:100%;float:left;margin-bottom:8px;position:relative;}
+
+
+
+
+
+
+/* user-menu */
+.user-menu {
+    /*width: 268px;
+    float: left;
+    margin: 0 18px 8px 0;
+    border: 1px solid #ccc;*/
+
+    width: 250px;
+    float: left;
+    background: url(../images/admin/left_bg.jpg) repeat-x;
+}
+
+.user-menu-header {
+    /*height: 30px; line-height: 30px;*/
+
+    width: 100%;
+    height: 33px;
+    line-height: 33px;
+    float: left;
+    text-indent: 30px;
+    color: #FFF;
+    background: #E9423C;
+    font-weight: bold;
+    display: block;
+}
+
+.user-menu-title {
+    color: white;
+    /*padding-left: 45px;*/
+}
+.user-menu-title:hover {
+    color: black;
+}
+
+.user-menu-list {
+    /*padding-left: 45px; padding-right: 45px;*/
+
+    width: 100%;
+    float: left;
+    margin-top: 23px;
+    background: #FFF;
+}
+
+.user-menu-item {
+    cursor: pointer;
+    width: 100%;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    color: #FFF;
+    border-radius: 2px;
+    margin-bottom: 2px;
+    font-size: 16px;
+    background: #E9423C;
+    text-indent: 50px;
+}
+
+.user-menu-item a, .user-menu-item a:hover {
+    display: block;
+    color: white;
+}
+
+.user-menu-item span {
+    float: right;
+    padding-right: 20px;
+}
+
+.user-menu ul {
+    padding-left: 20px; padding-bottom: 1px;
+}
+
+.user-menu ul li {
+    float: left;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    color: #F00;
+    text-indent: 50px;
+    display: block;
+    background: url(../images/admin/left_li.jpg) no-repeat;
+}
+
+.user-menu ul li a {
+    display: block;
+    color:#F00;
+}
+.user-menu ul li a.active {
+    background-color: #ff958a;
+    color:white;
+}

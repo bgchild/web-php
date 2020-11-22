@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../../css/homePage.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>首页</title>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content" style="padding-bottom: 15px;">
+				<div class="mui-row head">
+					<div class="mui-col-xs-8 mui-col-sm-8 pic">
+						<img src="../../img/logo_icon.png"/>
+					</div>
+					<!--<div class="mui-col-xs-2 mui-col-sm-2 title">
+						
+						<span>中国红十字会</span>
+						<span>灾害救援服务公众平台</span><br />
+						<span>Red Cross Society</span>
+					</div>-->
+					<div id='showCityPicker' class="mui-col-xs-3 mui-col-sm-2 addressList">
+						<span class="right mui-icon mui-icon-arrowdown" style="font-size: 15px;padding-top: 2px;"></span>
+						<div id="address" class="address right">扬州</div>
+					</div>
+				</div>
+				
+				<!--轮播-->
+				<div class="mui-row sportPic">
+					<div class="mui-slider">
+					  	<div class="mui-slider-group">
+						    <div class="mui-slider-item"><a href="#"><img src="../../img/raw_1509010013.png" /></a></div>
+						    <div class="mui-slider-item"><a href="#"><img src="../../img/raw_1509010013.png" /></a></div>
+						    <div class="mui-slider-item"><a href="#"><img src="../../img/raw_1509010013.png" /></a></div>
+						    <div class="mui-slider-item"><a href="#"><img src="../../img/raw_1509010013.png" /></a></div>
+					  	</div>
+					</div>
+				</div>
+				
+				<!--志愿组织-->
+				<div class="mui-row organize">
+					<div class="imgDiv"><img src="../../img/shouye_03.png"/></div>
+					<div class="mui-slider">
+					  	<div class="mui-slider-group mui-slider-loop">
+				        	<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一个图文表格) 
+				            <div class="mui-slider-item mui-slider-item-duplicate">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">静静看这世界</div></a></li>
+				                </ul>
+				            </div>-->
+				            <div class="mui-slider-item">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">节能减排,营造良好的生活环境</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">每一刻粮食来之不易,有些人因为种种问题,经常会浪费粮食</div>
+				                    	</a>
+				                    </li>
+				                </ul>
+				            </div>
+				            <div class="mui-slider-item">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">节能减排,营造良好的生活环境</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">每一刻粮食来之不易,有些人因为种种问题,经常会浪费粮食</div>
+				                    	</a>
+				                    </li>
+				                </ul>
+				            </div>
+				            <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一个图文表格) 
+				            <div class="mui-slider-item mui-slider-item-duplicate">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">幸福就是可以一起睡觉</div></a></li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">想要一间这样的木屋，静静的喝咖啡</div></a></li>
+				                </ul>
+				            </div>-->
+				        </div>
+					</div>
+					
+				</div>
+				
+				<!--志愿项目-->
+				<div class="mui-row project">
+					<div class="imgDiv"><img src="../../img/shouye_06.png"/></div>
+					<div class="list">
+						<ul style="list-style: none;">
+							<li>
+								<span class="left" style="background-color:#52f0b6">1</span>
+								<span class="left">公共自行车--随时随借,解决您出行的任何烦恼</span>
+								<div class="clean"></div>
+							</li>
+							<li>
+								<span class="left" style="background-color:#5474ef">2</span>
+								<span class="left">每一刻粮食来之不易,有些人因为种种问题,经常会浪费粮食</span>
+								<div class="clean"></div>
+							</li>
+							<li>
+								<span class="left" style="background-color:#f24e71">3</span>
+								<span class="left">水是人类的生活必需品,假设没有水,你觉得人类会变成什么样子?</span>
+								<div class="clean"></div>
+							</li>
+							<li>
+								<span class="left" style="background-color:#f09356">4</span>
+								<span class="left">生活服务小分队为我们解决各种小问题</span>
+								<div class="clean"></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				
+				<!--视频-->
+				<div class="mui-row video">
+					<div class="video_pic">
+						<img src="../../img/raw_1509010013.png" alt="" />
+					</div>
+				</div>
+				
+				<!--小图片展示-->
+				<div class="mui-row special small">
+					<!--<div class="mui-slider">
+					  	<div class="mui-slider-group mui-slider-loop">
+				            <div class="mui-slider-item">-->
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-4">
+				                    	<a href="http://www.cmdp.org.cn/">
+				                    		<img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-slider-title">捐献造血干细胞</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-4">
+				                    	<a href="http://apply.chinapay.com/scsoc/pages/scsocpay/scsocCreateOrder.jsp">
+				                    		<img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-slider-title">网上捐献钱物</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-4">
+				                    	<a href="http://www.chrctc.org.cn/">
+				                    		<img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-slider-title">加入救护队员队伍</div>
+				                    	</a>
+				                    </li>
+				                </ul>
+				            <!--</div>
+				        </div>
+					</div>-->
+				</div>
+				
+				<!--专题活动-->
+				<div class="mui-row special">
+					<div class="imgDiv"><img src="../../img/shouye_13.png"/></div>
+					<div class="mui-slider">
+					  	<div class="mui-slider-group mui-slider-loop">
+				        	<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一个图文表格) 
+				            <div class="mui-slider-item mui-slider-item-duplicate">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">静静看这世界</div></a></li>
+				                </ul>
+				            </div>-->
+				            <div class="mui-slider-item">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">节能减排,营造良好的生活环境</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">每一刻粮食来之不易,有些人因为种种问题,经常会浪费粮食</div>
+				                    	</a>
+				                    </li>
+				                </ul>
+				            </div>
+				            <div class="mui-slider-item">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">节能减排,营造良好的生活环境</div>
+				                    	</a>
+				                    </li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6">
+				                    	<a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">每一刻粮食来之不易,有些人因为种种问题,经常会浪费粮食</div>
+				                    	</a>
+				                    </li>
+				                </ul>
+				            </div>
+				            <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一个图文表格) 
+				            <div class="mui-slider-item mui-slider-item-duplicate">
+				                <ul class="mui-table-view mui-grid-view">
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">幸福就是可以一起睡觉</div></a></li>
+				                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../../img/raw_1509095050.png">
+				                            <div class="mui-media-body">想要一间这样的木屋，静静的喝咖啡</div></a></li>
+				                </ul>
+				            </div>-->
+				        </div>
+					</div>
+				</div>
+				
+				<div class="mui-row end">
+					<div class="end_text">
+						<span class="red">中国红十字会维护与管理</span><br />
+						<span>地址：扬州市红十字会</span><br />
+						<span>电话：8610-840258893</span><br />
+						<span>邮政编码：225600</span><br />
+						<span>电子邮件：hbgs@redcross_org.cn</span><br />
+						<span>传真Fax：64060563</span>
+					</div>
+				</div>	
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					
+				},
+				mounted: function() {
+					var self = this;
+					//选择城市
+					var cityPicker = new mui.PopPicker({
+						layer: 2
+					});
+					cityPicker.setData(cityData);
+					var showCityPicker = document.getElementById('showCityPicker');
+					var address = document.getElementById('address');
+					showCityPicker.addEventListener('tap', function(event) {
+						cityPicker.show(function(items) {
+							address.innerText =  items[1].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+					//跳转关于我们
+					mui(".end_text").off("click",".red").on("click",".red",function(e){
+						mui.openWindow({
+							url: './aboutUs.html',
+							id: 'aboutUs',
+							waiting: {
+								autoShow: false
+							},
+							show: {
+								autoShow: true
+//								aniShow: "slide-in-bottom",
+//								duration: (plus.os.name == "iOS") ? 200 : 400
+							}
+						});
+					});
+				},
+				methods: {
+					getTypeList: function() {
+						var self = this;
+						
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

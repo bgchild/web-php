@@ -1,0 +1,8 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*footer--css*/
+#footer{width:960px;margin:8px auto;}
+.footer{float:left;border-top:3px solid #B00901;float:left;padding-bottom:10px;padding-top: 20px;width:960px;height:128px;}
+.footer p{color: #666666;float: left;line-height: 25px;text-align: center;width: 960px;}
+.footer p a {color: #333333;padding-left: 8px;padding-right: 8px;}

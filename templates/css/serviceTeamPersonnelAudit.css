@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+.searchFrom{display:bolck;width:95%;height:30px;clear:both;margin:10px auto;}
+.searchFieldSet{height:120px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.omit a{float:left; width:100px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.sub{ margin-top:10px;margin-bottom:10px; text-align:right; margin-right:20px;}

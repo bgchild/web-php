@@ -1,0 +1,60 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(admin_base.css);
+.con_right_bottom{width:758px;float:left;margin-bottom:8px;position:relative; margin-top:10px;}
+.server_back{width:750px;float:left; text-align:right; margin-right:8px;}
+/*隐藏选队长*/
+.choose_fa{position:relative;}
+.choose_so{position:absolute;width:754px;height:346px;background:#fff;border:solid 2px #ccc;top:44px; display:none;}
+.choose_top{margin-top:10px;}
+.choose_tab{border:solid 1px #ccc; margin:0 auto; width:720px;height:50px;}
+.choose_middle{margin-top:10px; width:758px;}
+.choose_btn{ text-align:center;}
+.list-table{width:95%;}
+
+.server_top{width:758px;float:left; margin-top:10px;display:inline;}
+.server_tab{width:758px;float:left;}
+.server_tab tr{height:35px;line-height:35px;}
+.server_tab select {width:130px;*width:128px;}
+#provincediv{float:left; margin-right:5px;position:relative;top:3px;_top:7px;}
+#citydiv{float:left; margin-right:5px; position:relative;top:3px;+top:6px;_top:7px;}
+#areadiv{float:left;margin-right:3px;position:relative;top:3px;+top:6px;_top:7px;}
+
+
+.top_left{width:92px;float:left; }
+.top_right{width:666px;float:left;}
+.server_category{width:758px;float:left;margin-top:15px;display:inline;}
+.cate_left_top{float:right;}
+
+.server_thumb{width:758px;float:left;margin-top:15px;display:inline; margin-bottom:15px;}
+.thumb{ width:300px; height:300px; float:left; border:1px solid #ccc;}
+.thumb img{width:300px; height:300px; }
+.must{color:red;}
+.address{ width:371px;*width:365px;}
+@media screen and (-webkit-min-device-pixel-ratio:0){ .address{ width:369px;} } 
+
+/*服务类别*/
+.cate_right{width:600px;float:left;}
+.cate_server{float:left;width:120px; margin-bottom:15px;display:inline;}
+.cate_server_name{color:red;}
+.cate_server input,span{ vertical-align: middle;}
+.pos_ab{position:absolute;display:none;width:178px;background:#fff;border:solid 2px black;padding:10px;}
+.server_child{width:88px;float:left;margin-bottom:10px;display:inline;}
+.server_child_btn{clear:both;text-align: center;}
+
+/*技能特长*/
+.server_skill{width:758px;float:left;margin-top:10px;display:inline;}
+.server_skill input,span{vertical-align: middle;}
+.skill_right{width:600px;float:left;}
+.skill_list{float:left;width:120px;margin-bottom:15px;display:inline;}
+.skill_child{width:88px;float:left;margin-bottom:10px;display:inline;}
+.skill_child_btn{clear:both;text-align: center;}
+
+.server_other{width:758px;float:left;margin-top:10px;display:inline;}
+.other_text textarea{width:570px;height:80px;}
+.server_desc{width:758px;float:left;margin-top:20px;display:inline; margin-bottom:10px;}
+.desc_text textarea{width:570px;height:80px;}
+.sub{width:758px;float:left;margin-top:20px;display:inline; margin-bottom:10px;}
+.sub p{width:758px;float:left;line-height: 25px;text-align: center;}
+.omit1 a{float:left; width:150px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}
+.omit2 a{float:left; width:310px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left;}

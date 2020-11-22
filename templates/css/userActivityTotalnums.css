@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+
+.list-table {
+    border: 0;
+}
+.activityAddDiv{
+    /*width:720px;*/
+    width: 95%;
+    margin: 0 auto;
+    /*border:1px solid #d8d8d8;*/
+    clear:both;
+}
+
+

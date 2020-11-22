@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 原始地址：//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/positionPicker.html -->
+    <!--<base href="//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/" />-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>拖拽选址</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        padding: 0;
+        overflow: hidden;
+        font-size: 13px;
+        background: #e6e6e6;
+    }
+    .title{
+    	position: relative;
+    	top: 10px;
+    	text-align: center;
+    	font-size: 17px;
+    }
+    
+    #next{
+    	position: absolute;
+    	top: -5px;
+    	right: 5px;
+    	width: 80px;
+    	height: 30px;
+    	border-radius: 3px;
+    	border: 0;
+    	outline: none;
+    	background: #FFFFFF;
+    }
+    .map {
+    	margin-top: 20px;
+        height: 90%;
+        /*width: 100%;*/
+    }
+    
+    </style>
+</head>
+
+<body>
+	<div class="title">
+		<span style="font-weight: 600;">选择活动地点</span>
+		<button id="next">确定</button>
+	</div>
+    <div id="container" class="map" tabindex="0"></div>
+    <script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a&plugin=AMap.ToolBar'></script>
+    <!-- UI组件库 1.0 -->
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <script type="text/javascript" src="../../js/city.data-3.js" ></script>
+    <!--<script type="text/javascript" src="../js/comm.js" ></script>-->
+    <script type="text/javascript">
+    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+        var map = new AMap.Map('container', {
+            zoom: 16,
+            scrollWheel: false
+        })
+        var positionPicker = new PositionPicker({
+            mode: 'dragMap',
+            map: map
+        });
+
+        positionPicker.on('success', function(positionResult) {
+            myPosition = positionResult.position;
+//          positionR = positionResult;
+            address = positionResult.regeocode.addressComponent;
+        });
+        
+        positionPicker.on('fail', function(positionResult) {
+        });
+        
+        positionPicker.start();
+        map.panBy(0, 1);
+        map.addControl(new AMap.ToolBar({
+            liteStyle: true
+        }));
+    });
+    
+    document.getElementById("next").addEventListener("click", function(){
+//  	console.log(myPosition);
+//  	console.log(address);
+    	var insertPoint = JSON.parse(localStorage.getItem("activityData"));
+    	var cityData = cityData3;
+    	
+		insertPoint.province = idValueText3(cityData,address.province);
+    	insertPoint.city = idValueText3(cityData,address.province,address.city); 
+    	insertPoint.area = idValueText3(cityData,address.province,address.city,address.district);
+    	
+    	insertPoint.point = myPosition.lng+","+myPosition.lat;
+    	if(insertPoint.area){
+//  		console.log(typeof insertPoint.point);
+	    	localStorage.setItem("activityData",JSON.stringify(insertPoint));
+	    	setTimeout(function(){
+		//  	window.history.go(-1);
+		    	window.history.back();  //返回上一页
+	    	},700)
+    	}
+    })
+    function idValueText3(list,pid,cid,aid){
+		//根据值判断id  (3个)
+		for(var key in list){
+			if((list[key].text) == pid){
+				var value0 = list[key].value;
+				var children1 = list[key].children;
+				for(var key1 in children1){
+					if((children1[key1].text) == cid){
+						var value1 = children1[key1].value;
+						var children2 = children1[key1].children;
+						for(var key2 in children2){
+							if((children2[key2].text) == aid){
+								var value2 = children2[key2].value;
+								return value2;
+							}
+						}
+						return value1;
+					}
+				}
+				return value0;
+			} 
+		}
+		return;
+	}
+    </script>
+</body>
+
+</html>

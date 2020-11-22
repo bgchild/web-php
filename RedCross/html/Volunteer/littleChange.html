@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <script>
+        !function () {
+            function a() {
+                document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + "px"
+            }
+
+            var b = null;
+            window.addEventListener("resize", function () {
+                clearTimeout(b), b = setTimeout(a, 10)
+            }, !1), a()
+        }(window);
+    </script>
+    <title>微调</title>
+    <style>
+        body, html, .mui-content{
+            /*height: 100%;*/
+            background-color: #f1f1f1;
+            color: #000000;
+        }
+
+        .text_name {
+            font-size: 0.32rem;
+        }
+
+        .changed {
+            margin-bottom: 0;
+        }
+
+        .changed span {
+            display: inline-block;
+            /*margin-left:5px;*/
+            border: 1px solid #AAAAAA;
+            width: 0.3rem;
+            height: 0.3rem;
+            line-height: 0.27rem;
+            text-align: center;
+        }
+
+        .changed span:nth-child(3) {
+            border: none;
+            width: 0.7rem;
+            text-align: center;
+            font-size: 0.2rem;
+        }
+
+        .container {
+            /*margin-top: 30px;*/
+        }
+
+        .bott {
+            margin-bottom: 4.5rem;
+        }
+
+        /*checkbox*/
+        .container .mui-checkbox input[type=checkbox] {
+            top: 40px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+        }
+		.mui-input-row{
+			margin: 10px 10px;
+			padding: 10px;
+			padding-left: 0;
+			background: #fff;
+			border-bottom: 1px solid #ddd;
+		}
+		.mui-input-row:last-child {
+		   background: #fff;
+		}
+		.mui-checkbox.mui-left label{
+		    padding-right: 15px;
+		    padding-left: 45px;
+		}
+        .mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+            font-size: 20px;
+        }
+
+        label span {
+            display: inline-block;
+            font-size: 0.3rem;
+            line-height: 0.6rem;
+            color: #8f8f94;
+        }
+
+        label .blc {
+            color: #000000;
+        }
+
+        .show {
+            padding-left: 45px;
+            padding-right: 15px;
+        }
+
+        .show textarea {
+            font-size: 0.32rem;
+            margin-bottom: 0;
+            padding: 5px 10px;
+        }
+
+        .end {
+            height: 0.8rem;
+            margin-top: 30px;
+            padding: 0 10px;
+        }
+
+        .btn {
+            background-color: #36ccab;
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+            line-height: 0.8rem;
+            text-align: center;
+            font-size: 0.35rem;
+            color: #FFFFFF;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="mui-content">
+        <form id="subForm" style="display: none"></form>
+        <div class="container">
+            <div class="mui-input-row mui-checkbox mui-left" v-for="(item,index) in actList">
+                <label>
+                    <span>姓名：<span class="blc">{{item.name}}</span></span><span>&#x3000;&#x3000;昵称：<span
+                        class="blc">{{item.nickname}}</span></span><br/>
+                    <span>年龄：<span class="blc">{{item.birthday}}</span></span><span>&#x3000;&#x3000;姓别：<span
+                        class="blc">{{(item.sex)==1?"男":"女"}}</span></span><br/>
+                    <span>已获支援服务时间：<span class="blc">{{item.time}}</span></span><br/>
+                </label>
+                <input @change="clickInput(index)" name="checkbox" :value="item.recordid" type="checkbox"/>
+                <div class="show" v-show="item.isShow" :id="item.recordid">
+
+                    <input type="hidden" :id="'ttime_'+item.recordid" :name="'ttime['+item.recordid+']'" :value="item.basePredictHour" class="">
+                    <input type="hidden" :id="'htime_'+item.recordid" :name="'htime['+item.recordid+']'" :value="item.basePredictHour" class="">
+                    <input type="hidden" :id="'reason_'+item.recordid" :name="'reason['+item.recordid+']'" :value="item.reason" class="">
+
+                    <div class="mui-row">
+                        <p class="changed">
+                            <lable class="text_name">调整后志愿服务时间：</lable>
+                            <span @click="reduces">-</span>
+                            <span class="blc" :data-base="item.basePredictHour">{{item.basePredictHour}}</span>
+                            <span @click="increases">+</span>
+                        </p>
+                    </div>
+                    <div class="mui-row">
+                        <p class="text_name">原因：</p>
+                        <textarea @change="reasons" :id="'because_'+item.recordid" :name="'because['+item.recordid+']'" class="because" cols="10"
+                                  rows="6">{{item.reason}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="end" v-show='isShow'>
+                <div class="btn" @click="timeLittleChange">保存</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../../js/mui.min.js"></script>
+<script type="text/javascript" src="../../js/vue.min.js"></script>
+<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/comm.js"></script>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            id: '',
+            isShow:false,
+            actList: [],
+            ttime: [],  //调整后时间
+            htime: [],  //调整前时间
+            reason: []   //原因
+        },
+        mounted: function () {
+            var self = this;
+            // 获取上级页面传来的id值
+            self.id = GetArgsFromHref(window.location.toString(), "aid");
+            console.info(self.id);
+            self.serverActList();
+
+        },
+        methods: {
+            // 志愿服务时间人员列表
+            serverActList: function () {
+                var self = this;
+                mui.rAjax({
+                    url: '/ajax.php',
+                    data: {
+                        act: "usertimelist",
+                        aid: self.id
+                    },
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'GET',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (data) {
+                        //服务器返回响应，根据响应结果，分析是否登录成功；
+                        console.log(data);
+                        self.actList = data.datas;
+//                      if(data.responseCode == 0){
+//                      	console.log(data);
+//                      	if(Boolean(data.datas.length)){
+//                      		self.actList = data.datas;
+//		                        for (var i in self.actList) {
+//		                            self.actList[i].isShow = false;
+//		                        }
+//		                        self.isShow = true;
+//                      	}else{
+//                      		self.isShow = false;
+////                      		mui.toast("没有微调信息");
+//                      	}
+//                      }else{
+//                      	self.isShow = false;
+//                      	mui.toast(data.responseMsg);
+//                      }
+                        
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        //异常处理；
+                        console.log(type);
+                    }
+                });
+            },
+            // 志愿服务时间微调
+            timeLittleChange: function () {
+                var self = this;
+
+                //构造提交的表单
+                var items = $('.is-checked').clone();
+                $('#subForm').append(items);
+                var data = $('#subForm').serialize();
+                $('#subForm').empty();
+
+                $.ajax({
+                    url: mui.apiUrl + '/ajax.php?act=updateusertime',
+                    crossDomain: true,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data: data,
+                    dataType: 'json',//服务器返回json格式数据
+                    type: 'POST',//HTTP请求类型
+                    timeout: 10000,//超时时间设置为10秒；
+                    success: function (data) {
+                        //服务器返回响应，根据响应结果，分析是否登录成功；
+                        console.log(data);
+                        if(data.responseCode == 0){
+                        	mui.toast("微调成功");
+                        	window.location.href = "serverTimeManage.html";
+                        }else if(data.responseCode == 5){
+                        	mui.toast("请先进行修改");
+                        }else{
+                        	mui.toast(data.responseMsg);
+                        }
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        //异常处理；
+                        console.log(type);
+                    }
+                });
+            },
+            // 点击减少
+            reduces: function (e) {
+                var self = this;
+                var e = window.event || e;
+                var value = e.target.nextElementSibling.innerHTML;  //后一个元素
+                var timeId = e.target.parentNode.parentNode.parentNode.id;
+                self.htime[timeId] = e.target.nextElementSibling.getAttribute("data-base");   //调整前值
+//						console.log(timeId);
+                if (Number(value) > 0) {
+                    e.target.nextElementSibling.innerHTML = Number(value) - 1;
+                } else {
+                    e.target.nextElementSibling.innerHTML = 0;
+                }
+                self.ttime[timeId] = e.target.nextElementSibling.innerHTML;  //调整后值
+                document.getElementById('ttime_'+timeId).value = e.target.nextElementSibling.innerHTML;
+            },
+            // 点击增加
+            increases: function (e) {
+                var self = this;
+                var e = window.event || e;
+                var value = e.target.previousElementSibling.innerHTML;  //前一个元素
+                var timeId = e.target.parentNode.parentNode.parentNode.id;
+                self.htime[timeId] = e.target.previousElementSibling.getAttribute("data-base");   //调整前值
+                e.target.previousElementSibling.innerHTML = Number(value) + 1;
+                self.ttime[timeId] = e.target.previousElementSibling.innerHTML;  //调整后值
+                document.getElementById('ttime_'+timeId).value = e.target.previousElementSibling.innerHTML;
+            },
+            //点击input
+            clickInput: function (e) {
+                var self = this;
+                var e = window.event || e;
+                var timeId = e.target.value;
+                if (e.target.checked) {
+                    e.target.nextElementSibling.style.display = "block";
+                    $('#ttime_'+timeId).addClass('is-checked');
+                    $('#htime_'+timeId).addClass('is-checked');
+                    $('#reason_'+timeId).addClass('is-checked');
+                } else {
+                    e.target.nextElementSibling.style.display = "none";
+                    $('#ttime_'+timeId).removeClass('is-checked');
+                    $('#htime_'+timeId).removeClass('is-checked');
+                    $('#reason_'+timeId).removeClass('is-checked');
+                }
+            },
+            reasons: function (e) {
+                var self = this;
+                var e = window.event || e;
+                var timeId = e.target.parentNode.parentNode.id;
+                $('#reason_'+timeId).val(e.target.value);
+                self.reason[timeId] = e.target.value;  //调整原因
+//						console.log(e.target.value);
+            }
+        }
+    })
+</script>
+</body>
+</html>

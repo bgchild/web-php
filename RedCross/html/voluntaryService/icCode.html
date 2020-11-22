@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<title>二维码</title>
+		<style type="text/css">
+			.center{
+				margin: 100px 0;
+				text-align: center;
+			}
+			.center img{
+				width: 280px;
+			}
+		</style>
+	</head>
+	<body style="margin: 0;background: #0e0e0e;">
+		<div id="app">
+			<div class="center">
+				<img :src="src"/>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					src: '',
+					id:''
+				},
+				mounted: function() {
+					var self = this;
+					self.id = GetArgsFromHref(window.location.toString(),"rid");
+					self.src = mui.apiUrl+"/ajax/qrcode.php?act=ewm&url="+mui.ipUrl+"/RedCross/html/voluntaryService/codeDetail.html?rid="+self.id
+				},
+				methods: {}
+			})
+		</script>
+	</body>
+</html>

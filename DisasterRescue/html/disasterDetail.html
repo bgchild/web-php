@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/disasterReport.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>灾情详情</title>
+		<style type="text/css">
+			#add{
+				width: 24px;
+    			height: 24px;
+				font-family: Muiicons;
+			    font-size: 24px;
+			    font-weight: 400;
+			    font-style: normal;
+			    line-height: 1;
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			.btn-active{
+				background: #bdbdbd !important;;
+			}
+			textarea{
+				margin-bottom: 0px;
+			}
+			.top img{
+				height: 60px;
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<p class="top" style="margin-top:0;">
+						<lable class="text_name">灾情名称：</lable>
+						<input :value="dataInfo.name" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" id="showUserPicker">
+						<lable class="text_name">灾情种类：</lable>
+						<input :value="dataInfo.cname" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top">
+						<lable class="text_name">您是：</lable>
+						<input :value="dataInfo.type_desc" readonly="readonly" type="text" style="width:70%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top">
+						<lable class="text_name">事发地点：</lable>
+						<input :value="dataInfo.place" readonly="readonly" type="text" style="width:70%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">受灾人数(人)：</lable>
+						<input :value="dataInfo.victims_num" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">受伤人数(人)：</lable>
+						<input :value="dataInfo.injured_num" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">失踪人数(人)：</lable>
+						<input :value="dataInfo.missing_num" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">死亡人数(人)：</lable>
+						<input :value="dataInfo.die_num" readonly="readonly" type="text" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">紧急转移安置人口(人)：</lable>
+						<input :value="dataInfo.transfer_num" readonly="readonly" type="text" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">需口粮救济人口(人)：</lable>
+						<input :value="dataInfo.food_help_num" readonly="readonly" type="text" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">损坏耕地面积(公顷)：</lable>
+						<input :value="dataInfo.damage_land" readonly="readonly" type="text" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">农作物/草场受灾面积(公顷)：</lable>
+						<input :value="dataInfo.damage_crops" readonly="readonly" type="text" style="width:30%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<div class="text top">
+						<lable class="describe text_name">建筑物损毁情况：</lable>
+						<textarea :value="dataInfo.damage_building" readonly="readonly" cols="30" rows="5"></textarea>
+					</div>
+					
+					<div class="text top">
+						<p class="describe text_name">灾情简要描述：</p>
+						<textarea :value="dataInfo.description" readonly="readonly" cols="30" rows="5" placeholder="请输入您看到的或已核实的灾情"></textarea>
+					</div>
+					
+					<div class="top" style="position:relative;">
+						<lable class="text_name">现场灾情图：</lable>
+						<p style="margin-bottom: 0;">
+							<img v-for="item in imageUrl" :src="item" alt="" />
+						</p>
+					</div>
+					<div class="line"></div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					dataInfo:[],
+					imageUrl:[],
+					rid:''
+				},
+				mounted: function(){
+					var self = this;
+					var pageHref = window.location.href;
+					self.rid = GetArgsFromHref(pageHref,"rid");
+					console.log(self.rid);
+					self.getDesasterDetail();
+				},
+				methods:{
+					getDesasterDetail: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act:"dinfo",
+								rid:self.rid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.responseCode == 0){
+									console.log(data.datas);
+									self.dataInfo = data.datas;
+									self.imageUrl = data.datas.image;
+								}else{
+									mui.toast(data.responseMsg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

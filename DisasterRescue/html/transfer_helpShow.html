@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		<script>
+			/*求助展示中转页面，若用户完善过信息，则直接到求助展示页面*/
+			// 获取回传地址code参数
+			var code = GetArgsFromHref(window.location.href,'code');
+			// 根据code获取openid
+			mui.rAjax({
+				url:'/ajax/getOpenid.php',
+				data:{
+					code: code
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'GET',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+					//得到openid，根据openid判断用户是否完善过信息
+					setCookie("openid", data.openid);
+					isUserd(data.openid);
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log(type);
+				}
+			});
+			
+			// 判断是否完善过用户信息
+			function isUserd(openid){
+				mui.rAjax({
+					url:'/ajax/disaster.php',
+					data:{
+						act: 'userinfo',
+						openid: openid
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'GET',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						// 0:用户存在；1:用户不存在
+						if(data.responseCode == 0){
+							location.href = "helpShow.html";
+						}else{
+							location.href = "realName.html?pageCode=4";
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

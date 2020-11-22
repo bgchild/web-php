@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/join_organization.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>加入组织</title>
+	</head>
+	<body>
+		
+		<div id="app">
+			<!--<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">加入组织</h1>
+			</header>-->
+		
+			<div class="mui-content">
+				<div class="head">
+					<i class="mui-icon mui-icon-search"></i>
+					<input type="text" placeholder="          服务队名称、内容"/>
+				</div>
+				
+				<div class="container">			
+					<div class="left">
+						<p>
+							<img src="../img/raw_1509010013.png" alt="" />
+						</p>
+						<p>申请</p>
+					</div>
+					<div class="right">
+						<ul>		
+							<li style="color:#000000;font-size:0.3rem;">人道援助</li>
+							<li>
+								<lable>招收人数：</lable>
+								<span>20人</span>
+								<span>&#x3000;&#x3000;&#x3000;已有人数：1人</span>
+							</li>
+							<li>
+								<lable>服务类型：</lable>
+								<span>人道救助</span>
+							</li>
+							<li>
+								<lable>所需技能：</lable>
+								<span>心理资格证、助理社会工作</span>
+							</li>
+							<li>
+								<lable>所属地区：</lable>
+								<span>西城区</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="container">			
+					<div class="left">
+						<p>
+							<img src="../img/raw_1509010013.png" alt="" />
+						</p>
+						<p>申请</p>
+					</div>
+					<div class="right">
+						<ul>		
+							<li style="color:#000000;font-size:0.3rem;">人道援助</li>
+							<li>
+								<lable>招收人数：</lable>
+								<span>20人</span>
+								<span>&#x3000;&#x3000;&#x3000;已有人数：1人</span>
+							</li>
+							<li>
+								<lable>服务类型：</lable>
+								<span>人道救助</span>
+							</li>
+							<li>
+								<lable>所需技能：</lable>
+								<span>心理资格证、助理社会工作</span>
+							</li>
+							<li>
+								<lable>所属地区：</lable>
+								<span>西城区</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="container">			
+					<div class="left">
+						<p>
+							<img src="../img/raw_1509010013.png" alt="" />
+						</p>
+						<p>申请</p>
+					</div>
+					<div class="right">
+						<ul>		
+							<li style="color:#000000;font-size:0.3rem;">人道援助</li>
+							<li>
+								<lable>招收人数：</lable>
+								<span>20人</span>
+								<span>&#x3000;&#x3000;&#x3000;已有人数：1人</span>
+							</li>
+							<li>
+								<lable>服务类型：</lable>
+								<span>人道救助</span>
+							</li>
+							<li>
+								<lable>所需技能：</lable>
+								<span>心理资格证、助理社会工作</span>
+							</li>
+							<li>
+								<lable>所属地区：</lable>
+								<span>西城区</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+				
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					myPage:''
+				},
+				mounted: function(){
+					
+				},
+				methods:{
+					do:function(){
+						var self = this;
+						self.myPage = "这是一个demo页面"
+					},
+					ajaxDemo: function(){
+						mui.rAjax({
+							url:'/httpif/app/houser/login',
+							data:{
+								mobile:'13151605326',
+								password:'lzq123456'
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>
+

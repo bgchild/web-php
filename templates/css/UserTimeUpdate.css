@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+@import url(common.css);
+
+/*超出部分隐藏*/
+.tdnickname a{float:left; width:94px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdname a{float:left; width:94px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+
+.cart_td_6{
+	    width:120px;	
+		background-color:#FFF;
+		border-bottom:solid 1px #d1ecff;
+		border-top:solid 1px #d1ecff;
+		text-align:center;
+ 		
+		
+
+		border-right:solid 1px #FFF;
+}
+.hand{
+		cursor:pointer;
+		}
+img{
+	border:0px;
+	vertical-align:middle;
+	}

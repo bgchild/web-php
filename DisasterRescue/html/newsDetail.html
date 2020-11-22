@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/newsDetail.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>新闻详情</title>
+		<style>
+			img {
+				width: 100%;
+				height: auto;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<p class="title">{{myPage.title}}</p>
+					<p class="name">
+						<span>作者：{{myPage.creator}}  </span>
+						<span>来源：{{myPage.from}}</span>
+					</p>
+					<p class="time">发布时间：{{myPage.adddate}} </p>
+					<div class="text" v-html="myPage.content">
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					rid: '',
+					myPage:{}
+				},
+				mounted: function(){
+					var self = this;
+					self.rid = GetArgsFromHref(window.location.toString(),"rid");
+					self.ajaxDeail();
+				},
+				methods:{
+					ajaxDeail: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act:"newsinfo",
+								rid: self.rid
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(data.responseCode == 0){
+									self.myPage = data.datas;
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

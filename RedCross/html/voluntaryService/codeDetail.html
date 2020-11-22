@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>加入活动详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #ffffff;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 15px;
+				padding-bottom: 44px;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row span{
+				display: inline-block;
+				color: #141414;
+				font-size: 13.0px;
+				padding: 12px 0px;
+			}
+			.mui-input-row span:nth-child(1){
+				padding-left: 12px;
+				color: #696969;
+			}
+			.lastDiv{
+				color: #141414;
+				font-size: 12.0px;
+			}
+			.lastDiv span{
+				display: inline-block;
+				color: #696969;
+				font-size: 12.0px;
+				padding: 6px 15px;
+			}
+			.lastDiv .divContent{
+				height: 70px;
+				border: 1px solid #c8c7cc;
+				padding: 6px 15px;
+			}
+			.mui-button-row{
+				padding: 10px 30px;
+			}
+			.mui-button-row .mui-btn-block{
+				color: #FFFFFF;
+			    font-size: 14.0px;
+			    text-align: center;
+			    background: #36CCAB;
+			    border-color: #36CCAB;
+				padding: 7px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="codeDetail">
+			<div class="mui-content">
+			    <div class="mui-input-row">
+			    	<span>活动名称：</span><span class="right">{{myPage.activityName}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动类型：</span><span class="right">{{myPage.activityType}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动地点：</span><span class="right">{{myPage.activityAddr}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>计划人数：</span><span class="right">{{myPage.planNum}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>预计志愿服务时间：</span><span class="right">{{myPage.predictHour}}小时</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动时间：</span><span class="right">{{myPage.activityStartDate}}至 {{myPage.activityEndDate}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动时长：</span><span class="right">{{myPage.activityTime}}小时</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>报名截止时间：</span><span class="right">{{myPage.signUpDeadline}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>服务队名称:</span><span class="right"> {{myPage.serviceTeamName}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>受益人次：</span><span class="right"> {{myPage.actysobjnum}} 人</span>
+			    </div>
+			    <div class="lastDiv">
+			    	<span>参加活动要求：</span><div class="divContent"> {{myPage.remarks}}</div>
+			    	<span>活动简介：</span><div class="divContent"> {{myPage.activityProfile}}</div>
+			    </div>
+			    <!--<div class="mui-input-row">
+			    	<span>上传附件：</span><span class="right"> 未上传</span>
+			    </div> -->
+			    <div class="mui-input-row">
+			    	<span>活动宣传图片：</span><span class="right"><img :src="myPage.img"/></span>
+			    </div>
+			    <div @click="partIn" class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-block">加入</button>
+				</div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#codeDetail',
+				data: {
+					id: '',
+					myPage:{}
+				},
+				mounted: function() {
+					var self = this;
+					self.id = GetArgsFromHref(window.location.toString(),"rid");
+					console.info(self.id);
+					self.ajaxDeail();
+				},
+				methods: {
+					ajaxDeail: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"detailactivity",
+								rid: self.id
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									data.datas.signUpDeadline = self.dates(Number(data.datas.signUpDeadline));
+									self.myPage = data.datas;
+								}else{
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					partIn: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php?act=joinActivity',
+							data:{
+								rid: self.id
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									mui.toast("加入成功");
+									var addHidden = document.getElementsByClassName("mui-button-row")[0];
+									addHidden.classList.add("mui-hidden");
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg);
+//									window.location.href = "./loginIn.html";
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					//格式化时间
+					dates: function(times){
+						//小于10的时间数补零函数
+						var plusZero = function(str) {
+							if(str < 10) { //小于10 补零返回
+								return "0" + str;
+							} else { //不小于10 返回参数
+								return str;
+							}
+						};
+						//如果times为null 返回" "
+						if(times === null) return " ";
+						var date;
+						if(times === undefined) {
+							date = new Date();
+						} else {
+							date = new Date(times);
+						}
+						var temp1 = "-";
+						var temp2 = " ";
+						var temp3 = ":";
+						//返回格式化时间
+						return date.getFullYear() + temp1 + plusZero((date.getMonth() + 1)) + temp1 + plusZero(date.getDate())+temp2+plusZero(date.getHours()) + temp3 + plusZero(date.getMinutes());
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

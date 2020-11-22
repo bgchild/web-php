@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/notice.css" rel="stylesheet" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>通知公告</title>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content" style="overflow: hidden;">
+				<ul class="list">
+					<li v-for='item in infoList' @click="liClick" :id="item.recordid">{{item.title}}<span>{{item.adddate}}</span></li>
+					<!--<li>关于国务院机构改革和只能改变<span>2017-10-10</span></li>-->
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					rid:'',
+					infoList:[]
+				},
+				mounted: function(){
+					var self = this;
+					self.ajaxDemo();
+				},
+				methods:{
+					ajaxDemo: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php',
+							data:{
+								act:"noticelist",
+								sign:'yz',
+								pstart: 0,
+								psize: 10
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.infoList = data.datas;
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg)
+								}else if(data.responseCode == 2){
+									mui.toast(data.responseMsg)
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					liClick: function(e){
+
+						console.log(e.target);
+						window.location.href = "noticeDetail.html?rid="+e.target.id;
+
+//						console.log(e.target);
+//						var self = this;
+//						self.rid = e.path[1].id;
+//						setTimeout(function(){
+//							window.location.href = "noticeDetail.html?rid="+self.rid;
+//						},300);
+
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

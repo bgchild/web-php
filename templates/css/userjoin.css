@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+#chosecity{  height:40px; cursor:pointer; color:#DE2301; font-size:14px; text-decoration:underline; float:left; width:60%; line-height:40px; padding-left:50px;}
+#clist {
+    width: 100%;
+	float:left;
+    overflow: hidden;
+    padding: 0px 0px 20px;
+	display:none
+}
+#clist dt {
+    color: #545454;
+    float: left;
+    width:50px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    clear: both;
+    font-weight: bold;
+    margin: 0px;
+    padding: 5px 0px 5px 5px;
+}
+#clist dd {
+    float: left;
+    width: 90%;
+    margin-left: 0px;
+    padding: 5px 0px;
+}
+#clist dd a {
+    font-size: 12px;
+    margin-right: 12px;
+    white-space: nowrap;
+    text-decoration: none;
+	color: #333;
+}
+#clist dd a:hover {
+    color: #E40000;
+}
+.tinfo{ padding-left:50px; float:left; padding-bottom:20px;}
+.tinfo td{ padding-top:10px;}
+.content_right{ min-height:415px;}
+.jinfo{ padding-left:50px; padding-top:20px;}
+
+
+
+

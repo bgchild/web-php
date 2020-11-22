@@ -1,0 +1,21 @@
+/*加载公共样式*/
+@import url(common.css);
+.changservertime{width:95%;height:130px;clear:both;margin:10px auto; }
+.searchFieldSet{height:130px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.hiddenChooseDiv{width:900px;margin:0 auto 10px;border:1px solid #D8D8D8;clear:both;display:none;}
+
+.TimeTable tr{height:34px;line-height:34px;}
+.searchFrom{display:bolck;width:95%;height:140px;clear:both;margin:10px auto;}
+.searchFieldSet2{height:140px;}
+.searchTable{width:900px;margin:0px auto;table-layout:fixed;}
+.searchTable tr{height:40px;line-height:40px;}
+.listright{text-align:right;}
+.listleft{text-align:left;}
+.length_201{width:100px;}
+.select_201{width:100px;}
+.table-95{width:95% !important;}
+/*超出部分隐藏*/
+.tdactivityName a{float:left; width:200px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdtypename a{float:left; width:90px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdactivityAddr a{float:left; width:160px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}

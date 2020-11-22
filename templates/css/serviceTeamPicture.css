@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+@import url(user_center.css);
+@import url(admin_base.css);
+.searchFieldSet{height:150px;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; }
+.searchTable{margin-left:80px;}
+.searchTable tr{height:42px;line-height:42px;}
+.searchFieldSet{height:150px;}
+.searchFrom{display:bolck;width:720px;height:150px;clear:both;margin-left:20px;margin-bottom:10px;margin-top:10px;}
+.ust{width:95%;margin:0px auto; margin-top:15px;}
+.pic{display:bolck;width:720px;clear:both;margin-left:20px;margin-bottom:10px; margin-top:10px;}
+.order{ float:left;margin:10px 0 10px;}
+.order2{ float:right;margin:10px 0 10px;}
+.omit1 a{float:left; width:200px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.omit2 a{float:left; width:300px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+/*serverTeamPic*/
+.pic_top{width:750px;float:left; margin-bottom:5px;}
+.pic_form{display:bolck;width:720px;clear:both;margin-left:20px;margin-bottom:10px; margin-top:10px;}

@@ -1,0 +1,110 @@
+*{
+	box-sizing: border-box;
+	margin:0;
+	padding:0;
+}
+
+body,html{ 
+	height:100%;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+.mui-content{
+	background-color:#FFFFFF;
+	/*overflow: hidden;*/
+}
+
+.head{
+	border-bottom:1px solid #C7C7CC;
+	height:0.9rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.mui-btn{
+	height:70%;
+	border:none;
+	font-size:0.3rem;
+}
+
+/*.head div{
+	width:30.333%;
+	height:100%;
+	float:left;
+}*/
+
+select{
+	height:0.5rem;
+	border:none;
+	font-size:0.25rem;
+}
+
+#region{
+	width:50%;
+}
+
+#kind{
+	width:80%
+}
+
+#state{
+	width:50%;
+}
+
+.name{
+	margin-top:10px;
+	padding-left:20px;
+	margin-bottom:0;
+}
+
+.name input{
+	border:none;
+	margin-bottom:0;	
+}
+
+.diaster{
+	/*border:1px solid red;*/
+	padding-left:35px;
+	padding-right:10px;
+	margin-bottom:30px;
+	position:relative;
+	z-index:0;
+}
+
+.diaster ul li{
+	list-style: none;
+	margin-bottom:10px;
+	font-size:0.3rem;
+	line-height: 0.35rem;
+}
+
+.diaster ul .title{
+	font-size:0.35rem;
+}
+
+lable{
+	color:#797979;
+}
+
+.triangle{
+	width: 0;
+    height: 0;  
+    border-left: 1.1rem solid transparent;  
+    position:absolute;
+    top:0;
+    right:10px;
+    z-index:-9999;
+}
+
+.triangle_text{
+	padding-top:5px;
+	color:#ffffff;
+	text-align: right;
+	margin-bottom:0;
+	font-size:0.2rem;
+	/*border:1px solid blue;*/
+}
+
+

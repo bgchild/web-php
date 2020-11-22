@@ -1,0 +1,412 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>组织管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<!--选择条件查询-->
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				/*padding: 0 18px;*/
+			}
+			.divInputSeach{
+				position: relative;
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 62%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				/*border-color: rgba(255,255,255,.2);*/
+			    color: #adadad;
+			    font-size: 12.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach .add{
+				position: absolute;
+				top: 22px;
+				right: 10px;
+			}
+			.divInputSeach .add img{
+				width: 17px;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;} 
+			/*选项卡*/
+			.mui-segmented-control .mui-control-item.mui-active {
+			    color: #101010;
+			    position: relative;
+			}
+			.mui-segmented-control .mui-control-item.mui-active:after {
+			    content: "";
+			    position: absolute;
+			    display: block;
+			    bottom: 0;
+			    left: 28%;
+			    width: 45%;
+			    height: 2px;
+			    border-radius: 4px;
+			    background: #ff000f;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted{
+				font-size: 14px;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			    color: #101010;
+			    border-bottom: 0px;
+			}
+			/*内容*/
+			.activityServerTime{
+				position: relative;
+				/*width: 100%;*/
+				margin: 10px 10px;
+				padding: 10px;
+				background: #FFFFFF;	
+			}
+			.activityServerTime:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0px;
+			    right: 0px;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.activityServerTime p{
+				font-size: 12px;
+				margin-bottom: 5px;
+			}
+			.activityServerTime p span:nth-child(1){
+				color: #6b6b6b;
+				margin-right: 10px;
+			}
+			.activityServerTime p span:nth-child(2){
+				color: #101010;
+			}
+			.activityServerTime span img{
+				width: 15px;
+			}
+			.activityServerTime .show span:nth-child(1),.edit span:nth-child(1),.delete span:nth-child(1){
+				margin-right: 8px;
+			}
+			.activityServerTime .edit,.show{
+				position: absolute;
+				top: 24px;
+				right: 20px;
+				color: #36ccab;
+			}
+			.activityServerTime .delete{
+				position: absolute;
+				top: 60px;
+				right: 20px;
+				color: #bbbbbb;
+			} 
+			#segmentedControl a{
+				touch-action: none;
+			}
+			.forum-top{
+				position: fixed;
+			    background: #fff;
+			    z-index: 999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="organManage">
+			<div class="mui-content">
+			<!--条件查询-->
+				<!--<div class="forum-top" :style="{top: top1 +'px'}">
+				    <div class="forum-btn">
+				   		<button type="button" class="mui-btn"  @click="clickBtn1()">{{postingPlateFirst.name}}<i class="iconfont" :class="isShow?'is-rotate':''"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+				   		<button type="button" class="mui-btn" style="height: 42px;"></button>
+				   		<ul class="first-list" v-if="isShow">
+						    <li v-for="(item,index) in postingsPlateList" @click="firstBLClick(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.name}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<div class="clear"></div>
+				   </div>
+				</div>
+				<div class="mui-backdrop" v-show="isShow" @click="clickBtn1()"></div>
+				-->
+				<div class="divInputSeach":style="{marginTop: top2 +'px'}">
+					<span class="mui-icon mui-icon-search left"></span>
+					<input v-model="name" class="inputSeach left" id="searchName" type="text" placeholder="服务队名称" />
+					<div @click="searchs" class="left" id="search">搜索</div>
+					<div class="clean"></div>
+					<span class="add" @click="addOrganize"><img src="../../img/icon_18.png"/></span>
+				</div>
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted" style="">
+					<a @tap="changeList(1)" class="mui-control-item" href="#item1mobile"><span>申请中</span></a>
+					<a @tap="changeList(2)" class="mui-control-item" href="#item2mobile"><span>已通过</span></a>
+					<a @tap="changeList(3)" class="mui-control-item" href="#item3mobile"><span>未通过</span></a>
+				</div>
+				<div>
+					<div id="item1mobile" class="mui-control-content">
+						<!--<div id="scroll1" class="mui-scroll-wrapper">-->
+							<div class="mui-scroll">
+								<div class="activityServerTime" v-for="item in infoList" :id="item.id">
+									<p><span>服务队名称：</span><span>{{item.name}}</span></p>
+									<p><span>创建日期：</span><span>{{item.foundingTime}}</span></p>
+									<p><span>修改日期：</span><span>{{item.editTime}}</span></p>
+									<span @click="editOrgainze" class="edit" :id="item.id"><span><img src="../../img/icon_29.png"/></span><span>编辑</span></span>
+									<span @click="deleteOrgainze" class="delete" :id="item.id"><span><img src="../../img/icon_26.png"/></span><span>删除</span></span>
+								</div>
+								<!--<div class="activityServerTime">
+									<p><span>服务队名称：</span><span>人道援助</span></p>
+									<p><span>创建日期：</span><span>2017-10-10 14:32:40</span></p>
+									<p><span>修改日期：</span><span>2017-10-10 14:32:40</span></p>
+									<span @click="editOrgainze" class="edit" id="66"><span><img src="../../img/icon_29.png"/></span><span>编辑</span></span>
+									<span @click="deleteOrgainze" class="delete" id="66"><span><img src="../../img/icon_26.png"/></span><span>删除</span></span>
+								</div>-->
+							</div>
+						<!--</div>-->
+					</div>
+					<div id="item2mobile" class="mui-control-content">
+						<!--<div id="scroll1" class="mui-scroll-wrapper">-->
+							<div class="mui-scroll">
+								<div class="activityServerTime" v-for="item in infoList" :id="item.id">
+									<p><span>服务队名称：</span><span>{{item.name}}</span></p>
+									<p><span>创建日期：</span><span>{{item.foundingTime}}</span></p>
+									<p><span>审核日期：</span><span>{{item.pastime}}</span></p>
+									<p><span>队员人数：</span><span>{{item.passNum}}</span></p>
+									<p><span>申请加入人数：</span><span @click="applyForAppdit" :id="item.id" style="color: red;">{{item.auditNum}}</span></p>
+									<span @click="showPic" class="show" :id="item.id"><span><img src="../../img/icon_38.png"/></span><span>展示</span></span>
+									<span @click="deleteOrgainze" class="delete" :id="item.id"><span><img src="../../img/icon_26.png"/></span><span>删除</span></span>
+								</div>
+							</div>
+						<!--</div>-->
+					</div>
+					<div id="item3mobile" class="mui-control-content">
+						<!--<div id="scroll1" class="mui-scroll-wrapper">-->
+							<div class="mui-scroll">
+								<div class="activityServerTime" v-for="item in infoList">
+									<p><span>服务队名称：</span><span>{{item.name}}</span></p>
+									<p><span>创建日期：</span><span>{{item.foundingTime}}</span></p>
+									<p><span>未通过原因：</span><span>{{item.reason}}</span></p>
+								</div>
+								<!--<div class="activityServerTime">
+									<p><span>服务队名称：</span><span>人道援助</span></p>
+									<p><span>创建日期：</span><span>2017-10-10 14:32:40</span></p>
+									<p><span>未通过原因：</span><span>不通过</span></p>
+								</div>-->
+							</div>
+						<!--</div>-->
+					</div>
+				</div>
+			</div>	
+		</div>
+	
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#organManage',
+				data: {
+					top1:0,
+					top2:0,
+					page:1,
+					isShow:false,
+					postingPlateFirst:{name:"创建日期", id:"", isActive:true, isShow:true},
+					postingsPlateList:[
+						{id:"",name:"创建日期",isActive:true, isShow:true},
+						{id:"2",name:"大地",isActive:false, isShow:false}
+					],
+					postingsList:[],
+					tag: 1,
+					startDate: '',
+					EndDate: '',
+					name: '',
+					infoList:[],
+					rid:''
+				},
+				mounted: function() {
+					var self = this;
+					if(getCookie("tag")){
+						self.tag = getCookie("tag");
+						document.querySelectorAll(".mui-control-item")[self.tag-1].classList.add("mui-active");
+						document.querySelectorAll(".mui-control-content")[self.tag-1].classList.add("mui-active");
+						self.changeList(self.tag);
+					}else{
+						document.querySelectorAll(".mui-control-item")[0].classList.add("mui-active");
+						document.querySelectorAll(".mui-control-content")[0].classList.add("mui-active");
+						self.organList();
+					}
+					
+					
+				},
+				methods: {
+					clickBtn1:function(){
+						this.isShow = !this.isShow;
+						if(this.isShow1){
+							this.isShow1 = false;
+						}
+					},
+					firstBLClick:function(index){
+						var self = this;
+						self.postingsPlateList[index].isActive = true;
+						self.postingsPlateList[index].isShow = true;
+						for (var i = 0; i < self.postingsPlateList.length; i++) {
+							if(i!=index){
+								self.postingsPlateList[i].isActive = false;
+								self.postingsPlateList[i].isShow = false;
+							}
+						}
+						self.postingPlateFirst = self.postingsPlateList[index];
+						self.page = 1;
+						self.postingsList = [];
+	//					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0);
+	//					mui('.mui-scroll').pullToRefresh().refresh(true)
+	//					self.getPostingsList();
+						self.isShow = false;
+					},
+					searchs:function(){
+						var self = this;
+						self.infoList = [];
+						self.organList();
+					},
+					//新增组织
+					addOrganize:function(e){
+						var self = this;
+						window.location.href = "./newAddOrganize.html";
+					},
+					//编辑组织
+					editOrgainze:function(e){
+						console.log(e.target.offsetParent.id);
+						var self = this;
+						window.location.href = "./editOrganize.html?rid="+e.target.offsetParent.id;
+					},
+					//删除组织
+					deleteOrgainze:function(e){
+						var self = this;
+						var deleteThisId = e.target.offsetParent.id;
+//						console.log(e.target.offsetParent.id);
+						var btnArray = ['否', '是'];
+						mui.confirm('确认要删除该项吗？', '删除项目', btnArray, function(e) {
+							if (e.index == 1) {
+								mui.rAjax({
+									url:'/ajax.php',
+									data:{
+										act: "userTeamDel",
+										rid: deleteThisId
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'GET',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应，根据响应结果，分析是否登录成功；
+										console.log(data);
+										if(data.responseCode == 0){
+											mui.toast("删除成功");
+											self.organList();
+										}else{
+											mui.toast(data.responseMsg)
+										}
+									},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										console.log(type);
+									}
+								});
+							}
+						})
+					},
+					//显示图片
+					showPic:function(e){
+						var self = this;
+						window.location.href = "./showPicAdd.html?rid="+e.target.offsetParent.id;
+					},
+					//申请审核
+					applyForAppdit:function(e){
+//						console.log(e.target.id);
+//						console.log(e.target.offsetParent);
+						var self = this;
+						window.location.href = "./applyForAppdit.html?rid="+e.target.id;
+					},
+					organList:function(type){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php?act=userTeamManage',
+							data:{
+								tag: self.tag,
+								startDate: self.startDate,
+								EndDate: self.EndDate,
+								name: self.name
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									self.infoList = data.datas;
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg);
+									window.location.href = "../voluntaryService/loginIn.html?urlOne=Volunteer&urlTwo=organManage";
+								}else{
+									mui.toast(data.responseMsg);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					changeList:function(number){
+						var self = this;
+						self.infoList = [];
+						self.tag = number;
+						setCookie('tag',self.tag);
+//						console.log(number);
+						self.organList();
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

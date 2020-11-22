@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style>
+			a{
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--首页-->
+			<a href="homePage/home.html">首页</a>
+			<a href="homePage/volunteerExpress.html">志愿快讯</a>
+			<a href="homePage/noticeAnnouncement.html">通知公告</a>
+			<a href="homePage/aboutUs.html">关于我们</a>
+			<br /><br />
+			<!--志愿服务-->
+			<a href="voluntaryService/loginIn.html">成为志愿者</a>
+			<a href="voluntaryService/participateInActivities.html">参加活动</a>
+			<a href="voluntaryService/joinOrganization.html">加入组织</a>
+			<a href="voluntaryService/receiveGuarantee.html">领取保障</a>
+			<br /><br />
+			<!--志愿者-->
+			<a href="Volunteer/myData.html">我的资料</a>
+			<a href="Volunteer/attendActivity.html">我参加的活动</a>
+			<a href="Volunteer/attendOrganize.html">我加入的组织</a>
+			<a href="volunteer/recordTransfer.html">记录转移</a>
+			<a href="Volunteer/volunteerTeamManage.html">志愿队管理</a>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/mui.min.js" ></script>
+	<script type="text/javascript" src="../js/vue.min.js" ></script>
+	<script type="text/javascript" src="../js/comm.js" ></script>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				activityType:[]
+			},
+			mounted: function() {
+				var self = this;
+				self.servePlaceFun();  //服务地
+				self.serveFieldFun();  //服务领域
+				self.nationalityFun();  //国籍
+				self.idTypeFun();      //证件类型
+				self.activityTypeFun();  // 活动类型
+				
+				console.log(JSON.parse(localStorage.getItem("city-data3")));
+				console.log(JSON.parse(localStorage.getItem("nationalitys")));
+				console.log(JSON.parse(localStorage.getItem("serveField")));
+				console.log(JSON.parse(localStorage.getItem("idType")));
+				console.log(JSON.parse(localStorage.getItem("activityType")));
+			},
+			methods: {
+				//服务地
+				servePlaceFun: function(){
+					var self = this;
+					mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act:"pca"
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							localStorage.setItem("city-data3",JSON.stringify(data.datas));
+//								alert(JSON.stringify(data.datas))
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				},
+				//服务领域
+				serveFieldFun: function(){
+					var self = this;
+					mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act:"sdomain"
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data.datas);
+							localStorage.setItem("serveField",JSON.stringify(data.datas));
+//								alert(JSON.stringify(data.datas))
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				},
+				//证件类型
+				idTypeFun: function(){
+					var self = this;
+					mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act:"idtype"
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data.datas);
+							localStorage.setItem("idType",JSON.stringify(data.datas));
+//							self.idType = data.datas;
+//								alert(JSON.stringify(data))
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				},
+				//国籍
+				nationalityFun: function(){
+					var self = this;
+					mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act:"nationality"
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							localStorage.setItem("nationalitys",JSON.stringify(data.datas));
+//							console.log(JSON.parse(localStorage.getItem("nationalitys")));
+//								alert(JSON.stringify(data))
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				},
+				// 活动类型
+	            activityTypeFun: function(){
+					var self = this;
+					mui.rAjax({
+						url:'/ajax.php',
+						data:{
+							act:"activityType"
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'GET',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							for(var i in data.datas){
+								var activyTy = {};
+								activyTy.value = data.datas[i].id;
+								activyTy.text = data.datas[i].name;
+								self.activityType.push(activyTy);
+							}
+							localStorage.setItem("activityType",JSON.stringify(self.activityType));
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+				}
+			}
+		})
+	</script>
+</html>

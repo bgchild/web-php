@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+@import url(common.css);
+@import url(page.css);
+@import url(user_center.css);
+@import url(UserMyServertime.css);
+@import url(detail.css);
+.inquire{width:95%; margin:0 auto; height:110px; margin-top:10px;}
+.inquire legend { color:#1E7ACE; font-weight:bold; } 
+.inquire table{ float:left;}
+.inquire table tr{ height:40px;}
+.inquire table td{ width:100px;}
+.endtd{ padding-left:17px; _padding-left:16px;}
+.r_btn{ position:relative; left:10px;}
+.a_table{width:96%; margin:0 auto; padding-top:10px;}
+.list-table a{ text-decoration:none!important; cursor:pointer; color:red!important; }
+.del{  color:red!important;}
+.onetd{ width:100px;}
+.onetd a{ float:left; width:100px;height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; text-align:left}
+.tdstyle{ text-align:left; float:left; width:100px; height:18px; line-height:18px;overflow:hidden; white-space:nowrap;text-overflow:ellipsis; cursor:pointer;}
+.stdstyle{width:150px;}
+/*userActivationperson.php 样式*/
+.list_per{width:95%; margin:0 auto; margin-top:20px; padding:10px 20px 10px 20px; }
+.list_per legend { color:#1E7ACE; font-weight:bold; margin-bottom:10px;} 
+.list_per table{ float:left;}
+.go_back{ float:left; padding:30px 100px 30px 340px;}
+.go_back .addbtn{ width:50px; float:left; display:inline;}

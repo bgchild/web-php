@@ -1,0 +1,17 @@
+@charset "utf-8";
+@import url(activity.css);
+.content_right{width:880px; float:left;border:1px solid #DBDBDB;}
+.content_right_top{width:95%;float:left; margin-top:10px;padding-right:10px; padding-left:20px; pdisplay:inline; }
+.content_right_top ul li {height: 30px;line-height: 30px;vertical-align: middle;width: 90%;overflow:hidden;list-style: square  inside none; *vertical-align: middle;*width:90%;}
+.content_right_top ul li a {color: #6F6F6F;}
+.content_right_top ul li a:hover {color: #B90000;}
+.content_right_top ul li span {float: right;}
+
+.content_right_middle{margin-top:20px; margin-bottom:20px;float:right;}
+.zixun_title_mes ul {height: 44px;list-style-type: none;margin: 0;padding-left: 2px;text-align: center;}
+.zixun_title_mes ul li {display: inline;height: 44px;line-height: 44px;list-style-type: none;margin-left: 10px;text-align: center;}
+.news_back{width:95%;float:left; margin-top:20px; margin-bottom:20px;}
+.news_back2{ text-align:center;}
+.news_con{width:95%; padding-left:10px; padding-right:10px; float:left;text-indent:25px;}
+.news_con p{text-indent:25px;}
+.news_con img{ max-width:640px;max-height:300px;}

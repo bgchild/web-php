@@ -1,0 +1,23 @@
+body,html{ 
+	height:100%;
+	background-color:#FFFFFF;
+	color:#000000;
+}
+
+.mui-content{
+	background-color:#FFFFFF;
+}
+
+.list{
+	margin-right:20px;
+	margin-top:20px;
+}
+
+.list li{
+	line-height: 0.6rem;
+	font-size:0.3rem;
+}
+
+.list li span{
+	float:right;
+}

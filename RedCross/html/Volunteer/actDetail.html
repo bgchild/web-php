@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>活动详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #ffffff;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 15px;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row span{
+				display: inline-block;
+				color: #141414;
+				font-size: 13.0px;
+				padding: 12px 0px;
+			}
+			.mui-input-row span:nth-child(1){
+				padding-left: 12px;
+				color: #696969;
+			}
+			.lastDiv{
+				color: #141414;
+				font-size: 12.0px;
+			}
+			.lastDiv span{
+				display: inline-block;
+				color: #696969;
+				font-size: 12.0px;
+				padding: 6px 15px;
+			}
+			.lastDiv .divContent{
+				height: 70px;
+				border: 1px solid #c8c7cc;
+				padding: 6px 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="activityDetail">
+			<div class="mui-content">
+			   	<div class="mui-input-row">
+			    	<span>活动名称：</span><span class="right">{{actDeails.name}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动类型：</span><span class="right">{{actDeails.typeName}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动地点：</span><span class="right">{{actDeails.address}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>计划人数：</span><span class="right">{{actDeails.planNum}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>预计志愿服务时间：</span><span class="right">{{actDeails.predictHour}}小时</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动时间：</span><span class="right">{{actDeails.startDate}}至 {{actDeails.endDate}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动时长：</span><span class="right">{{actDeails.time}}小时</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>报名截止时间：</span><span class="right">{{actDeails.signUpDeadline}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>服务队名称:</span><span class="right"> {{actDeails.team}}</span>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>受益人次：</span><span class="right"> {{actDeails.actysobjnum}} 人</span>
+			    </div>
+			    <div class="lastDiv">
+			    	<span>参加活动要求：</span><div class="divContent"> {{actDeails.remarks}}</div>
+			    	<span>活动简介：</span><div class="divContent" v-html="actDeails.profile"></div>
+			    </div>
+			    <div class="mui-input-row">
+			    	<span>活动宣传图片：</span><span class="right"><img :src="actDeails.img"/></span>
+			    </div>
+			</div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#activityDetail',
+				data: {
+					id: '',
+					actDeails:{},
+					activityType:[]
+				},
+				mounted: function() {
+					var self = this;
+					self.id = GetArgsFromHref(window.location.toString(),"rid");
+					self.activityType = JSON.parse(localStorage.getItem("activityType"));
+					console.info(self.id);
+					self.actDeail();
+				},
+				methods: {
+					typeChange:function(list,id){
+						for(var key in list){
+							if(Number(list[key].value) == id) return list[key].text;
+						}
+						return;
+					},
+					actDeail: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"userActivityDetail",
+								rid: self.id
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data.datas);
+								if(data.responseCode == 0){
+									self.actDeails = data.datas;
+									self.actDeails.typeName=self.typeChange(self.activityType,self.actDeails.typeName);
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

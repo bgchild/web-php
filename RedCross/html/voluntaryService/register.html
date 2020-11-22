@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #FFFFFF;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				padding: 0 18px;
+			}
+			.title {
+				font-size: 17px;
+			    font-weight: 500;
+			    line-height: 44px;
+			    width: 100%;
+			    padding: 0;
+			    text-align: center;
+			    white-space: nowrap;
+			    margin: 0; 
+			    color: #101010;
+			}
+			.mui-input-row:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.mui-input-row input{
+				color: #696969;
+				font-size: 12.0px;
+				border: 0;
+				margin-bottom: 0px;
+				padding: 10px 20px;
+			}
+			.mui-btn.mui-btn-red{
+				margin: 30px auto;
+				width: 100%;
+			}
+			.mui-btn-red {
+			    border: 1px solid #36ccab;
+			    background-color: #36ccab;
+			}
+			.mui-btn-red:enabled:active{
+				border: 1px solid #36ccab;
+				background:#36ccab;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="vueRegister">
+			<div class="mui-content">
+				<h2 class="title">志愿者注册</h2>
+				<div>
+				    <div class="mui-input-row">
+				   		<input @change="usernameFun" v-model="username" type="text" placeholder="用户名">
+				    </div>
+				    <div class="mui-input-row">
+				        <input v-model="prevPassword" type="password" class="mui-input-password" placeholder="密码">
+				    </div>
+				    <div class="mui-input-row">
+				        <input v-model="nextPassword" type="password" class="mui-input-password" placeholder="确认密码">
+				    </div>
+				    <div class="mui-input-row">
+				        <input v-model="nickname" type="text" placeholder="昵称">
+				    </div>
+				</div>
+				<div class="mui-button-row">
+					<button @click="nextClick" type="button" class="mui-btn mui-btn-red">下一步</button>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#vueRegister',
+				data: {
+					username:'',
+					prevPassword:'',
+					nextPassword:'',
+					nickname:'',
+					newList:{}  //储存数据
+				},
+				mounted: function() {
+					var self = this;
+					if(getCookie("newList").length>5){
+						var list = JSON.parse(getCookie("newList"));
+						self.newList = list;
+						self.username = self.newList.username;
+						self.prevPassword = self.newList.password;
+						self.nextPassword = self.newList.password;
+						self.nickname = self.newList.nickname;
+					}
+				},
+				methods: {
+					usernameFun: function() {
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php?act=checkUsername',
+							data:{
+								username:self.username   
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							crossDomain:true,
+							xhrFields:{
+								withCredentials:true
+							},
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
+								if(data.responseCode == 0){
+//									mui.toast("该用户未注册");
+								}else{
+									mui.alert(data.responseMsg);
+									self.username = '';
+								}
+//								alert(JSON.stringify(data))
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					nextClick: function(e){
+						var self = this;
+//						console.log(getCookie("registFlag"));
+//						JSON.parse(jsonstr); //可以将json字符串转换成json对象 
+//						JSON.stringify(jsonobj); //可以将json对象转换成json对符串 
+						self.newList.username = self.username;
+						self.newList.password = self.nextPassword;
+						self.newList.nickname = self.nickname;
+						var list = JSON.stringify(self.newList);
+						setCookie("newList",list);
+//						console.log(JSON.parse(getCookie("newList")));
+						if(!((self.username.trim()).length)){
+							mui.toast("用户名不能为空");
+						}else if((self.prevPassword.trim()).length < 8 || (self.prevPassword.trim()).length > 20){
+							mui.toast("密码长度必须在8-20位之间");
+						}else if(self.prevPassword != self.nextPassword){
+							mui.toast("两次密码不一致,请重新输入");
+						}else if(!((self.nickname.trim()).length)){
+							mui.toast("昵称不能为空");
+						}else if((self.prevPassword == self.nextPassword)&& self.prevPassword){
+							setTimeout(function(){
+								window.location.href = "./improInfo.html";
+							},300);
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

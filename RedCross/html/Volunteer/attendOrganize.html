@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我加入的组织</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<!--选择条件查询-->
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<link rel="stylesheet" href="../../dist/dropload.css">
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				/*-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				-webkit-text-size-adjust: none;*/
+			}
+			
+			html {
+				font-size: 10px;
+			}
+			
+			body,.mui-content {
+				background-color: #f1f1f1;
+				font-size: 1.2em;
+			}
+			
+			.outer {
+				position: absolute;
+				left: 0;
+				top: 90px;
+				width: 100%;
+				height: 100%;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				-ms-flex-direction: column;
+				-webkit-box-orient: vertical;
+				box-orient: vertical;
+				-webkit-flex-direction: column;
+				flex-direction: column;
+			}
+			
+			.inner {
+				-webkit-box-flex: 1;
+				-webkit-flex: 1;
+				-ms-flex: 1;
+				flex: 1;
+				/*background-color: #fff;*/
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.opacity {
+				-webkit-animation: opacity 0.3s linear;
+				animation: opacity 0.3s linear;
+			}
+			
+			@-webkit-keyframes opacity {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes opacity {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.divInputSeach{
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 72%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+				height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+				border-color: rgba(255,255,255,.2);
+				border: 1px solid #ddd;
+			    color: #101010;
+			    font-size: 13.0px;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+				font-size: 14px;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;} 
+			.divInputSeach input.inputSeach::-moz-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px; color:#c5c5c5;font-size: 12.0px;}
+			.content{
+				position: relative;
+				margin: 10px 10px;
+				padding: 10px;
+				background: #FFFFFF;
+				border-bottom: 1px solid #ddd;
+			}
+			.fontState{
+				position: absolute;
+				top: 0;
+				right: 0;
+				color: #FFFFFF;
+				font-size: 12px;
+			}
+			.content p{
+				margin-bottom: 5px;
+			}
+			.content p span:nth-child(1){
+				color: #6b6b6b;
+				font-size: 12px;
+				margin-right: 5px;
+			}
+			.content p span:nth-child(2){
+				color: #101010;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="attendActivity">
+			<div class="mui-content">
+				<!--条件查询-->
+				<!--<div class="forum-top">
+				    <div class="forum-btn">
+				   		<button type="button" class="mui-btn">加入日期<i class="iconfont"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+				   		<button type="button" class="mui-btn">状态<i class="iconfont"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+						<div class="clear"></div>
+				   </div>
+				</div>-->
+				
+				<div class="divInputSeach">
+					<span class="mui-icon mui-icon-search left"></span>
+					<input class="inputSeach left" id="searchName" type="text" placeholder="服务队名称" />
+					<div class="left" id="search">搜索</div>
+					<div class="clean"></div>
+				</div>
+				<!--<div class="content" v-for="item in organizeLists" :id="item.id" style="background-image: url(../../img/icon_03.png);background-size: 52px;background-position: right top;background-repeat: no-repeat;">
+					<span class="fontState">{{item.status}}</span>
+					<p><span>服务队名称：</span><span @click="liClick">{{item.name}}</span></p>
+					<p><span>加入日期：</span><span>{{item.joinDate}}</span></p>
+					<p><span>队员人数：</span><span>{{item.passNum}}</span></p>
+					<p class="left"><span>联系人：</span><span>{{item.relationPerson}}</span></p><p class="right"><span>电话：</span><span>{{item.telephones}}</span></p>
+					<p class="clean"></p>
+				</div>-->
+				
+			
+			<!--<div class="outer">-->
+				<div class="inner">
+					<div class="lists">
+						
+					</div>
+				</div>
+			<!--</div>-->
+			</div>
+		</div>	
+		
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<!--<script type="text/javascript" src="../../js/vue.min.js" ></script>-->
+		<!--<script type="text/javascript" src="../../js/jquery-3.1.1.min.js"></script>-->
+		<script src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../dist/dropload.min.js"></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		
+		<script type="text/javascript">
+			$(function() {
+				var page = 0,size = 10,searchName='';
+				//参加活动列表
+				var dropload = $('.inner').dropload({
+					scrollArea : window,
+					domDown: {
+						domClass: 'dropload-down',
+						domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
+						domLoad: '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+						domNoData: '<div class="dropload-noData">没有更多数据了</div>'
+					},
+					loadDownFn: function(me) {
+						page++;
+						$.ajax({
+							url: mui.apiUrl + '/ajax.php',
+							data:{
+								act:'userTeam',
+								startDate:'',
+								endDate:'',
+								status:'',
+								name:searchName,
+								page:page,
+								len:size
+							},
+							dataType:'json',//服务器返回json格式数据
+							crossDomain:true,
+							xhrFields:{
+								withCredentials:true
+							},
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success: function(data) {
+								console.log(data);
+								if(data.responseCode == 0){
+									var result = '';
+									if(!!data.datas) {
+										for(var i = 0; i < data.datas.length; i++) {
+											if(data.datas[i].status == "申请中"){
+												result += '<div class="content goDetail" id='+data.datas[i].id+' style="background-image: url(../../img/icon_03.png);background-size: 52px;background-position: right top;background-repeat: no-repeat;">';
+											}else if(data.datas[i].status == "已加入"){
+												result += '<div class="content goDetail" id='+data.datas[i].id+' style="background-image: url(../../img/icon_05.png);background-size: 52px;background-position: right top;background-repeat: no-repeat;">';
+											}else if(data.datas[i].status == "未通过"){
+												result += '<div class="content goDetail" id='+data.datas[i].id+' style="background-image: url(../../img/icon_07.png);background-size: 52px;background-position: right top;background-repeat: no-repeat;">';
+											}
+											
+											result += '<span class="fontState">' + data.datas[i].status + '</span>'
+											       + '<p><span>服务队名称：</span><span>'+data.datas[i].name+'</span></a></p>'
+											       + '<p><span>加入日期：</span><span>' + data.datas[i].joinDate + '</span></p>'
+											       + '<p><span>队员人数：</span><span>' + data.datas[i].passNum + '</span></p>'
+											       + '<p class="left"><span>联系人：</span><span>' + data.datas[i].relationPerson + '</span></p>'
+											       + '<p class="right"><span>电话：</span><span>' + data.datas[i].telephones + '</span></p>'
+											       + '<p class="clean"></p>'
+											       + '</div>';
+										}
+										if(data.datas.length < size) {
+											// 锁定
+											me.lock();
+											// 无数据
+											me.noData();
+										}
+									} else {
+										// 锁定
+										me.lock();
+										// 无数据
+										me.noData();
+									}
+									// 为了测试，延迟1秒加载
+									setTimeout(function() {
+										$('.lists').append(result);
+										// 每次数据加载完，必须重置
+										me.resetload();
+									}, 500);
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg);
+									window.location.href = "../voluntaryService/loginIn.html?urlOne=Volunteer&urlTwo=attendOrganize";
+								}else{
+									mui.toast(data.responseMsg);
+								}
+							},
+							error: function(xhr, type) {
+								mui.toast('Ajax error!');
+								// 即使加载出错，也得重置
+								me.resetload();
+							}
+						});
+					},    
+					threshold : 50
+				});
+				document.getElementById("search").addEventListener("click",function(){
+			    	$('.lists').children().remove();
+			    	searchName = document.getElementById("searchName").value;
+					//	console.log(searchName);
+			    	page = 0;
+			    	dropload.unlock();
+			    	dropload.noData(false);
+			    	dropload.resetload();
+			   });
+				// 点击名称跳转
+				$(".inner").off("click",".goDetail").on("click",".goDetail",function(){
+					//  console.log(this.id);
+					var rid = this.id;
+					setTimeout(function(){
+						window.location.href = "./organizeDetail.html?rid="+rid;
+					},300);
+				});
+			});
+		</script>
+		
+		
+		<!--<script type="text/javascript">
+			var vm = new Vue({
+				el: '#attendActivity',
+				data: {
+					startDate:'',
+					endDate:'',
+					status:'',
+					name:'',
+					organizeLists:[]
+				},
+				mounted: function() {
+					var self = this;
+					self.organizeList();
+					
+				},
+				methods: {
+					//加入的组织列表
+					organizeList: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:'userTeam',
+								startDate:self.startDate,
+								endDate:self.endDate,
+								status:self.status,
+								name:self.name,
+								page:0,
+								len:10
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								self.organizeLists = data.datas;
+								console.log(data)
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					// 点击跳转至组织详情页
+					liClick: function(e){
+						var self = this;
+						self.rid = e.path[2].id;
+						console.log(e.path[2].id);
+						setTimeout(function(){
+							window.location.href = "./organizeDetail.html?rid="+self.rid;
+						},300);
+						
+					},
+				}
+			})
+		</script>-->
+	</body>
+
+</html>

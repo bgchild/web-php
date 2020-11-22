@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/disasterReport.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/mui.picker.css" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>灾情上报</title>
+		<style type="text/css">
+			#add{
+				width: 24px;
+    			height: 24px;
+				font-family: Muiicons;
+			    font-size: 24px;
+			    font-weight: 400;
+			    font-style: normal;
+			    line-height: 1;
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			.btn-active{
+				background: #bdbdbd !important;;
+			}
+			textarea{
+				margin-bottom: 0px;
+			}
+			
+			.divPic img{
+				width:50px;
+				height:60px;
+			}
+			
+			.dian{
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="mui-content">
+				<div class="container">
+					<p class="top" style="margin-top:0;">
+						<lable class="text_name">灾情名称:</lable>
+						<input v-model="name" type="text" required style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" id="showUserPicker">
+						<lable class="text_name">灾情种类(必填):</lable>
+						<input v-model="cate" id="txt" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" required style="width:50%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top" id="youAre">
+						<lable class="text_name">您是(必填):</lable>
+						<input class="dian" v-model="type_desc" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" required style="width:60%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					
+					<p class="top">
+						<lable class="text_name">事发地点(必填):</lable>
+						<input v-model="actionAddress" type="text" required style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">受灾人数(人):</lable>
+						<input v-model="disasterNum" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">受伤人数(人):</lable>
+						<input v-model="injureNum" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">失踪人数(人):</lable>
+						<input v-model="disappearNum" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">死亡人数(人):</lable>
+						<input v-model="deathNum" type="number" style="width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">紧急转移安置人口(人):</lable>
+						<input v-model="urgentTranPerson" type="number" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">需口粮救济人口(人):</lable>
+						<input v-model="reliefPerson" type="number" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">损坏耕地面积(公顷):</lable>
+						<input v-model="demageArea" type="number" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<p class="top">
+						<lable class="text_name">农作物/草场受灾面积(公顷):</lable>
+						<input v-model="affectArea" type="number" style="width:30%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+					</p>
+					<div class="line"></div>
+					<div class="text top">
+						<lable class="describe text_name">建筑物损毁情况:</lable>
+						<textarea v-model="demadeBuild" cols="30" rows="5"></textarea>
+					</div>
+					
+					<div class="text top">
+						<p class="describe text_name">灾情简要描述(必填):</p>
+						<textarea v-model="describe" name="zaiqing" id="describe" cols="30" rows="5" placeholder="请输入您看到的或已核实的灾情"></textarea>
+					</div>
+					
+					<div class="top" style="position:relative;">
+						<lable class="text_name">现场灾情图:</lable>
+						<form id="add" name="imageForm" method="post" action="http://yz.honghui.o.surcent.com/image_thumb.php" enctype="multipart/form-data">
+							<input type="file" id="fileColorCard" name="imgFile" accept="image/png, image/jpeg, image/gif, image/jpg">
+							<input type="hidden" name="time" id="fileTime" value="now">
+							<input type="hidden" v-model="imageUrl">
+						</form>
+						<p id="pic"></p>
+					</div>
+					<div class="line"></div>
+					
+					<div class="btn" @click="ajaxHelp" v-bind:class="{'btn-active':isActive}">上报</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../js/mui.picker.js" ></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js" ></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../js/comm.js" ></script>
+		<script type="text/javascript" src="../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery.form.js" ></script>
+		
+		<script type="text/javascript">
+			mui.init();
+			var myAppVue = new Vue({
+				el:'#app',
+				data:{
+					address:'',
+					myPosition:'',
+					describe:'',
+					lng:'', //经度
+					lat:'',  //纬度
+					sign:'',
+					name:'',
+					youare:[
+						{value: '1',text: '我是目击者我正在现场'}, 
+						{value: '2',text: '我是目击者我已离开现场'},
+						{value: '3',text: '我是事件受影响者我在现场'}, 
+						{value: '4',text: '这是我听说但经过核实的消息'}
+					],
+					type_desc:'',
+					cate:'',
+					cateCode:'',
+					actionAddress:'',
+					disasterNum:'',
+					injureNum:'',
+					disappearNum:'',
+					deathNum:'',
+					urgentTranPerson:'',
+					reliefPerson:'',
+					demageArea:'',
+					affectArea:'',
+					demadeBuild:'',
+					imageUrl:[],
+					cateData:[],
+					isActive:true,
+					openid:'o9bJ3xJgtmrF_jA1FMXxRaWbl4mU'
+				},
+				watch:{
+//					name:function(val,oldVal){
+//						var self = this;
+//						if(!!self.name && !!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+//							self.isActive = false;
+//						}else{
+//							self.isActive = true;
+//						}
+//					},
+					type_desc:function(val,oldVal){
+						var self = this;
+						if(!!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+							self.isActive = false;
+						}else{
+							self.isActive = true;
+						}
+					},
+					cate:function(val,oldVal){
+						var self = this;
+						if(!!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+							self.isActive = false;
+						}else{
+							self.isActive = true;
+						}
+					},
+					actionAddress:function(val,oldVal){
+						var self = this;
+						if(!!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+							self.isActive = false;
+						}else{
+							self.isActive = true;
+						}
+					},
+					describe:function(val,oldVal){
+						var self = this;
+						if(!!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+							self.isActive = false;
+						}else{
+							self.isActive = true;
+						}
+					}
+//					,
+//					imageUrl:function(val,oldVal){
+//						var self = this;
+//						if(!!self.name && !!self.type_desc && !!self.actionAddress && !!self.cate && !!self.describe){
+//							self.isActive = false;
+//						}else{
+//							self.isActive = true;
+//						}
+//					}
+				},
+				mounted: function(){
+					var self = this;
+					var address,longitude,latitude; 
+					var pageHref = window.location.href;
+					self.address = getCookie("address");
+					self.sign = getCookie("sign");
+					self.myPosition = getCookie("myPosition");
+					self.openid = getCookie("openid");
+					
+					self.lng = self.myPosition.split(",")[0];
+					self.lat = self.myPosition.split(",")[1];
+
+					//灾情种类
+					self.getCateData();
+					// 选择身份情况
+					self.chooseWho();
+					
+					//使用input[type=file]上传图片
+					var inpt = document.getElementById("fileColorCard");
+			        var result,div;
+			    
+			        if(typeof FileReader==='undefined'){   
+			            result.innerHTML = "抱歉，你的浏览器不支持 FileReader";   
+			            inpt.setAttribute('disabled','disabled');   
+			        }else{   
+			            inpt.addEventListener('change',readFile,false);   
+			        };
+			        
+			        function readFile(){  
+			        	if(self.imageUrl.length > 4){
+							document.getElementById("fileColorCard").setAttribute('disabled','disabled');
+							return false
+						}
+			        	
+			            for(var i=0;i<this.files.length;i++){   
+//			                if (!inpt['value'].match(/.jpg|.gif|.png|.bmp/i)){　　//判断上传文件格式   
+//			                    return alert("上传的图片格式不正确，请重新选择")
+//	                    　　　　　　　　　　	}
+			                var reader = new FileReader();   
+			                reader.readAsDataURL(this.files[i]); 		 
+			                reader.onload = function(e){   
+			                    result = '<img src="'+this.result+'" style="width:100%;" alt=""/>';   
+			                    div = document.createElement('div');   
+			                    div.innerHTML = result; 
+			                    div.classList.add('divPic');
+			                    div.style.width = '15%';
+			                    div.style.height = '100%';		               
+			                    div.style.display = 'inline-block';
+			                    div.style.marginLeft = '0.1rem';
+			                    div.style.marginTop = '0.1rem';		                    
+			                    div.style.position = 'relative';
+//			                    div.style.border = '1px solid red';
+			                    document.getElementById('pic').appendChild(div);
+			                    
+			                    // 创建删除按钮
+			                    var del = document.createElement('div');		                   
+			                    del.style.width = '0.2rem';
+			                    del.style.height = '0.2rem';
+			                    del.style.lineHeight = '0.2rem';
+			                    del.style.textAlign = 'center';
+			                    del.style.borderRadius = '50%';
+			                    del.style.position = 'absolute';
+			                    del.style.top = '-0.1rem';
+			                    del.style.right = '-0.1rem';
+			                    del.innerText = 'x';
+			                    del.style.fontSize = '0.2rem';
+			                    del.style.color = '#ffffff';
+			                    del.style.backgroundColor = '#929292';
+			                    div.appendChild(del);
+			                    
+			                    // 点击x删除图片
+			                    del.onclick = function(){
+			                    	var doc = this;
+			                    	var parent = doc.parentNode;
+			                    	console.log($(parent).prevAll().length);
+			                    	self.imageUrl.splice($(parent).prevAll().length, 1);
+			                    	parent.remove();
+			                    	console.log(self.imageUrl);
+			                    	// 小于五张解除禁用属性
+		                    		document.getElementById("fileColorCard").removeAttribute('disabled');
+			                    }  
+			            	}   
+			        	}   
+			    	} 
+					//上传图片
+					document.getElementById("fileTime").value = new Date().getTime();
+					document.getElementById("fileColorCard").addEventListener("change",function(e){
+						jQuery("#add").ajaxSubmit(options);
+						if(self.imageUrl.length > 4){
+							mui.alert("最多只能上传5张");
+						};
+					})
+					//ajaxSubmit提交配置
+					var options = {
+						dataType:'json',
+						success:regeistCallBack
+					};
+					//表单提交成功回调
+					function regeistCallBack(data, statusText, xhr, $form){
+						if(data.error == 0){
+							if(self.imageUrl.length < 5){
+								self.imageUrl.push(data.url);
+								console.log(self.imageUrl)
+							}
+						}else{
+							mui.alert("文件过大，无法上传！");
+						}
+						
+					};
+				},
+				methods:{
+					// 选择身份情况
+					chooseWho:function(){
+						var self = this;
+						var userPicker = new mui.PopPicker();
+						userPicker.setData(self.youare);
+						var showYouAre = document.getElementById('youAre');
+						showYouAre.addEventListener('tap', function(event) {
+							document.activeElement.blur();// 关闭输入法的api
+							userPicker.show(function(items) {
+								console.log(items);
+								self.type_desc = items[0].text;
+								console.log(self.type_desc);
+								self.type = items[0].value;
+								console.log(self.type);
+							});
+						}, false);
+					},
+					getCateData: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax/disaster.php?act=dcate',
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								console.log(data.datas)
+								var userPicker = new mui.PopPicker();
+								userPicker.setData(data.datas);
+								var showUserPickerButton = document.getElementById('showUserPicker');
+								showUserPickerButton.addEventListener('tap', function(event) {
+									document.activeElement.blur();// 关闭输入法的api
+									userPicker.show(function(items) {
+										self.cate = items[0].text;
+										self.cateCode = items[0].value;
+									});
+								}, false);
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					ajaxHelp: function(){
+						var self = this;
+						if(self.isActive) return;
+						mui.rAjax({
+							url:'/ajax/disaster.php?act=pdisaster',
+							data:{
+								lng: self.lng,  //位置经度
+								lat: self.lat,     //位置纬度
+								sign: self.sign,   //城市名称
+								name: self.name,   //灾情名称
+								address: self.address,  //灾情地址
+								cate: self.cateCode, //灾情种类   int
+								type:self.type, // 身份类型 int
+								description: self.describe,  //灾情描述
+								image: self.imageUrl,  //灾情图
+								place:self.actionAddress, // 事发地点
+								victims_num:self.disasterNum, // 受灾人数
+								injured_num:self.injureNum, // 受伤人数
+								missing_num:self.disappearNum, // 失踪人数
+								die_num:self.deathNum, // 死亡人数
+								transfer_num:self.urgentTranPerson, // 紧急转移安置人口数
+								food_help_num:self.reliefPerson, // 需要粮食救济人口数
+								damage_land:self.demageArea, // 损坏耕地面积
+								damage_crops:self.affectArea, // 农作物/草场受灾面积
+								damage_building:self.demadeBuild, // 建筑物损坏情况
+								openid: self.openid    //微信用户唯一标识
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								if(data.responseCode == 0){
+									mui.alert("灾情上报成功！");
+									self.name = '';  
+									self.cate = ''; 
+									self.type_desc = '';
+									self.describe = '';  
+									self.actionAddress = '';
+									self.disasterNum = '';
+									self.injureNum = '';
+									self.disappearNum = ''; 
+									self.deathNum = ''; 
+									self.urgentTranPerson = ''; 
+									self.reliefPerson = ''; 
+									self.demageArea = '';
+									self.affectArea = ''; 
+									self.demadeBuild = ''; 
+									self.imageUrl = [];
+									document.getElementById('pic').innerHTML = '';
+								}else{
+									mui.alert("灾情上报失败！");
+									console.log(data);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

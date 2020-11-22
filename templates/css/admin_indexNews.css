@@ -1,0 +1,9 @@
+@charset "utf-8";
+/*加载公共样式*/
+@import url(common.css);
+/*如果需要加载分页*/
+@import url(admin_base.css);
+/*admin_addflash  css样式*/
+
+.thumb{ width:160px; height:120px;  border:1px solid #ccc; text-align:center; line-height:120px; margin-top:10px;}
+.thumb img{width:160px; height:120px; }

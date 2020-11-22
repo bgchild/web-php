@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>活动管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../dist/dropload.css">
+		<!--选择条件查询-->
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				/*padding: 0 5px;*/
+			}
+			.divInputSeach{
+				position: relative;
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 62%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+			    color: #adadad;
+			    font-size: 12.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach .add{
+				position: absolute;
+				top: 22px;
+				right: 10px;
+			}
+			.divInputSeach .add img{
+				width: 17px;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;} 
+			/*选项卡*/
+			.mui-segmented-control .mui-control-item.mui-active {
+			    color: #101010;
+			    position: relative;
+			}
+			.mui-segmented-control .mui-control-item.mui-active:after {
+			    content: "";
+			    position: absolute;
+			    display: block;
+			    bottom: 0;
+			    left: 10%;
+			    width: 80%;
+			    height: 2px;
+			    border-radius: 4px;
+			    background: #ff000f;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted{
+				font-size: 14px;
+				/*color: #101010;*/
+			}
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			    color: #101010;
+			    border-bottom: 0px;
+			}
+			/*内容*/
+			.activityServerTime{
+				position: relative;
+				margin: 10px 10px;
+				padding: 10px;
+				background: #FFFFFF;	
+			}
+			/*下划线*/
+			.underline{
+				border-bottom: 1px solid #7b7b7b;
+			}
+			.activityServerTime:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 0;
+			    left: 0px;
+			    right: 0px;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.activityServerTime p{
+				font-size: 12px;
+				margin-bottom: 5px;
+			}
+			.activityServerTime p span:nth-child(1){
+				color: #6b6b6b;
+				margin-right: 2px;
+			}
+			.activityServerTime p span:nth-child(2){
+				color: #101010;
+			}
+			/*已审核-通过人数行*/
+			.lastCon:after{
+			    position: absolute;
+			    right: 0;
+			    bottom: 40px;
+			    left: 20px;
+			    right: 20px;
+			    height: 1px;
+			    content: '';
+			    -webkit-transform: scaleY(.5);
+			    transform: scaleY(.5);
+			    background-color: #c8c7cc;
+			}
+			.activityServerTime p.number{
+				display: inline-block;
+				margin-right: 15px;
+			}
+			/*邀请  改期 结束*/
+			.activityServerTime .stateButton{
+				margin: 0;
+				padding-top: 10px;
+				text-align: center;
+			}
+			.activityServerTime p.stateButton span{
+				display: inline-block;
+				width: 22%;
+				margin-right: 0;
+			}
+			.activityServerTime .stateButton .invite{
+				color: #36ccab;	
+			}
+			.activityServerTime .stateButton .rescheduled{
+				color: #f28c2e;	
+			}
+			.activityServerTime .stateButton .cancle{
+				color: #949494;	
+			}
+			.activityServerTime .stateButton .over{
+				color: #6372f7;	
+			}
+			.forum-top{
+				position: fixed;
+			    background: #fff;
+			    z-index: 999;
+			}
+			.first-list {
+			    max-height: 206px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="activeManage">
+			<div class="mui-content">
+				<!--条件查询-->
+				<!--<div class="forum-top" :style="{top: top1 +'px'}">
+				    <div class="forum-btn">
+				   		<button type="button" class="mui-btn"  @click="clickBtn1()">{{postingPlateFirst.name}}<i class="iconfont" :class="isShow?'is-rotate':''"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+				   		<button type="button" class="mui-btn" @click="clickBtn2()">{{postingPlateFirst1.name}}<i class="iconfont" :class="isShow1?'is-rotate':''"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+				   		<ul class="first-list" v-if="isShow">
+						    <li v-for="(item,index) in postingsPlateList" @click="firstBLClick(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.name}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<ul class="first-list" v-if="isShow1">
+						    <li v-for="(item,index) in postingsPlateListAll" @click="firstBLClick1(index)">
+						    	<span :class="{iscolor:item.isActive}">{{item.name}}</span>
+						        <i class="iconfont" v-if="item.isShow"><span class="mui-icon mui-icon-checkmarkempty"></span></i>
+						    </li>
+						</ul>
+						<div class="clear"></div>
+				   </div>
+				</div>
+				<div class="mui-backdrop" v-show="isShow" @click="clickBtn1()"></div>
+				<div class="mui-backdrop" v-show="isShow1" @click="clickBtn2()"></div>
+				-->
+				<div class="divInputSeach">
+					<span class="mui-icon mui-icon-search left"></span>
+					<input class="inputSeach left" id="searchName" type="text" placeholder="活动名称" />
+					<div class="left" id="search">搜索</div>
+					<div class="clean"></div>
+					<span class="add"><img id="newAddActivity" src="../../img/icon_18.png"/></span>
+				</div>
+				<div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted" style="">
+					<a id="3" class="mui-control-item" href="#item1mobile">已审核</a>
+					<a id="2" class="mui-control-item" href="#item2mobile">待审核</a>
+					<a id="1" class="mui-control-item" href="#item3mobile">草稿</a>
+					<a id="4" class="mui-control-item" href="#item4mobile">已结束</a>
+					<a id="5" class="mui-control-item" href="#item5mobile">已取消</a>
+					<a id="6" class="mui-control-item" href="#item6mobile">未通过</a>
+				</div>
+				<div>
+					<div id="item1mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus3">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p class="number"><span>计划人数：</span><span>{{item.planNum}}</span></p>
+								<p class="number"><span>报名人数：</span><span @click="signNumber" class="underline">{{item.totalnums}}</span></p>
+								<p class="lastCon number"><span>通过人数：</span><span @click="adoptNumber" class="underline">{{item.gonums}}</span></p>
+								
+								<p class="stateButton">
+									<span @click="invitation" class="invite">邀请</span>
+									<span @click="changeDate" class="rescheduled">改期</span>
+									<span @click="cancle" class="cancle">取消</span>
+									<span @click="over" class="over">结束</span>
+								</p>
+							</div>-->
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus2">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p class="number"><span>计划人数：</span><span>{{item.planNum}}</span></p>
+							</div>-->
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus1">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p class="lastCon number"><span>计划人数：</span><span>{{item.planNum}}</span></p>
+								
+								<p class="stateButton">
+									<span @click="edit" class="invite">编辑</span>
+									<span @click="deletes" class="cancle">删除</span>
+								</p>
+							</div>-->
+						</div>
+					</div>
+					<div id="item4mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus4">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p class="number"><span>计划人数：</span><span>{{item.planNum}}</span></p>
+								<p class="lastCon number"><span>参与人数：</span><span @click="partNumber" class="underline">{{item.passnums}}</span></p>
+								
+								<p class="stateButton">
+									<span @click="summary" class="invite">总结</span>
+									<span @click="deletes" class="cancle">删除</span>
+								</p>
+							</div>-->
+						</div>
+					</div>
+					<div id="item5mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus5">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p class="number"><span>计划人数：</span><span>{{item.planNum}}</span></p>
+							</div>-->
+						</div>
+					</div>
+					<div id="item6mobile" class="mui-control-content">
+						<div class="mui-scroll innerStatus6">
+							<!--<div class="activityServerTime" v-for="item in infoList" :id="item.recordid">
+								<p><span>活动名称：</span><span @click="activityDetail" class="activityName underline">{{item.activityName}}</span></p>
+								<p><span>活动日期：</span><span>{{item.activityStartDate}} 至 {{item.activityEndDate}}</span></p>
+								<p><span>活动类型：</span><span>{{item.typename}}</span></p>
+								<p><span>计划人数：</span><span>{{item.planNum}}</span></p>
+								<p class="lastCon number"><span>未通过原因：</span><span>{{item.statusreasontext}}</span></p>
+								
+								<p class="stateButton">
+									<span @click="edit" class="invite">编辑</span>
+									<span @click="deletes" class="cancle">删除</span>
+								</p>
+							</div>-->
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<!-- jQuery1.7以上 或者 Zepto 二选一，不要同时都引用 -->
+		<script src="../../js/zepto.min.js"></script>
+		<script src="../../dist/dropload.min.js"></script>
+		<!--<script type="text/javascript" src="../../js/vue.min.js" ></script>-->
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript">
+			$(function(){
+				if(getCookie("tag")){
+					status = getCookie("tag");
+					var mcItems = document.querySelectorAll(".mui-control-item");
+					var mcContents = document.querySelectorAll(".mui-control-content");
+					if(status == 3){
+						mcItems[0].classList.add("mui-active");
+						mcContents[0].classList.add("mui-active");
+					}else if(status == 2){
+						mcItems[1].classList.add("mui-active");
+						mcContents[1].classList.add("mui-active");
+					}else if(status == 1){
+						mcItems[2].classList.add("mui-active");
+						mcContents[2].classList.add("mui-active");
+					}else if(status == 4){
+						mcItems[3].classList.add("mui-active");
+						mcContents[3].classList.add("mui-active");
+					}else if(status == 5){
+						mcItems[4].classList.add("mui-active");
+						mcContents[4].classList.add("mui-active");
+					}else if(status == 6){
+						mcItems[5].classList.add("mui-active");
+						mcContents[5].classList.add("mui-active");
+					}
+				}else{
+					var status=3;  //活动状态(草稿1，已提交2，已审核3,已结束4，已取消5，退回6)
+					document.querySelectorAll(".mui-control-item")[0].classList.add("mui-active");
+					document.querySelectorAll(".mui-control-content")[0].classList.add("mui-active");
+				}
+				var page = 0,size = 10,name='',type='',sdate='',edate='';
+			    var dropload = $('.mui-content').dropload({
+			    	scrollArea : window,
+				    // 初始化
+			        domDown : {
+			            domClass   : 'dropload-down',
+			            domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+			            domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+			            domNoData  : '<div class="dropload-noData">暂无数据</div>'
+			        },
+			        loadDownFn : function(me){
+			        	page ++;
+			        	var oldStus = status;
+			            $.ajax({
+			                type: 'GET',
+			                url: mui.apiUrl + '/ajax.php',
+			                dataType: 'json',
+			                crossDomain: true,// 跨域代理
+			                xhrFields: {
+			                    withCredentials: true //是否该使用类似cookies,authorization headers(头部授权)或者TLS客户端证书这一类资格证书来创建一个跨站点访问控制（cross-site Access-Control）请求
+			                },
+			                data:{
+								act:"activityLists",
+								name: name,
+								type: type,
+								sdate: sdate,
+								edate: edate,
+								status: status,
+								page:page,
+								len:size
+							},
+			                success: function(data){
+			                	if(oldStus != status){
+			                		return false;
+			                	}
+			                	console.log(data);
+			                	if(data.responseCode == 0){
+			                    var result = '';
+			                    if(!!data.datas){
+//			                    	console.log(data.datas.length);
+			                    	for(var i = 0; i < data.datas.length; i++){
+			                    		var item = data.datas[i];
+			                    		result += '<div class="activityServerTime" id="'+item.recordid+'">';
+			                    		if(status == 3){
+											result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+											+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+											+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+											+'<p class="number"><span>计划人数：</span><span>'+item.planNum+'</span></p>'
+											+'<p class="number"><span>报名人数：</span><span id="signNumber" class="underline">'+item.totalnums+'</span></p>'
+											+'<p class="lastCon number"><span>通过人数：</span><span id="adoptNumber" class="underline">'+item.gonums+'</span></p>'
+											+'<p class="stateButton">'
+												+'<span id="invitation" class="invite">邀请</span>'
+												+'<span id="changeDate" class="rescheduled">改期</span>'
+												+'<span id="cancle" class="cancle">取消</span>'
+												+'<span id="over" class="over">结束</span>'
+											+'</p>';
+			                    		}else if(status == 2){
+												result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+												+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+												+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+												+'<p class="number"><span>计划人数：</span><span>'+item.planNum+'</span></p>';
+			                    		}else if(status == 1){
+											result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+												+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+												+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+												+'<p class="lastCon number"><span>计划人数：</span><span>'+item.planNum+'</span></p>'
+												+'<p class="stateButton">'
+													+'<span class="invite edit">编辑</span>'
+													+'<span class="cancle deletes">删除</span>'
+												+'</p>';
+			                    		}else if(status == 4){
+											result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+												+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+												+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+												+'<p class="number"><span>计划人数：</span><span>'+item.planNum+'</span></p>'
+												+'<p class="lastCon number"><span>参与人数：</span><span id="partNumber" class="underline">'+item.passnums+'</span></p>'
+												+'<p class="stateButton">'
+													+'<span id="summary" class="invite">总结</span>'
+													+'<span class="cancle deletes">删除</span>'
+												+'</p>';
+			                    		}else if(status == 5){
+											result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+													+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+													+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+													+'<p class="number"><span>计划人数：</span><span>'+item.planNum+'</span></p>';
+			                    		}else if(status == 6){
+											result += '<p><span>活动名称：</span><span class="activityName underline">'+item.activityName+'</span></p>'
+													+'<p><span>活动日期：</span><span>'+item.activityStartDate+' 至 '+item.activityEndDate+'</span></p>'
+													+'<p><span>活动类型：</span><span>'+item.typename+'</span></p>'
+													+'<p><span>计划人数：</span><span>'+item.planNum+'</span></p>'
+													+'<p class="lastCon number"><span>未通过原因：</span><span>'+item.statusreasontext+'</span></p>'
+													+'<p class="stateButton">'
+														+'<span class="invite edit">编辑</span>'
+														+'<span class="cancle deletes">删除</span>'
+													+'</p>';
+			                    		}
+			                    		result += '</div>';
+				                    }
+				                    if(data.datas.length < size){
+				                    	// 锁定
+				                        me.lock();
+				                        // 无数据
+				                        me.noData();
+				                    }
+			                    }else{
+			                    	// 锁定
+			                        me.lock();
+			                        // 无数据
+			                        me.noData();
+			                    }
+			                    
+			                    // 为了测试，延迟1秒加载
+//			                    setTimeout(function(){
+			                        // 插入数据到页面，放到最后面
+			                        if(status == 3){
+			                        	$('.innerStatus3').append(result);
+			                        }else if(status == 2){
+			                        	$('.innerStatus2').append(result);
+			                        }else if(status == 1){
+			                        	$('.innerStatus1').append(result);
+			                        }else if(status == 4){
+			                        	$('.innerStatus4').append(result);
+			                        }else if(status == 5){
+			                        	$('.innerStatus5').append(result);
+			                        }else if(status == 6){
+			                        	$('.innerStatus6').append(result);
+			                        }
+			                        name = '';
+			                        // 每次数据插入，必须重置
+			                        me.resetload();
+//			                    },1000);
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg);
+									window.location.href = "../voluntaryService/loginIn.html?urlOne=Volunteer&urlTwo=activeManage";
+								}else{
+									mui.toast(data.responseMsg);
+								}
+			                },
+			                error: function(xhr, type){
+			                    console.log('错误'+e);
+			                    // 即使加载出错，也得重置
+			                    dropload.resetload();
+			                }
+			            });
+			        }
+			    });
+			    
+			    function changeList(number){
+					$('.innerStatus'+number).children().remove();
+//					type = self.postingPlateFirst.id;
+//					if(self.postingPlateFirst1.name.length != 4){
+//						self.sdate = self.postingPlateFirst1.name;
+//					}
+					page = 0;
+					status = number;
+					setCookie("tag",number);
+					dropload.unlock();
+			    	setTimeout(function(){
+			    		dropload.noData(false);
+			    		dropload.resetload();
+			    	},1)
+			    	
+				}
+			    mui(".mui-content").off("tap","#segmentedControl").on("tap","#segmentedControl",function(e){
+//			    	console.log(e.target.id);
+			    	if(status != e.target.id){
+				    	$('.innerStatus'+e.target.id).children().remove();
+				    	page = 0;
+				    	status = e.target.id;
+				    	changeList(e.target.id);
+			    	}
+			    })
+			    //搜索
+			     mui(".mui-content").off("tap","#search").on("tap","#search",function(e){
+			     	name = $("#searchName").val();
+			    	$('.innerStatus'+status).children().remove();
+			    	page = 0;
+			    	changeList(status);
+//			    	$("#searchName").val("");
+			    })
+			    //新增活动 
+			    mui(".divInputSeach").off("tap","#newAddActivity").on("tap","#newAddActivity",function(e){
+			    	localStorage.setItem("activityData","");
+					window.location.href="./newAddActivity.html";
+				})
+				//活动详情
+				mui(".mui-scroll").off("tap",".activityName").on("tap",".activityName",function(e){
+//							console.log(e.target.parentNode.parentNode.id);
+					window.location.href="./actDetail.html?rid="+e.target.parentNode.parentNode.id;
+				})
+				
+				//报名人数
+				mui(".mui-scroll").off("tap","#signNumber").on("tap","#signNumber",function(e){
+					window.location.href="./signNumber.html?rid="+e.target.parentNode.parentNode.id;
+				})
+				//通过人数
+				mui(".mui-scroll").off("tap","#adoptNumber").on("tap","#adoptNumber",function(e){
+					window.location.href="./adoptNumber.html?rid="+e.target.parentNode.parentNode.id;
+				})
+				//邀请 
+				mui(".mui-scroll").off("tap","#invitation").on("tap","#invitation",function(e){
+					window.location.href="./invitation.html?rid="+e.target.parentNode.parentNode.id;
+				})
+				//改期   rescheduled
+				mui(".mui-scroll").off("tap","#changeDate").on("tap","#changeDate",function(e){
+					window.location.href="./changeDate.html?rid="+e.target.parentNode.parentNode.id;
+				})
+				//取消   cancle
+				mui(".mui-scroll").off("tap","#cancle").on("tap","#cancle",function(e){
+					var eDom = e;
+//						console.log(e.target.parentNode.parentNode);
+					var btnArray = ['否', '是'];
+					mui.confirm('确认要取消吗？', '取消项目', btnArray, function(e) {
+						if (e.index == 1) {
+							mui.rAjax({
+								url:'/ajax.php?act= cancelActivity',
+								data:{
+									rid: eDom.target.parentNode.parentNode.id
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'POST',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+//									服务器返回响应，根据响应结果，分析是否登录成功；
+//									console.log(data);
+									if(data.responseCode == 0){
+										document.querySelector("#item1mobile").classList.remove("mui-active");
+										document.querySelector("a[href='#item1mobile']").classList.remove("mui-active");
+										document.querySelector("#item5mobile").classList.add("mui-active");
+										document.querySelector("a[href='#item5mobile']").classList.add("mui-active");
+										changeList(5);
+									}else{
+										mui.toast(data.responseMsg)
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(type);
+								}
+							});
+						}
+					})
+				});
+				//结束   over
+				mui(".mui-scroll").off("tap","#over").on("tap","#over",function(e){
+					var eDom = e;
+//						console.log(eDom.target.parentNode.parentNode);
+					var btnArray = ['否', '是'];
+					mui.confirm('确认要结束吗？', '结束项目', btnArray, function(e) {
+						if (e.index == 1) {
+							mui.rAjax({
+								url:'/ajax.php?act= colseActivity',
+								data:{
+									rid: eDom.target.parentNode.parentNode.id
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'POST',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									//服务器返回响应，根据响应结果，分析是否登录成功；
+	//								console.log(data);
+									if(data.responseCode == 0){
+										document.querySelector("#item1mobile").classList.remove("mui-active");
+										document.querySelector("a[href='#item1mobile']").classList.remove("mui-active");
+										document.querySelector("#item4mobile").classList.add("mui-active");
+										document.querySelector("a[href='#item4mobile']").classList.add("mui-active");
+										changeList(4);
+									}else{
+										mui.toast(data.responseMsg)
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(type);
+								}
+							});
+						}
+					})
+				})
+				//删除 delete
+				mui(".mui-scroll").off("tap",".deletes").on("tap",".deletes",function(e){
+					var eDom = e;
+//					console.log(eDom.target.parentNode.parentNode);
+					var btnArray = ['否', '是'];
+					mui.confirm('确认要删除该项吗？', '删除项目', btnArray, function(e) {
+						if (e.index == 1) {
+							mui.rAjax({
+								url:'/ajax.php',
+								data:{
+									act:"delActivity",
+									rid: eDom.target.parentNode.parentNode.id
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'GET',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function(data){
+									//服务器返回响应，根据响应结果，分析是否登录成功；
+									console.log(data);
+									if(data.responseCode == 0){
+										mui.toast("删除成功");
+										changeList(status);
+									}else{
+										mui.toast(data.responseMsg)
+									}
+								},
+								error:function(xhr,type,errorThrown){
+									//异常处理；
+									console.log(type);
+								}
+							});
+						}
+					})
+				});
+				//编辑 edit
+				mui(".mui-scroll").off("tap",".edit").on("tap",".edit",function(e){
+					localStorage.setItem("activityData","");
+					window.location.href="./editActivity.html?rid="+e.target.parentNode.parentNode.id;
+				});
+				//参与人数
+				mui(".mui-scroll").off("tap","#partNumber").on("tap","#partNumber",function(e){
+					window.location.href="./partNumber.html?rid="+e.target.parentNode.parentNode.id;
+				});
+				//总结 summary
+				mui(".mui-scroll").off("tap","#summary").on("tap","#summary",function(e){
+					window.location.href="./summary.html?rid="+e.target.parentNode.parentNode.id;
+				});
+			});
+			/*
+			var vm = new Vue({
+				el: '#activeManage',
+				data: {
+//					top1:0,
+//					top2:44,
+//					page:1,
+//					isShow:false,
+//					isShow1:false,
+//					postingPlateFirst:{name:"活动类型", id:"", isActive:true, isShow:true},
+//					postingsPlateList:[
+//						{id:"",name:"活动类型",isActive:true, isShow:true},
+//					],
+//					postingPlateFirst1:{name:"活动日期", id:"", isActive:true, isShow:true},
+//					postingsPlateListAll:[
+//						{id:"1",name:"2017-12-05",isActive:false, isShow:false}
+//					],
+//					postingsList:[],
+					name: '',  //活动名称（检索条件）
+					type: '',  //活动类型（检索条件）
+					sdate: '', //活动日期起始（检索条件）
+					edate: '',  //活动日期截止（检索条件）
+//					status: 3,  //活动状态(草稿1，已提交2，已审核3,已结束4，已取消5，退回6)
+//					page: 1, //检索开始位置
+//					len: 10,  //检索数量
+					rid:''
+				},
+				mounted: function() {
+					var self = this;
+					self.nameText(JSON.parse(localStorage.getItem("activityType")));
+//					console.log(JSON.parse(localStorage.getItem("activityType")));
+					self.getOrganList();
+					localStorage.setItem("activityData","")   //清除活动缓冲
+					
+				},
+				methods: {
+					clickBtn1:function(){
+						this.isShow = !this.isShow;
+						if(this.isShow1){
+							this.isShow1 = false;
+						}
+					},
+					clickBtn2:function(){
+						this.isShow1 = !this.isShow1;
+						if(this.isShow){
+							this.isShow = false;
+						}
+					},
+					firstBLClick:function(index){
+						var self = this;
+						self.postingsPlateList[index].isActive = true;
+						self.postingsPlateList[index].isShow = true;
+						for (var i = 0; i < self.postingsPlateList.length; i++) {
+							if(i!=index){
+								self.postingsPlateList[i].isActive = false;
+								self.postingsPlateList[i].isShow = false;
+							}
+						}
+						self.postingPlateFirst = self.postingsPlateList[index];
+						self.page = 1;
+						self.postingsList = [];
+	//					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0);
+	//					mui('.mui-scroll').pullToRefresh().refresh(true)
+	//					self.getPostingsList();
+						self.isShow = false;
+					},
+					firstBLClick1:function(index){
+						var self = this;
+						self.postingsPlateListAll[index].isActive = true;
+						self.postingsPlateListAll[index].isShow = true;
+						for (var i = 0; i < self.postingsPlateListAll.length; i++) {
+							if(i!=index){
+								self.postingsPlateListAll[i].isActive = false;
+								self.postingsPlateListAll[i].isShow = false;
+							}
+						}
+						self.postingPlateFirst1 = self.postingsPlateListAll[index];
+						self.page = 1;
+						self.postingsList = [];
+	//					mui('.mui-scroll-wrapper').scroll().scrollTo(0,0);
+	//					mui('.mui-scroll').pullToRefresh().refresh(true)
+	//					self.getPostingsList();
+						self.isShow1 = false;
+					},
+					nameText:function(val){
+						var self = this;
+						for(var i in val){
+							var activyTy = {};
+							activyTy.id = val[i].value;
+							activyTy.name = val[i].text;
+							activyTy.isActive = false;
+							activyTy.isShow = false;
+//							console.log(activyTy);
+							self.postingsPlateList.push(activyTy);
+						}
+					},
+				}
+			})*/
+		</script>
+	</body>
+
+</html>

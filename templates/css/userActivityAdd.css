@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+@import url(user_center.css);
+
+.butLeft{display:block;float:right;margin-right:30px;_margin-right:15px;margin-top:10px;margin-bottom:10px;clear:both;}
+.btn_choose{float:left;margin-left:20px;}
+
+.hiddenChooseDiv{width:700px;margin:0 auto 40px;border:1px solid #FAB0AF;display:none;clear:both;}
+
+.searchFrom{display:bolck;height:110px;clear:both;margin:10px auto;}
+.searchFieldSet{width:660px;height:110px;margin:0 auto ;}
+.searchFieldSet legend { color:#1E7ACE; font-weight:bold; } 
+.searchTable{margin:0px auto;table-layout:fixed;}
+.searchTable tr{height:42px;line-height:42px;}
+.middleinput{width:120px;}
+.length_201{width:120px;}
+.select_201{width:130px;}
+.table-95{width:95% !important;}
+
+.activityAddDiv{width:700px;margin: 0 auto;border:1px solid #d8d8d8;clear:both;}
+.activityAddTable{width:700px;margin:10px auto;}
+.activityAddTable tr{height:30px;}
+.length_20{width:140px;}
+.select_20{width:150px;}
+.smallInput{width:70px;}
+
+.chooseTeam{border:1px solid #FAB0AF;width:698px;z-index:999;position:absolute;left:30px;top:50px;background:#fff;display:none;}
+.title_close{height:20px;}
+.img_close{display:block;float:right;margin-top:2px;margin-right:5px;cursor:pointer;}
+
+.searchTeamSet{margin:5px auto;padding-bottom:10px;}
+.searchTeamSet legend {color:#1E7ACE; font-weight:bold; }
+.searchTeamTable{width:95%;margin:0 auto ;}
+.searchTeamTable tr{height:30px;}
+.doChooseTeam{margin-left:20px;margin-bottom:5px;}
+
+.listright{text-align:right;}
+.listleft{text-align:left;}
+.listcenter{text-align:center;}
+.table {table-layout:fixed;}
+.tda{overflow:hidden; white-space:nowrap;text-overflow:ellipsis;}

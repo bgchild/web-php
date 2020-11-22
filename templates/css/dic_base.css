@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.dic_add { border:1px solid #ccc; height: 50px; margin-bottom:10px;}
+.dic_inline { width:30px;}
+.dic_th{ text-align:center;}
+.dic_listorder { width:50px;}
+

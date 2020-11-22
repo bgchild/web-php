@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <!-- 原始地址：//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/positionPicker.html -->
+    <!--<base href="//webapi.amap.com/ui/1.0/ui/misc/PositionPicker/examples/" />-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>灾情上报</title>
+    <style>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        width: 100%;
+        padding: 0;
+        overflow: hidden;
+        font-size: 13px;
+        background: #e6e6e6;
+    }
+    .title{
+    	position: relative;
+    	top: 10px;
+    	text-align: center;
+    	font-size: 17px;
+    }
+    
+    #next{
+    	position: absolute;
+    	top: -5px;
+    	right: 5px;
+    	width: 80px;
+    	height: 30px;
+    	border-radius: 3px;
+    	border: 0;
+    	outline: none;
+    	background: #FFFFFF;
+    }
+    .map {
+    	margin-top: 20px;
+        height: 90%;
+        /*width: 100%;*/
+    }
+    
+    </style>
+</head>
+
+<body>
+	<div class="title">
+		<span style="font-weight: 600;">选择灾情位置</span>
+		<button id="next">下一步<img src="../img/rightIcon.png" alt="" style=" margin: -2px 0 -2px 4px;width: 15px;" /></button>
+	</div>
+    <div id="container" class="map" tabindex="0"></div>
+    <script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.2&key=35f9f2153f606c298de1f4f065deb49a&plugin=AMap.ToolBar'></script>
+    <!-- UI组件库 1.0 -->
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <script type="text/javascript" src="../js/mui.min.js" ></script>
+    <script type="text/javascript" src="../js/comm.js" ></script>
+    <script type="text/javascript" src="../js/xback.js" ></script>
+    <script type="text/javascript">
+    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+
+		var map, geolocation;
+		var map = new AMap.Map('container', {
+			zoom: 14,
+			scrollWheel: false
+		});
+
+		AMap.plugin('AMap.Geolocation', function() {
+			geolocation = new AMap.Geolocation({
+				enableHighAccuracy: true, //是否使用高精度定位，默认:true
+				timeout: 10000, //超过10秒后停止定位，默认：无穷大
+				maximumAge: 0, //定位结果缓存0毫秒，默认：0
+				convert: true, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+				showButton: true, //显示定位按钮，默认：true
+				buttonPosition: 'LB', //定位按钮停靠位置，默认：'LB'，左下角
+				buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+				showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+				showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+				panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+				zoomToAccuracy: true //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+			});
+			map.addControl(geolocation);
+			geolocation.getCurrentPosition();
+		});
+		var positionPicker = new PositionPicker({
+			mode: 'dragMap',
+			map: map
+		});
+
+		positionPicker.on('success', function(positionResult) {
+            myPosition = positionResult.position;
+            address = positionResult.address;
+            districtName = positionResult.regeocode.addressComponent.district;
+            getSign(districtName);//获取区域标签
+        });
+        
+		positionPicker.on('fail', function(positionResult) {
+			mui.toast("选址失败！")
+   	 	});
+		
+		var onModeChange = function(e) {
+			positionPicker.setMode(e.target.value)
+		}
+		positionPicker.start();
+		map.panBy(0, 1);
+
+		map.addControl(new AMap.ToolBar({
+			liteStyle: true
+		}))
+	});
+    
+    function getSign(districtName){
+    	mui.rAjax({
+			url:'/ajax.php',
+			data:{
+				act: "sign",
+				name: districtName
+			},
+			dataType:'json',//服务器返回json格式数据
+			type:'GET',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				setCookie("sign", data.datas.sign)
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+    }
+    
+    document.getElementById("next").addEventListener("click", function(){
+    	setCookie("myPosition", myPosition);
+    	setCookie("address", address);
+		window.location.href = "disasterReport.html";
+    })
+    </script>
+</body>
+
+</html>

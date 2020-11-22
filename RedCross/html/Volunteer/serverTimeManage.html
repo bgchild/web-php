@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>服务时间管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<!--选择条件查询-->
+		<link rel="stylesheet" type="text/css" href="../../css/conditionalQuery.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body,.mui-content{
+				background-color: #f1f1f1;
+				font-size: 14px;
+				color: #696969;
+			}
+			.left{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				/*padding: 0 18px;*/
+			}
+			.divInputSeach{
+				position: relative;
+				text-align: center;
+			}
+			.divInputSeach .inputSeach{
+				width: 62%;
+				margin: 15px 9px; 
+				margin-bottom: 5px;
+			    color: #adadad;
+			    font-size: 12.0px;
+			    height: 30px;
+			    padding: 5px 8px;
+			    padding-left: 25px;
+			    border: 1px solid #ddd;
+			}
+			.divInputSeach .add{
+				position: absolute;
+				top: 22px;
+				right: 10px;
+			}
+			.divInputSeach .add img{
+				width: 17px;
+			}
+			.divInputSeach div.left{
+				width: 20%;
+				margin-top: 20px;
+				border: 1px solid #DDDDDD;
+				border-radius: 5px;
+				text-align: center;
+			}
+			.mui-icon.mui-icon-search{
+				position: absolute;
+				top: 18px;
+				left: 10px;
+			}
+			.divInputSeach input.inputSeach::-ms-input-placeholder{padding-left: 15px;} 
+			.divInputSeach input.inputSeach::-webkit-input-placeholder{padding-left: 15px;}
+			/*内容*/
+			.activityServerTime{
+				position: relative;
+				margin: 10px 10px;
+				padding: 10px;
+				padding-bottom: 5px;
+				background: #FFFFFF;
+			}
+			/*下划线*/
+			.underline{
+				border-bottom: 1px solid #7b7b7b;
+			}
+			.activityServerTime p{
+				font-size: 12px;
+				margin-bottom: 5px;
+			}
+			.activityServerTime p span:nth-child(1){
+				color: #6b6b6b;
+				margin-right: 10px;
+			}
+			.activityServerTime p span:nth-child(2){
+				color: #101010;
+			}
+			.activityServerTime .edit,.show{
+				position: absolute;
+				bottom: 20px;
+				right: 15px;
+				color: #36ccab;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="timeManage">
+			<div id="mui-content">
+				<!--条件查询-->
+				<!--<div class="forum-top">
+				    <div class="forum-btn">
+				   		<button type="button" class="mui-btn">活动日期<i class="iconfont"><span class="mui-icon mui-icon-arrowdown"></span></i></button>
+				   		<button type="button" class="mui-btn" style="height: 42px;"></button>
+						<div class="clear"></div>
+				   </div>
+				</div>-->
+				
+				<div class="divInputSeach">
+					<span class="mui-icon mui-icon-search left"></span>
+					<input v-model="title" class="inputSeach left" id="searchName" type="text" placeholder="活动名称" />
+					<div @click="searchs" class="left" id="search">搜索</div>
+					<div class="clean"></div>
+					<span class="add" @click="addTime"><img src="../../img/icon_18.png"/></span>
+				</div>
+				<div>
+					<div class="activityServerTime" v-for="item in serverTimeLists" :id="item.recordid">
+						<p><span>活动名称：</span><span class="activityName underline" @click="detailClick">{{item.activityName}}</span></p>
+						<p><span>活动日期：</span><span>{{item.activityStartDate}}</span></p>
+						<p><span>基础志愿服务时间：</span><span>{{item.basePredictHour}}</span></p>
+						<p><span>活动总结志愿服务时间：</span><span>{{item.activitytime}}</span></p>
+						<span class="edit"><span @click="changeClick">人员时间微调</span></span>
+					</div>
+				</div>
+			</div>	
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		
+		
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#timeManage',
+				data: {
+					sdate:'',
+					edate:'',
+					title:'',
+					serverTimeLists:[]
+				},
+				mounted: function() {
+					var self = this;
+					self.serverTimeList();
+					
+				},
+				methods: {
+					// 志愿服务时间列表
+					serverTimeList: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:'servertimelist',
+								sdate:self.sdate,
+								edate:self.edate,
+								title:self.title
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(data.responseCode == 0){
+									self.serverTimeLists = data.datas;
+//									console.log(data)
+								}else if(data.responseCode == 1){
+									mui.toast(data.responseMsg);
+									window.location.href = "../voluntaryService/loginIn.html?urlOne=Volunteer&urlTwo=serverTimeManage";
+								}else{
+									mui.toast(data.responseMsg);
+								}
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					//点击名称进入详情
+					detailClick: function(e){
+						var self = this;
+						self.rid = e.target.parentNode.parentNode.id;
+//						console.log(e);
+						setTimeout(function(){
+							window.location.href = "./actDetail.html?rid="+self.rid;
+						},300);
+						
+					},
+					//点击进入人员时间微调页
+					changeClick: function(e){
+						var self = this;
+						self.aid = e.target.parentNode.parentNode.id;
+						console.log(self.aid);
+						
+		                mui.rAjax({
+		                    url: '/ajax.php',
+		                    data: {
+		                        act: "usertimelist",
+		                        aid: self.aid
+		                    },
+		                    dataType: 'json',//服务器返回json格式数据
+		                    type: 'GET',//HTTP请求类型
+		                    timeout: 10000,//超时时间设置为10秒；
+		                    success: function (data) {
+		                        //服务器返回响应，根据响应结果，分析是否登录成功；
+//		                        console.log(data);
+		                        if(data.datas.length !== 0){
+		                        	setTimeout(function(){
+										window.location.href = "./littleChange.html?aid="+self.aid;
+									},300);
+		                        }else{
+		                        	mui.toast('没有微调信息')
+		                        }
+		                        
+		                    },
+		                    error: function (xhr, type, errorThrown) {
+		                        //异常处理；
+		                        console.log(type);
+		                    }
+		                });
+					},
+					//搜索
+					searchs:function(){
+						var self = this;
+						self.serverTimeLists = [];
+						self.serverTimeList();
+					},
+					// 点击跳转到新增志愿服务时间页
+					addTime:function(){
+						window.location.href = "./addServeTime.html";
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

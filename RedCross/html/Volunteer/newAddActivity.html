@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">	
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/mui.picker.all.css" />
+		<script>
+			!function(){function a(){document.documentElement.style.fontSize=document.documentElement.clientWidth/7.5+"px"}var b=null;window.addEventListener("resize",function(){clearTimeout(b),b=setTimeout(a,10)},!1),a()}(window);
+		</script>
+		<title>新建活动</title>
+		<style>
+			body,html{ 
+				height:100%;
+				background-color:#FFFFFF;
+				color:#000000;
+			}
+			.right{
+				float: right;
+			}
+			.clean{
+				clear: both;
+			}
+			.mui-content{
+				background-color:#FFFFFF;
+				padding-bottom: 15px;
+				
+			}
+			.mui-content .mui-row.top_list p input{
+				width:55%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;
+			}
+			.mui-content .mui-row.top_list input,textarea{
+				font-size: 0.3rem;
+			}
+			.top_list{
+				padding:5px 15px 0px 15px;
+			}
+			
+			.top_list p{
+				padding-left:8px;
+				margin-top:10px;
+			}
+			
+			.mui-icon{
+				float:right;
+			}
+			
+			.line{
+				border-top:1px solid #C0C0C0;
+			}
+			
+			.text_name{
+				font-size:0.3rem;
+				color:#696969;
+			}
+			
+			textarea{
+				margin-bottom: 0;
+			}
+			.btn{
+				margin-top:30px;
+				background-color:#36ccab;
+				border-radius:5px;
+				width:100%;
+				height:0.8rem;
+				line-height: 0.8rem;
+				text-align: center;
+				font-size: 0.35rem;
+				color:#FFFFFF;
+			}
+			/*上传图片*/
+			.img_box{
+				position:absolute;
+				top:0;
+				right:1rem;
+			}
+			.img_box,.img_box img{
+				height: 40px;
+			}
+			#add:before {
+			    content: '\e470';
+			} 
+			#add{
+				position:absolute;
+				right:-0.1rem;
+				top:-0.02rem;
+				
+				width: 24px;
+    			height: 40px;
+				font-family: Muiicons;
+			    font-size: 24px;
+			    font-weight: 400;
+			    font-style: normal;
+			    line-height: 1.6;
+			    display: inline-block;
+			    text-decoration: none;
+			    -webkit-font-smoothing: antialiased;
+			}
+			#fileColorCard{
+				position: absolute;
+			    top: 0;
+			    right: 0;
+				opacity:0;
+				/*width:0.7rem;*/
+				height:40px;
+				padding:0;
+				margin-bottom:0;
+				outline: medium;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="app">
+			<div class="mui-content">
+				<div class="mui-row top_list">
+					<p>
+						<lable class="text_name">活动名称：</lable>
+						<input v-model="name" type="text" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">活动类型：</lable>
+						<input v-model="typeText" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" />
+						<span @click="userClick('activityType')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p v-if="isShow">
+						<lable class="text_name">活动坐标：</lable>
+						<input v-model="point" type="text" unselectable="on" onfocus="this.blur()"  readonly="readonly"/>
+						<span @click="clickMap" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div v-if="isShow" class="line"></div>
+					<p>
+						<lable class="text_name">活动详细地点：</lable>
+						<input v-model="address" type="text" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">计划人数：</lable>
+						<input v-model="pnum" type="number" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">预计志愿服务时间：</lable>
+						<input v-model="hours" type="text" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">活动开始时间：</lable>
+						<input v-model="sdate" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span @click="userClickDate('sdate')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">活动结束时间：</lable>
+						<input v-model="edate" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" style="width:45%;height:0.4rem;padding:0;margin-bottom:0;border: none;outline: medium;"/>
+						<span @click="userClickDate('edate')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">活动时长：</lable>
+						<input v-model="time" type="number" unselectable="on" onfocus="this.blur()" readonly="readonly"/>
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">报名截止时间：</lable>
+						<input v-model="ssdate" name="signEndTime" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" />
+						<span @click="userClickDate('ssdate')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">活动经费：</lable>
+						<input v-model="money" type="number" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">服务队名称：</lable>
+						<input v-model="sidText" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" />
+						<span @click="userClick('serveTeamName')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">受益人次：</lable>
+						<input v-model="anum" type="number" />
+					</p>
+					<div class="line"></div>
+					<p>
+						<lable class="text_name">是否大型活动：</lable>
+						<input v-model="largeText" type="text" unselectable="on" onfocus="this.blur()" readonly="readonly" />
+						<span @click="userClick('isLarge')" class="mui-icon mui-icon-forward"></span>
+					</p>
+					<div class="line"></div>
+					
+					<p class="activly text_name">参加活动要求：</p>
+					<textarea v-model="remarks" name="activly" id="activly" cols="30" rows="4"></textarea>
+					<p class="active_info text_name">活动简介：</p>
+					<textarea v-model="content" name="active_info" id="active_info" cols="30" rows="4"></textarea>
+					
+					<div style="position: relative;height: 40px;line-height: 40px;">
+						<lable class="text_name">活动宣传图片：</lable>
+						<div>
+				    		<form id="add" method="post" action="http://yz.honghui.o.surcent.com/image_thumb.php" enctype="multipart/form-data">
+								<input @change="changeImg()" type="file" id="fileColorCard" name="imgFile" accept="image/*">
+								<input type="hidden" name="time" id="fileTime" value="now">
+							</form>
+				    	</div>
+				    	<div class="right img_box">
+				    		<img :src="images"/>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="line"></div>
+					
+					<div @click="newAddActive(1)" class="btn">保存为草稿</div>
+					<div @click="newAddActive(2)" class="btn" style="margin-top:15px;">保存并提交</div>
+				</div>
+			</div>	
+		</div>
+		
+		<script type="text/javascript" src="../../js/mui.min.js" ></script>
+		<script type="text/javascript" src="../../js/vue.min.js" ></script>
+		<script type="text/javascript" src="../../js/comm.js" ></script>
+		<script type="text/javascript" src="../../js/mui.picker.all.js" ></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="../../js/jquery.form.js" ></script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					activityType:[], //活动类型
+					serveTeamName:[], //服务队名称
+					isLarge:[
+						{value: '1',text: '是'},
+						{value: '0',text: '否'}], //大型活动
+					images:"",
+					
+					name:'',//活动名称
+					type:'',//活动类型
+					typeText:'',//活动类型
+					province:'',//活动省份
+					city:'',//活动城市
+					area:'',//活动地区
+					address:'',//活动地点
+					point:'',//活动坐标
+					pnum:'',//计划人数
+					hours:'',//预计志愿服务时间
+					sdate:'',//活动开始时间
+					edate:'',//活动结束时间
+					time:'',//活动时长
+					ssdate:'',//报名截止日期
+					money:'',//活动经费
+					sidText:'',//服务队                                     输入
+					sid:'',//服务队 1  2  3 ..
+					anum:'',//受益人次
+					largeText:'',//是否是大型活动                    输入  
+					large:'',//是否是大型活动 1  0  
+					isShow:true,
+					remarks:'',//参加活动要求
+					content:'',//活动简介
+					imgpath:'',//活动宣传图片
+					status:1,//保存类型（1.草稿；2.保存）
+					newAddActives:{}
+				},
+				mounted: function() {
+					var self = this;
+					self.activityTypeFun();
+					self.serverTeamName();
+					
+					if(Boolean(localStorage.getItem("activityData"))){
+						self.newAddActives = JSON.parse(localStorage.getItem("activityData"));
+						self.reduction();
+					}else{
+						localStorage.setItem("activityData","");
+					}
+					console.log(self.newAddActives);
+					
+					//上传图片
+					document.getElementById("fileTime").value = new Date().getTime();
+					document.getElementById("fileColorCard").addEventListener("change",function(){
+						jQuery("#add").ajaxSubmit(options);
+					})
+					//ajaxSubmit提交配置
+					var options = {
+						dataType:'json',
+						success:regeistCallBack
+					};
+					//表单提交成功回调
+					function regeistCallBack(data, statusText, xhr, $form){
+						self.imgpath = data.url;
+						console.info(JSON.stringify(data))
+					};
+				},
+				methods: {
+					clickMap:function(){
+						var self = this;
+						self.insertArr();
+						console.log(self.newAddActives);
+						localStorage.setItem("activityData",JSON.stringify(self.newAddActives));
+						window.location.href= "activeCoordinatesMap.html";
+					},
+					//根据对象显示在页面上
+					reduction:function(){
+						var self = this;
+						self.name = self.newAddActives.name;
+						self.type = self.newAddActives.type;
+						setTimeout(function(){
+							self.typeText = self.idValueText(self.activityType,self.newAddActives.type);   //活动类型
+						},1000);
+						
+						self.province = self.newAddActives.province;
+						self.city = self.newAddActives.city;
+						self.area = self.newAddActives.area;
+						self.address = self.newAddActives.address;
+						self.point = self.newAddActives.point;
+						self.pnum = self.newAddActives.pnum;
+						self.hours = self.newAddActives.hours;
+						self.sdate = self.newAddActives.sdate;
+						self.edate = self.newAddActives.edate;
+						self.time = self.newAddActives.time;
+						self.ssdate = self.newAddActives.ssdate;
+						self.money = self.newAddActives.money;
+						self.anum = self.newAddActives.anum;
+						setTimeout(function(){
+							self.sid = self.newAddActives.sid;
+							self.sidText = self.idValueText(self.serveTeamName,self.newAddActives.sid);
+							
+							self.large = self.newAddActives.large;
+							self.largeText = self.idValueText(self.isLarge,self.newAddActives.large);
+						},2000);
+						
+						self.remarks = self.newAddActives.remarks;
+						self.content = self.newAddActives.content;
+						self.imgpath = self.newAddActives.imgpath;
+					},
+					//根据id判断值
+					idValueText: function(list,id){
+						console.log(list);
+						for(var key in list){
+							if(Number(list[key].value) == Number(id)) return list[key].text;
+						}
+						return ;
+					},
+					userClickDate:function(type){
+						var self = this;
+						var optionsJson = '{"beginYear":1890,"endYear":3000}';
+//						var optionsJson = '{"value":"2017-12-10 10:30","beginYear":1890,"endYear":3000}';
+						var options = JSON.parse(optionsJson);
+						var picker = new mui.DtPicker(options);
+						picker.show(function(rs) {
+							document.activeElement.blur();// 关闭输入法的api
+							if(type == 'edate'){
+								if(!Boolean(self.sdate)){
+									mui.toast("请输入起始时间");
+								}else{
+									self[type] =  rs.text;
+									if(self.timeDiffer(self.edate,self.sdate) < 0){
+										mui.toast("结束时间不得小于起始时间");
+										self.edate = '';
+									}else{
+//										self.timeDiffer(self.edate,self.sdate);
+										self.time = self.timeDiffer(self.edate,self.sdate);
+									}
+								}
+							}else{
+								self[type] =  rs.text;
+							}
+							picker.dispose();
+						})
+					},
+					//计算时间差 (小时)
+					timeDiffer:function(startTime,endTime){
+						var self = this;
+						var sDate = new Date(startTime.replace(/\-/g, "/"));
+						var eDate = new Date(endTime.replace(/\-/g, "/"));
+						var date3 = sDate.getTime() - eDate.getTime();
+						var timeHours=Math.round(date3/(3600*1000));
+						return timeHours;
+//						console.log(hours);
+					},
+					userClick: function(type) {
+						var self = this;
+						var doc = document;
+						var userPicker = new mui.PopPicker();
+						userPicker.setData(self[type]);
+						userPicker.show(function(items) {
+							document.activeElement.blur();// 关闭输入法的api
+//							userSelect.value = JSON.stringify(items[0].text);
+							if(type == "activityType"){
+								self.type = items[0].value;
+								self.typeText = items[0].text;
+							}else if(type == "serveTeamName"){
+								self.sid = items[0].value;
+								self.sidText = items[0].text;
+							}else if(type == "isLarge"){
+								self.large = items[0].value;
+								self.largeText = items[0].text;
+								if(self.large == '1'){
+									self.isShow = false;
+								}else{
+									self.isShow = true;
+								}
+							}
+						});
+						 
+					},
+					changeImg() {
+		            	var e = document.querySelector("input[type='file']");
+		                var files = e.files || e.dataTransfer.files;
+		                if (!files.length)return; 
+		                this.createImage(files);
+		            },
+		            createImage(file) {
+		                if(typeof FileReader==='undefined'){
+		                    alert('您的浏览器不支持图片上传，请升级您的浏览器');
+		                    return false;
+		                }
+		                var image = new Image();         
+		                var vm = this;
+		                var leng=file.length;
+		                for(var i=0;i<leng;i++){
+		                    var reader = new FileReader();
+		                    reader.readAsDataURL(file[i]); 
+		                    reader.onload =function(e){
+		                    	console.log(e);
+		                   		vm.images = e.target.result;  
+		                    };                 
+		                }                        
+		            },
+		            delImage:function(index){
+//		                this.images.shift(index);
+		            },
+					// 服务队名称
+		            serverTeamName: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php?act=userServiceTeams',
+							data:{
+								page:1,
+								len:10
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
+								if(data.responseCode == 0){
+									for(var i in data.datas){
+										var activyTy = {};
+										activyTy.value = data.datas[i].id;
+										activyTy.text = data.datas[i].name;
+										self.serveTeamName.push(activyTy);
+									}
+									console.log(self.serveTeamName);
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					// 活动类型
+		            activityTypeFun: function(){
+						var self = this;
+						mui.rAjax({
+							url:'/ajax.php',
+							data:{
+								act:"activityType"
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'GET',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								for(var i in data.datas){
+									var activyTy = {};
+									activyTy.value = data.datas[i].id;
+									activyTy.text = data.datas[i].name;
+									self.activityType.push(activyTy);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					},
+					insertArr:function(){
+						var self = this;
+						self.newAddActives.name = self.name;
+						self.newAddActives.type = self.type;
+						self.newAddActives.address = self.address;
+						self.newAddActives.pnum = self.pnum;
+						self.newAddActives.hours = self.hours;
+						self.newAddActives.sdate = self.sdate;
+						self.newAddActives.edate = self.edate;
+						self.newAddActives.time = self.time;
+						self.newAddActives.ssdate = self.ssdate;
+						self.newAddActives.money = self.money;
+						self.newAddActives.sid = self.sid;
+						self.newAddActives.anum = self.anum;
+						self.newAddActives.large = self.large;
+						self.newAddActives.remarks = self.remarks;
+						self.newAddActives.content = self.content;
+						self.newAddActives.imgpath = self.imgpath;
+					},
+		            // 新增活动
+		            newAddActive: function(number){
+						var self = this;
+						self.status = number;
+						self.insertArr();
+						self.newAddActives.status = number;
+						console.log(self.newAddActives);
+						mui.rAjax({
+							url:'/ajax.php?act=addActivity',
+							data:self.newAddActives,
+							dataType:'json',//服务器返回json格式数据
+							type:'POST',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+								if(data.responseCode == 0){
+									mui.toast("新增成功");
+									localStorage.setItem("activityData","");
+									window.location.href = "./activeManage.html";
+								}else{
+									mui.toast(data.responseMsg)
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
